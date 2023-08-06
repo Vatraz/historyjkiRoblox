@@ -6,6 +6,7 @@ class Didascalia(NamedTuple):
 
 
 class Dialogue(NamedTuple):
+    content: str
     speaker: str
     emotion: str
 
