@@ -19,7 +19,7 @@ class VoiceGenerator:
         if os.path.exists(dir_name) is False:
             os.mkdir(dir_name)
 
-        mp3_filename = text.lower().replace(' ', '-') + '.mp3'
+        mp3_filename = text.lower().replace(' ', '_') + '.mp3'
         mp3_filepath = f'{dir_name}/{mp3_filename}'
         if os.path.exists(mp3_filepath) is True:
             return mp3_filepath
