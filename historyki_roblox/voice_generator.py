@@ -15,7 +15,7 @@ class VoiceGenerator:
     def synthesize(self, text: str, voice: str, pitch: int=0, speaking_rate: int=0) -> str:
         # valid speaking_rate is between 0.25 and 4.0.
         # Out of range: valid pitch is between -20.0 and 20.0.
-        dir_name = f'{ROOT_PATH}/dialogues/{voice}-{pitch}-{speaking_rate}-{sample_rate_hertz}'
+        dir_name = f'{ROOT_PATH}/dialogues/{voice}-{pitch}-{speaking_rate}'
         if os.path.exists(dir_name) is False:
             os.mkdir(dir_name)
 
