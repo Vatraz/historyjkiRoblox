@@ -1,7 +1,7 @@
 from rembg import remove
 from PIL import Image
 import os
-
+import random
 
 class CharacterGenerator:
     def remove_background(self):
@@ -15,3 +15,8 @@ class CharacterGenerator:
             output_image = remove(input_image)
             output_path = 'C:/Users/Janek/postacki_png/' + str(name_of_file) + '.png'
             output_image.save(output_path)
+
+    def choose_character(self, requested_gender: str):
+        chosen_gender = requested_gender
+        list_of_characters = os.listdir('C:/Users/Janek/postacki_png/')
+        return random.choice([char for char in list_of_characters if chosen_gender in char])
