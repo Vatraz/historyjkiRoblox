@@ -1,4 +1,4 @@
-from historyki_roblox.story_generator import RobloxStoryGenerator
+from historyki_roblox.roblox_video_generator import RobloxVideoGenerator
 
 if __name__ == '__main__':
-    RobloxStoryGenerator().generate_roblox_story()
+    RobloxVideoGenerator().generate_roblox_story()
