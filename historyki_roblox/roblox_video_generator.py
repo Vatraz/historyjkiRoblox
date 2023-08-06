@@ -1,4 +1,4 @@
-class RobloxStoryGenerator:
+class RobloxVideoGenerator:
     def __init__(self):
         ...
 
