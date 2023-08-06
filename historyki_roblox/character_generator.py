@@ -1,20 +1,17 @@
 from rembg import remove
 from PIL import Image
+import os
 
 
 class CharacterGenerator:
     def remove_background(self):
-        input_path = 'C:/Users/Janek/postacki/1.png'
+        list_of_files = os.listdir('C:/Users/Janek/postacki/')
+        name_of_file = 0
 
-        # Store path of the output image in the variable output_path
-        output_path = 'C:/Users/Janek/postacki/1_changed.png'
-
-        # Processing the image
-        input_image = Image.open(input_path)
-
-        # Removing the background from the given Image
-        output_image = remove(input_image)
-
-        # Saving the image in the given path
-        output_image.save(output_path)
-
+        for file in list_of_files:
+            name_of_file += 1
+            input_path = 'C:/Users/Janek/postacki/' + file
+            input_image = Image.open(input_path)
+            output_image = remove(input_image)
+            output_path = 'C:/Users/Janek/postacki_png/' + str(name_of_file) + '.png'
+            output_image.save(output_path)
