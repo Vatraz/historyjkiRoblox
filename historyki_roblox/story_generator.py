@@ -1,0 +1,6 @@
+class RobloxStoryGenerator:
+    def __init__(self):
+        ...
+
+    def generate_roblox_story(self):
+        ...
