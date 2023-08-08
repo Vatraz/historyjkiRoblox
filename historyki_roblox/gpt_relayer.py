@@ -1,6 +1,8 @@
 import os
 import openai
 
+from typing import List
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 openai.api_key = OPENAI_API_KEY
@@ -23,6 +25,16 @@ class GtpRelayer:
                 f"Failed to fetch ChatGTP response: {message}"
             ) from exe
         return answer
+
+    def generate_image(self, prompt: str, n: int=1, size: int=256, response_format: str='url') -> List[str]:
+        try:
+            response = openai.Image.create(prompt=prompt, n=n, size=f'{size}x{size}')
+            image = response['data'][0][response_format]
+        except Exception as ex:
+            raise GtpRelayerException(
+                f"Failed to fetch Image response: {prompt}"
+            ) from ex
+        return image
 
     def _create_message(self, message: str) -> dict:
         return {"role": "user", "content": message}
