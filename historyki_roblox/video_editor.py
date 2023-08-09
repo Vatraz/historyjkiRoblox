@@ -1,4 +1,5 @@
 from moviepy.editor import *
+import random
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -11,7 +12,7 @@ class VideoGenerator:
         #add subtitles
 
     def load_background_clip(self, clip_length):
-        ...
+        return VideoFileClip(random.choice(os.listdir(f'{ROOT_PATH}/data/videos/'))).set_duration(clip_length)
 
     def add_subtitles(self, text, corner):
         ...
