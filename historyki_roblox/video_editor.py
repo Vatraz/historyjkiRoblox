@@ -2,10 +2,28 @@ from moviepy.editor import *
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
+
 class VideoGenerator:
-    def edit_clip(self):
+    def create_clip(self):
+        ...
+        #load background clip with and choose the length
+        #add characters
+        #add subtitles
+
+    def load_background_clip(self, clip_length):
         ...
 
+    def add_subtitles(self, text, corner):
+        ...
+
+    def add_character(self, picked_name):
+        ...
+
+    def add_name(self):
+        ...
+
+    def add_oskarek(self):
+        ...
 
 # Load video and select the subclip
 clip = VideoFileClip(f'{ROOT_PATH}/data/videos/what.mp4').subclip(2,3)
