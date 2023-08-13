@@ -1,5 +1,10 @@
+import os
+import random
+
 from moviepy.editor import *
 
+from historyki_roblox.character_generator import CharacterGenerator
+from historyki_roblox.voice_generator import VoiceGenerator
 from historyki_roblox.story.story import Story, Dialogue
 from historyki_roblox.story.story_parser import GptStoryParser
 
@@ -8,12 +13,32 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 class VideoGenerator:
 
+    def __init__(self):
+        self.voice_generator = VoiceGenerator()
+        self.character_generator = CharacterGenerator()
+        self.positions = {'top_left': (0, 0), 'top_right': (500, 0), 'bottom_left': (0, 500), 'bottom_right': (500, 500)}
+
     def generate_video(self, story: Story, used_clip):
+        characters, characters_positions, available_positions = {}, {}, list(self.positions.keys())
+        for name in story.actors:
+            position = random.choice(available_positions)
+            characters[name] = self.character_generator.generate_random_character(name)
+            characters_positions[name] = position
+            available_positions.remove(position)
+
+        return
         timestamp = 0
         added_text = []
         added_image = []
         for scenario_element in story.scenario:
             text_line = scenario_element.content
+            speech = self.voice_generator.synthesize(text_line)
+            # speech.duration
+            # speech.source_path
+
+            text_clip = TextClip(text_line, font='Arial', fontsize=12, color='white')
+            text_clip.set_position(self.position(scenario_element.speaker))
+            text_clip.set_duration
             character = scenario_element.actor
 
             added_text.append(TextClip(text_line, font='Arial', fontsize=12, color='white')
@@ -27,7 +52,6 @@ class VideoGenerator:
         return CompositeVideoClip([used_clip] + added_text + added_image)
 
     def position(self, character):
-
         ...
 #     def create_clip(self):
 #         ...

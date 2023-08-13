@@ -1,6 +1,7 @@
 import os
 import base64
 import json
+import os
 import requests
 
 from io import BytesIO
@@ -8,6 +9,8 @@ from pydub import AudioSegment
 from typing import NamedTuple
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
+GTTS_API_KEY = os.environ.get('GTTS_API_KEY')
+
 
 class VoiceGeneratorException(Exception):
     pass
@@ -20,8 +23,8 @@ class Speach(NamedTuple):
 
 class VoiceGenerator:
 
-    def __init__(self, api_key: str):
-        self.api_key = api_key
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key or GTTS_API_KEY
         self.base_url = 'https://texttospeech.googleapis.com/v1'
 
     def synthesize(self, text: str, voice: str, pitch: int=0, speaking_rate: int=0) -> str:
