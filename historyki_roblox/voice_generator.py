@@ -9,6 +9,9 @@ from typing import NamedTuple
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
+class VoiceGeneratorException(Exception):
+    pass
+
 
 class Speach(NamedTuple):
     source_path: str
@@ -43,8 +46,7 @@ class VoiceGenerator:
         params = {'key': self.api_key}
         response = requests.post(f'{self.base_url}/text:synthesize', params=params, json=body)
         if response.status_code != 200:
-            print(response.text)
-            return
+            raise VoiceGenerator(f'response status code: {response.status_code}\n{response.text}')
 
         binary_data = base64.b64decode(response.json()['audioContent'].encode())
         audio_data = AudioSegment.from_file(BytesIO(binary_data), format="mp3")
