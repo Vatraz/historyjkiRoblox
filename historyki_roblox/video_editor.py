@@ -1,8 +1,6 @@
 from moviepy.editor import *
-import random
 
 from historyki_roblox.story.story import Story, Dialogue
-from historyki_roblox.story.story_generator import StoryGenerator
 from historyki_roblox.story.story_parser import GptStoryParser
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -16,11 +14,15 @@ class VideoGenerator:
         added_text = []
         for scenario_element in story.scenario:
             text_line = scenario_element.content
-            added_text.append(TextClip(text_line, font='Arial', fontsize=12, color='white').set_position("center").set_duration(q-p).set_start(p))
+            added_text.append(TextClip(text_line, font='Arial', fontsize=12, color='white')
+                              .set_position(self.position(scenario_element.speaker))
+                              .set_duration(q-p).set_start(p))
             p += 2
             q += 2
         return CompositeVideoClip([used_clip] + added_text)
 
+    def position(self, character):
+        ...
 #     def create_clip(self):
 #         ...
 #         #load background clip with and choose the length
@@ -58,6 +60,7 @@ class VideoGenerator:
 # video.write_videofile(f'{ROOT_PATH}/data/videos/what_edited.mp4')
 #
 # print('ready')
+
 
 if __name__ == '__main__':
     size = (1000, 500)
