@@ -8,14 +8,14 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 class VideoGenerator:
 
-    # def generate_video(self, story: Story, used_clip):
-    def generate_video(self, used_clip):
-        text_list = ['pierwszy','drugi','trzeci']
+    def generate_video(self, story: Story, used_clip):
+    # def generate_video(self, used_clip):
+    #     text_list = ['pierwsfdsfsdzy','drufdsdfgi','trzeci']
         # for text_line in story.scenario:
         p = 0
         q = 2
         added_text = []
-        for text_line in text_list:
+        for text_line in story.scenario:
             added_text.append(TextClip(text_line, fontsize=12, color='white').set_position("center").set_duration(q-p).set_start(p))
             p += 2
             q += 2
@@ -64,7 +64,7 @@ class VideoGenerator:
 # print('ready')
 
 if __name__ == '__main__':
-    size = (200, 100)
+    size = (192, 108)
     duration = 10
     color = (0, 0, 0)
     output = f'{ROOT_PATH}/data/videos/color.mp4'
