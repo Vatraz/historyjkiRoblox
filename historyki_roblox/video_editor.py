@@ -1,7 +1,9 @@
 from moviepy.editor import *
 import random
 
-from historyki_roblox.story.story import Story
+from historyki_roblox.story.story import Story, Dialogue
+from historyki_roblox.story.story_generator import StoryGenerator
+from historyki_roblox.story.story_parser import GptStoryParser
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -9,21 +11,15 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 class VideoGenerator:
 
     def generate_video(self, story: Story, used_clip):
-    # def generate_video(self, used_clip):
-    #     text_list = ['pierwsfdsfsdzy','drufdsdfgi','trzeci']
-        # for text_line in story.scenario:
         p = 0
         q = 2
         added_text = []
-        for text_line in story.scenario:
-            added_text.append(TextClip(text_line, fontsize=12, color='white').set_position("center").set_duration(q-p).set_start(p))
+        for scenario_element in story.scenario:
+            text_line = scenario_element.content
+            added_text.append(TextClip(text_line, font='Arial', fontsize=12, color='white').set_position("center").set_duration(q-p).set_start(p))
             p += 2
             q += 2
         return CompositeVideoClip([used_clip] + added_text)
-
-    def color_clip(size, duration, fps=25, color=(0, 0, 0), output=f'{ROOT_PATH}/data/videos/color.mp4'):
-        ColorClip(size, color, duration=duration).write_videofile(output, fps=fps)
-
 
 #     def create_clip(self):
 #         ...
@@ -64,11 +60,15 @@ class VideoGenerator:
 # print('ready')
 
 if __name__ == '__main__':
-    size = (192, 108)
+    size = (1000, 500)
     duration = 10
     color = (0, 0, 0)
     output = f'{ROOT_PATH}/data/videos/color.mp4'
     fps = 25
     clip = ColorClip(size, color, duration=duration)
-    video = VideoGenerator().generate_video(clip)
+
+    input = "".join(open("data/stories/test_data/0.txt").readlines())
+    story = GptStoryParser().parse_raw_story(input)
+
+    video = VideoGenerator().generate_video(story, clip)
     video.write_videofile(output, fps=fps)
