@@ -13,5 +13,6 @@ class Dialogue(NamedTuple):
 
 class Story(NamedTuple):
     scenario: list[Union[Didascalia, Dialogue]]
+    actors: list[str]
     setting: Optional[str] = None
     summary: Optional[str] = None
