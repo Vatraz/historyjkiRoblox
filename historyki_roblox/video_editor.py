@@ -18,9 +18,10 @@ class VideoGenerator:
         for text_line in text_list:
             added_text.append(TextClip(text_line, fontsize=12, color='white').set_position("center").set_duration(q-p).set_start(p))
             # clips.append(TextClip(text_line, fontsize=12, color='white').set_position("center","top").subclip(p,q))
+            adde_oskarek
             p += 3
             q += 3
-        return CompositeVideoClip([self, added_text[0], added_text[1], added_text[2]])
+        return CompositeVideoClip([self, added_text[0], added_text[1], added_text[2]], added_oskarek[0])
 
     def color_clip(size, duration, fps=25, color=(0, 0, 0), output=f'{ROOT_PATH}/data/videos/color.mp4'):
         ColorClip(size, color, duration=duration).write_videofile(output, fps=fps)
