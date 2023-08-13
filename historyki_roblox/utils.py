@@ -15,3 +15,7 @@ def remove_background():
         output_image = remove(input_image)
         output_path = 'C:/Users/Janek/postacki_png/' + str(name_of_file) + '.png'
         output_image.save(output_path)
+
+
+def random_string(n: int=8) -> str:
+    return ''

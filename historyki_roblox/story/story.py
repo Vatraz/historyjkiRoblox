@@ -7,11 +7,16 @@ class Didascalia(NamedTuple):
 
 class Dialogue(NamedTuple):
     content: str
-    speaker: str
+    actor: str
     emotion: str
 
 
+ScenarioElement = Union[Didascalia, Dialogue]
+Scenario = list[ScenarioElement]
+
+
 class Story(NamedTuple):
-    scenario: list[Union[Didascalia, Dialogue]]
+    scenario: Scenario
+    actors: list[str]
     setting: Optional[str] = None
     summary: Optional[str] = None
