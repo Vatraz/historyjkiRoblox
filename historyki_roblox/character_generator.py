@@ -3,7 +3,7 @@ import os
 import random
 from typing import NamedTuple, Optional
 
-from historyki_roblox.gpt_relayer import GtpRelayer
+from historyki_roblox.oskareks_generator import OskarekGenerator
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -17,27 +17,17 @@ class Character(NamedTuple):
 
 
 class CharacterGenerator:
-    def __init__(self, gpt_relayer: Optional[GtpRelayer] = None):
-        self.gpt_relayer = gpt_relayer or GtpRelayer()
+    def __init__(self, oskarek_generator: Optional[OskarekGenerator] = None):
+        self.oskarek_generator = oskarek_generator or OskarekGenerator()
         self.voices_data = self._load_voices()
-        self.face_descriptions_data = self._load_face_descriptions_data()
 
     def _load_voices(self) -> list:
         with open('data/voices/voices.json', 'r') as f:
             voices = json.load(f)
         return voices['voices']
 
-    def _load_face_descriptions_data(self) -> dict:
-        with open('data/oskareks/descriptions.json', 'r') as f:
-            descriptions = json.load(f)
-        return descriptions
-
     def choose_voice(self, gender: str) -> str:
         return random.choice(tuple(filter(lambda x: x['ssmlGender'] == gender, self.voices_data)))['name']
-
-    def generate_image(self, gender: str) -> str:
-        description = random.choice(self.face_descriptions_data[gender])
-        return self.gpt_relayer.generate_image(description)
 
     def choose_roblox_character(self, requested_gender: str) -> str:
         chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
@@ -47,6 +37,6 @@ class CharacterGenerator:
     def generate_random_character(self, name: str) -> Character:
         gender = 'FEMALE' if name[-1] == 'a' else 'MALE'
         voice = self.choose_voice(gender)
-        image = self.generate_image(gender)
+        image = self.oskarek_generator.get_oskarek_from_openai(gender)
         roblox_character = self.choose_roblox_character(gender)
         return Character(name=name, gender=gender, voice=voice, roblox_character=roblox_character, image=image)

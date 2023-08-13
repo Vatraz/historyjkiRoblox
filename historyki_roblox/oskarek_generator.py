@@ -1,14 +1,39 @@
 import os
+import json
+import random
 import requests
+import uuid
 
 from PIL import Image
 from io import BytesIO
 from lxml.html import fromstring
+from typing import Optional
+
+from historyki_roblox.gpt_relayer import GtpRelayer
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
-class OskareGenerator:
+class OskarekGenerator:
+
+    def __init__(self, gpt_relayer: Optional[GtpRelayer] = None):
+        self.gpt_relayer = gpt_relayer or GtpRelayer()
+        self.face_descriptions_data = self._load_face_descriptions_data()
+
+    def _load_face_descriptions_data(self) -> dict:
+        with open('data/oskareks/descriptions.json', 'r') as f:
+            descriptions = json.load(f)
+        return descriptions
+
+    def get_oskarek_from_openai(self, gender):
+        description = random.choice(self.face_descriptions_data[gender])
+        image_url = self.gpt_relayer.generate_image(description)
+        response = requests.get(image_url)
+        image_data = BytesIO(response.content)
+        image = Image.open(image_data)
+        image_path = f'{ROOT_PATH}/output/oskareks/{str(uuid.uuid4())}.{image.format}'
+        image.save(image_path)
+        return image_path
 
     def get_oskarek_from_bing(self, gender: str) -> str:
         search = 'instaboy' if gender == 'MALE' else 'instagirl'
