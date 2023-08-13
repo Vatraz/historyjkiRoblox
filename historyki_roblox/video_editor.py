@@ -22,6 +22,7 @@ class VideoGenerator:
         return CompositeVideoClip([used_clip] + added_text)
 
     def position(self, character):
+
         ...
 #     def create_clip(self):
 #         ...
