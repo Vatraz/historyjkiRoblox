@@ -9,20 +9,22 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 class VideoGenerator:
 
     def generate_video(self, story: Story, used_clip):
-        p = 0
+        start_video = 0
         q = 2
         added_text = []
         added_image = []
         for scenario_element in story.scenario:
             text_line = scenario_element.content
             character = scenario_element.actor
+
             added_text.append(TextClip(text_line, font='Arial', fontsize=12, color='white')
                               .set_position("center")
-                              .set_duration(q-p).set_start(p))
-            added_image.append(ImageClip(f'{ROOT_PATH}/data/characters/f8.png')
-                              .set_position("top")
-                              .set_duration(q-p).set_start(p))
-            p += 2
+                              .set_duration(len(text_line)/20).set_start(start_video))
+
+            # added_image.append(ImageClip(character)
+            #                    .set_position("top")
+            #                    .set_duration(q-p).set_start(p))
+            start_video += (len(text_line)/20 + 1)
             q += 2
         return CompositeVideoClip([used_clip] + added_text + added_image)
 
