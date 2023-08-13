@@ -1,15 +1,31 @@
 from moviepy.editor import *
 import random
 
+from historyki_roblox.story.story import Story
+
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
 class VideoGenerator:
 
-    def generate_video(self, scenario):
-        ...
-        for text_line in scenario:
-            ...
+    # def generate_video(self, story: Story, used_clip):
+    def generate_video(self):
+        text_list = ['pierwszy','drugi','trzeci']
+        # for text_line in story.scenario:
+        p = 0
+        q = 2
+        added_text = []
+        for text_line in text_list:
+            added_text.append(TextClip(text_line, fontsize=12, color='white').set_position("center").set_duration(q-p).set_start(p))
+            # clips.append(TextClip(text_line, fontsize=12, color='white').set_position("center","top").subclip(p,q))
+            p += 3
+            q += 3
+        return CompositeVideoClip([self, added_text[0], added_text[1], added_text[2]])
+
+    def color_clip(size, duration, fps=25, color=(0, 0, 0), output=f'{ROOT_PATH}/data/videos/color.mp4'):
+        ColorClip(size, color, duration=duration).write_videofile(output, fps=fps)
+
+
 #     def create_clip(self):
 #         ...
 #         #load background clip with and choose the length
@@ -47,3 +63,13 @@ class VideoGenerator:
 # video.write_videofile(f'{ROOT_PATH}/data/videos/what_edited.mp4')
 #
 # print('ready')
+
+if __name__ == '__main__':
+    size = (200, 100)
+    duration = 10
+    color = (0, 0, 0)
+    output = f'{ROOT_PATH}/data/videos/color.mp4'
+    fps = 25
+    clip = ColorClip(size, color, duration=duration)
+    video = VideoGenerator.generate_video(clip)
+    video.write_videofile(output, fps=fps)
