@@ -3,7 +3,7 @@ import os
 import random
 from typing import NamedTuple, Optional
 
-from historyki_roblox.oskareks_generator import OskarekGenerator
+from historyki_roblox.oskarek_generator import OskarekGenerator
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
