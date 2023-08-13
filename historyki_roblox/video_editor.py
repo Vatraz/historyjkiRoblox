@@ -27,7 +27,9 @@ class VideoGenerator:
             available_positions.remove(position)
 
         return
+        timestamp = 0
         added_text = []
+        added_image = []
         for scenario_element in story.scenario:
             text_line = scenario_element.content
             speech = self.voice_generator.synthesize(text_line)
@@ -37,12 +39,17 @@ class VideoGenerator:
             text_clip = TextClip(text_line, font='Arial', fontsize=12, color='white')
             text_clip.set_position(self.position(scenario_element.speaker))
             text_clip.set_duration
+            character = scenario_element.actor
+
             added_text.append(TextClip(text_line, font='Arial', fontsize=12, color='white')
-                              .set_position(self.position(scenario_element.speaker))
-                              .set_duration(q-p).set_start(p))
-            p += 2
-            q += 2
-        return CompositeVideoClip([used_clip] + added_text)
+                              .set_position("center")
+                              .set_duration(len(text_line)/20).set_start(timestamp))
+
+            added_image.append(ImageClip(character)
+                               .set_position("top")
+                               .set_duration(len(text_line)/20).set_start(timestamp))
+            timestamp += (len(text_line)/20 + 0.5)
+        return CompositeVideoClip([used_clip] + added_text + added_image)
 
     def position(self, character):
         ...
