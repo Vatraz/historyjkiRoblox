@@ -12,8 +12,8 @@ class Character(NamedTuple):
     name: str
     gender: str
     voice: str
-    image: str
-    roblox_character: str
+    face_image_path: str
+    roblox_image_path: str
 
 
 class CharacterGenerator:
@@ -32,11 +32,12 @@ class CharacterGenerator:
     def choose_roblox_character(self, requested_gender: str) -> str:
         chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
         list_of_characters = os.listdir(f'{ROOT_PATH}/data/characters')
-        return random.choice([char for char in list_of_characters if chosen_gender in char])
+        chosen = random.choice([char for char in list_of_characters if chosen_gender in char])
+        return f'{ROOT_PATH}/data/characters/{chosen}'
 
     def generate_random_character(self, name: str) -> Character:
         gender = 'FEMALE' if name[-1] == 'a' else 'MALE'
         voice = self.choose_voice(gender)
-        image = self.oskarek_generator.get_oskarek_from_openai(gender)
-        roblox_character = self.choose_roblox_character(gender)
-        return Character(name=name, gender=gender, voice=voice, roblox_character=roblox_character, image=image)
+        face_image_path = self.oskarek_generator.get_oskarek_from_openai(gender)
+        roblox_image_path = self.choose_roblox_character(gender)
+        return Character(name=name, gender=gender, voice=voice, roblox_image_path=roblox_image_path, face_image_path=face_image_path)
