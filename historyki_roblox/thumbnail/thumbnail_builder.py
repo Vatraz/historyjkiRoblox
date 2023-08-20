@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 from PIL import ImageFont, Image, ImageFilter, ImageDraw
 
-from historyki_roblox.thumbnail.thumbnail_director import Character
+from historyki_roblox.character_factory import Character
 
 THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
 ROBLOX_IMG_DIR_PATH = "./data/characters"
