@@ -11,7 +11,7 @@ from historyki_roblox.character_factory import Character
 THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
 ROBLOX_IMG_DIR_PATH = "./data/characters"
 THUMBNAIL_SHAPE = (720, 1280)
-ROBLOX_SHAPE = (400, 400)
+ROBLOX_SHAPE = (370, 370)
 EMOJI_SHAPE = (300, 300)
 
 
@@ -52,12 +52,12 @@ class ThumbnailBuilder:
     def add_characters(self, characters: list[Character]):
         img_pil = self._cv2_to_PIL(self._thumbnail_img)
 
-        step_x = ROBLOX_SHAPE[1] // 6
-        step_y = ROBLOX_SHAPE[1] // 2
+        step_y = int(ROBLOX_SHAPE[0] * 0.2)
+        step_x = int(ROBLOX_SHAPE[1] * 0.6)
         for idx, character in enumerate(characters):
             char_img = Image.open(f"{ROBLOX_IMG_DIR_PATH}/{character.roblox_character}")
             char_img = char_img.resize(ROBLOX_SHAPE)
-            px, py = idx * step_y, ROBLOX_SHAPE[1] // 2 - idx * step_x
+            px, py = idx * step_x, ROBLOX_SHAPE[1] // 2 - idx * step_y
             img_pil.paste(char_img, (px, py), char_img.convert("RGBA"))
         self._thumbnail_img = self._PIL_to_cv2(img_pil)
 
