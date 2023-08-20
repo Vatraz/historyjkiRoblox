@@ -3,7 +3,7 @@ import cv2
 from typing import NamedTuple
 
 from historyki_roblox.thumbnail.thumbnail_builder import ThumbnailBuilder
-from historyki_roblox.character_generator import Character
+from historyki_roblox.character_factory import Character
 
 
 class ThumbnailDirector:
