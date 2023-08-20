@@ -1,21 +1,30 @@
 import os
 import base64
 import json
+import os
 import requests
 
+from io import BytesIO
+from typing import NamedTuple
+
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
+GTTS_API_KEY = os.environ.get('GTTS_API_KEY')
+
+
+class VoiceGeneratorException(Exception):
+    pass
 
 
 class VoiceGenerator:
 
-    def __init__(self, api_key: str):
-        self.api_key = api_key
+    def __init__(self, api_key: str = None):
+        self.api_key = api_key or GTTS_API_KEY
         self.base_url = 'https://texttospeech.googleapis.com/v1'
 
     def synthesize(self, text: str, voice: str, pitch: int=0, speaking_rate: int=0) -> str:
         # valid speaking_rate is between 0.25 and 4.0.
         # Out of range: valid pitch is between -20.0 and 20.0.
-        dir_name = f'{ROOT_PATH}/dialogues/{voice}-{pitch}-{speaking_rate}'
+        dir_name = f'{ROOT_PATH}/output/dialogues/{voice}-{pitch}-{speaking_rate}'
         if os.path.exists(dir_name) is False:
             os.mkdir(dir_name)
 
@@ -32,12 +41,12 @@ class VoiceGenerator:
         params = {'key': self.api_key}
         response = requests.post(f'{self.base_url}/text:synthesize', params=params, json=body)
         if response.status_code != 200:
-            print(response.text)
-            return
+            raise VoiceGenerator(f'response status code: {response.status_code}\n{response.text}')
 
         binary_data = base64.b64decode(response.json()['audioContent'].encode())
         with open(mp3_filepath, 'wb') as f:
             f.write(binary_data)
+
         return mp3_filepath
 
     def get_voices(self, language_code: str='pl-PL') -> None:
