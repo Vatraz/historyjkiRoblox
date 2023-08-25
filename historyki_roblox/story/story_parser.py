@@ -1,4 +1,4 @@
-from historyki_roblox.story.story import Story, Dialogue, Scenario
+from historyki_roblox.story.story import Story, Dialogue, Event, Scenario
 import re
 
 
@@ -10,6 +10,8 @@ class GptStoryParser:
         for line in story_lines:
             if self._is_line_dialogue(line):
                 scenario.append(self._parse_line_to_dialogue(line))
+            elif self._is_line_event(line):
+                scenario.append(self._parse_line_to_event(line))
 
         actors = self._get_actors_from_scenario(scenario)
 
@@ -23,6 +25,9 @@ class GptStoryParser:
     def _is_line_dialogue(self, line: str) -> bool:
         return "[" in line and "]" in line and (("-") in line or ":" in line)
 
+    def _is_line_event(self, line: str) -> bool:
+        return '=>' in line
+
     def _parse_line_to_dialogue(self, line: str) -> Dialogue:
         emotion_match = re.search("\[.*\\]", line)
         content_raw = line[emotion_match.end() :]
@@ -33,6 +38,10 @@ class GptStoryParser:
         content = " ".join(content_raw.split()[1:])
 
         return Dialogue(content=content, actor=name, emotion=emotion)
+
+    def _parse_line_to_event(self, line: str) -> Event:
+        name, action = line.split('=>')
+        return Event(actor=name.strip(), action=action.strip())
 
     def _get_actors_from_scenario(self, scenario: Scenario) -> list[str]:
         actors = list(

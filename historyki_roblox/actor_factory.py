@@ -1,93 +1,129 @@
-import moviepy.editor as mpv
+import moviepy.editor as mvp
 
-from typing import Tuple
+from typing import NamedTuple, Optional, Tuple, Union
 
-from historyki_roblox.character_factory import Character
+from historyki_roblox.character_factory import Character, CharacterFactory
+
+
+class Position(NamedTuple):
+    x: int
+    y: int
+    side: str
+
+
+class Interval:
+
+    def __init__(self, start: int, image_path: str):
+        self.start = start
+        self.image_path = image_path
+        self.end = None
+        self.duration = None
+        self.dialogues = []
+    
+    def set_end(self, time: int):
+        if self.end is None:
+            self.duration = time - self.start
+            self.end = time
 
 
 class Actor:
-    def __init__(self, character: Character, face_image: mpv.ImageClip, roblox_image: mpv.ImageClip, side: str):
+
+    def __init__(self, character: Character, position: Position):
         self.character = character
-        self.face_image = face_image
-        self.roblox_image = roblox_image
-        self.side = side
+        self.position = position
         self.is_online = False
         self.is_camera_on = False
+        self.intervals = []
 
-    def speak(self, text: str, audio_source_path: str, font: str) -> Tuple[mpv.TextClip, mpv.AudioClip]:
-        current_image = self.face_image if self.is_camera_on is True else self.roblox_image
-        image_x, image_y = current_image.pos(0)
-        image_width, image_height = current_image.size
+    def get_all(self, max_image_height):
+        audio, images, text = [], [], []
+        for interval in self.intervals:
+            image_clip = mvp.ImageClip(interval.image_path)
+            image_width, image_height = image_clip.size
+            new_image_width = image_width * (max_image_height / image_height)
+            image_clip = image_clip.resize((new_image_width, max_image_height))
+            image_x, image_y = self.position.get_object_position(new_image_width, max_image_height)
+            image_clip = image_clip.set_position(image_x, iamge_y).set_start(interval.start).set_duration(interval.duration)
+            text.append(image_clip)
 
-        text_clip = mpv.TextClip(text, fontsize=45, color='yellow', stroke_color='black', stroke_width=1.75, font=font, method='caption', align=self.side, size=(800, None))
-        text_width, text_height = text_clip.size
+            name_clip = mvp.TextClip(self.character.name, fontsize=60, color='red', stroke_color='yellow', stroke_width=3, font=font)
+            name_x = image_x + new_image_width * .5 - name_clip.size[0] * .5
+            name_text_clip = name_text_clip.set_position((name_x, image_y)).set_start(start).set_duration(duration)
+            text.append(name_text_clip)
 
-        text_x, text_y = 0, image_y + image_height * .5 - text_height * .5
-        if self.side == 'West':
-            text_x = image_x + image_width
-        elif self.side == 'East':
-            text_x = image_x - text_width
+            for start_time, text, audio_clip in interval.dialogues:
+                audio_clip = audio_clip.set_start(start_time)
+                audio.append(audio_clip)
 
-        text_clip = text_clip.set_position((text_x, text_y))
+    def get_images(self, font):
+        images, text = [], []
+        for interval in self.online_intervals:
+            start, duration = interval.get_start_and_duration()
+            image_clip = self.roblox_image.set_start(start).set_duration(duration)
+            images.append(image_clip)
 
-        audio_clip = mpv.AudioFileClip(audio_source_path)
-        text_clip = text_clip.set_duration(audio_clip.duration)
+            name_text_clip = mvp.TextClip(self.character.name, fontsize=60, color='red', stroke_color='yellow', stroke_width=3, font=font)
+            image_x, image_y = image_clip.pos(0)
+            name_x = image_x + image_clip.size[0] * .5 - name_text_clip.size[0] * .5
+            name_text_clip = name_text_clip.set_position((name_x, image_y)).set_start(start).set_duration(duration)
+            text.append(name_text_clip)
 
-        return text_clip, audio_clip
+        return images, text
 
-    def join_room(self):
-        self.roblox_image.set_opacity(1)
+    def add_dialogue(self, start, text, audio: mvp.AudioFileClip):
+        self.intervals[-1].dialogues.append((start, text, audio))
+
+    def end_current_interval(self, time: int):
+        if len(self.intervals) != 0: 
+            self.intervals[-1].set_end(time)
+
+    def join_room(self, time: int):
         self.is_online = True
+        self.intervals.append(Interval(time, self.character.skin_image_path))
     
-    def leave_room(self):
-        self.roblox_image.set_opacity(0)
+    def leave_room(self, time: int):
         self.is_online = False
+        self.end_current_interval(time)
 
-    def turn_on_camera(self):
-        self.roblox_image.set_opacity(0)
-        self.face_image.set_opacity(1)
+    def turn_on_camera(self, time: int):
         self.is_camera_on = True
+        self.end_current_interval(time)
+        self.intervals.append(Interval(time, self.character.face_image_path))
 
-    def turn_off_camera(self):
-        self.roblox_image.set_opacity(1)
-        self.face_image.set_opacity(0)
+    def turn_off_camera(self, time: int):
         self.is_camera_on = False
+        self.end_current_interval(time)
+        self.intervals.append(Interval(time, self.character.skin_image_path))
+
+    def change_skin(self, time: int):
+        self.end_current_interval(time)
+        self.character.change_skin()
+        self.intervals.append(Interval(time, self.character.skin_image_path))
 
 
 class ActorFactory:
     def __init__(self, clip_width, clip_height):
         self.clip_width = clip_width
         self.clip_height = clip_height
+        self.character_factory = CharacterFactory()
 
-    def create_image(self, image_source_path: str, position_number: int) -> mpv.ImageClip:
-        if image_source_path is None:
-            return None
-
-        image_clip = mpv.ImageClip(image_source_path)
-        image_clip = image_clip.resize((400, 400))
-
-        image_width, image_height = image_clip.size
-        print(image_width, image_height)
-
-        image_x, image_y = 0, 0
+    def get_position(self, position_number: int) -> Position:
+        x, y, side = 0, 0, None
         if position_number == 0:
-            image_x = 0
-            image_y = self.clip_height * .25 - image_height * .5
+            x, y, side = 0, self.clip_height * .25, 'West'
         elif position_number == 1:
-            image_x = self.clip_width - image_width
-            image_y = self.clip_height * .25 - image_height * .5
+            x, y, side = self.clip_width, self.clip_height * .25, 'East'
         elif position_number == 2:
-            image_x = 0
-            image_y = self.clip_height * .75 - image_height * .5
+            x, y, side = 0, self.clip_height * .75, 'West'
         elif position_number == 3:
-            image_x = self.clip_width - image_width
-            image_y = self.clip_height * .75 - image_height * .5
+            x, y, side = self.clip_width, self.clip_height * .75, 'East'
+        elif position_number == 4:
+            x, y, side = self.clip_width * .5, self.clip_height * .25, 'center'
+        elif position_number == 5:
+            x, y, side = self.clip_width * .5, self.clip_height * .75, 'center'
+        return Position(x=x, y=y, side=side)
 
-        image_clip = image_clip.set_position((image_x, image_y))
-        return image_clip
-
-    def create_actor(self, character: Character, position_number: int) -> Actor:
-        roblox_image = self.create_image(character.roblox_image_path, position_number)
-        face_image = self.create_image(character.face_image_path, position_number)
-        side = 'West' if position_number % 2 == 0 else 'East'
-        return Actor(character, face_image, roblox_image, side)
+    def create_actor(self, name: str, position_number: int, gender: Optional[str] = None, image: Optional[str] = None) -> Actor:
+        character = self.character_factory.create_random_character(name, gender, image)
+        position = self.get_position(position_number)
+        return Actor(character, position)

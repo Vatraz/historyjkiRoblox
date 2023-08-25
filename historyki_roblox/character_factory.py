@@ -1,6 +1,7 @@
 import json
 import os
 import random
+
 from typing import NamedTuple, Optional
 
 from historyki_roblox.oskarek_generator import OskarekGenerator
@@ -8,12 +9,18 @@ from historyki_roblox.oskarek_generator import OskarekGenerator
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
-class Character(NamedTuple):
-    name: str
-    gender: str
-    voice: str
-    face_image_path: str
-    roblox_image_path: str
+class Character:
+
+    def __init__(self, name: str, gender: str, voice: str, face_image_path: str, skin_image_path: str):
+        self.name = name
+        self.gender = gender
+        self.voice = voice
+        self.face_image_path = face_image_path
+        self.skin_image_path = skin_image_path
+
+    def change_skin(self):
+        chosen = random.choice([char for char in os.listdir(f'{ROOT_PATH}/data/characters') if self.gender[0].lower() in char])
+        self.skin_image_path = f'{ROOT_PATH}/data/characters/{chosen}'
 
 
 class CharacterFactory:
@@ -35,9 +42,13 @@ class CharacterFactory:
         chosen = random.choice([char for char in list_of_characters if chosen_gender in char])
         return f'{ROOT_PATH}/data/characters/{chosen}'
 
-    def create_random_character(self, name: str) -> Character:
-        gender = 'FEMALE' if name[-1] == 'a' else 'MALE'
+    def create_random_character(self, name: str, gender: Optional[str] = None, image: Optional[str] = None) -> Character:
+        if gender is None:
+            gender = 'FEMALE' if name[-1] == 'a' else 'MALE'
+        
+        if image is None:
+            image = self.oskarek_generator.get_oskarek_from_openai(gender)
+
         voice = self.choose_voice(gender)
-        face_image_path = self.oskarek_generator.get_oskarek_from_openai(gender)
         roblox_image_path = self.choose_roblox_character(gender)
-        return Character(name=name, gender=gender, voice=voice, roblox_image_path=roblox_image_path, face_image_path=face_image_path)
+        return Character(name=name, gender=gender, voice=voice, skin_image_path=roblox_image_path, face_image_path=image)
