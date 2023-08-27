@@ -7,6 +7,7 @@ import numpy as np
 from PIL import ImageFont, Image, ImageFilter, ImageDraw, ImageOps
 
 from historyki_roblox.character_factory import Character
+from historyki_roblox.image_utils import cv2_to_PIL, PIL_to_cv2
 
 THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
 ROBLOX_IMG_DIR_PATH = "./data/characters"
@@ -40,17 +41,17 @@ class ThumbnailBuilder:
         return self._thumbnail_img
 
     def add_background(self):
-        img_pil = self._cv2_to_PIL(self._thumbnail_img)
+        img_pil = cv2_to_PIL(self._thumbnail_img)
         background_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/background/1.png")
         background_img = background_img.resize(THUMBNAIL_SHAPE[::-1])
         background_img = background_img.filter(ImageFilter.BLUR)
         img_pil.paste(background_img, (0, 0), background_img.convert("RGBA"))
 
-        self._thumbnail_img = self._PIL_to_cv2(img_pil)
+        self._thumbnail_img = PIL_to_cv2(img_pil)
         return self
 
     def add_characters(self, characters: list[Character]):
-        img_pil = self._cv2_to_PIL(self._thumbnail_img)
+        img_pil = cv2_to_PIL(self._thumbnail_img)
 
         step_y = int(ROBLOX_SHAPE[0] * 0.2)
         step_x = int(ROBLOX_SHAPE[1] * 0.6)
@@ -59,25 +60,25 @@ class ThumbnailBuilder:
             char_img = char_img.resize(ROBLOX_SHAPE)
             px, py = idx * step_x, ROBLOX_SHAPE[1] // 2 - idx * step_y
             img_pil.paste(char_img, (px, py), char_img.convert("RGBA"))
-        self._thumbnail_img = self._PIL_to_cv2(img_pil)
+        self._thumbnail_img = PIL_to_cv2(img_pil)
 
         return self
 
     def add_emoji(self):
-        img_pil = self._cv2_to_PIL(self._thumbnail_img)
+        img_pil = cv2_to_PIL(self._thumbnail_img)
         emoji_file_name = random.choice(os.listdir(f"{THUMBNAIL_DATA_DIR_PATH}/emoji"))
         emoji_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/emoji/{emoji_file_name}")
         emoji_img = ImageOps.expand(emoji_img, emoji_img.size[0]//20, fill=0)
         emoji_img = emoji_img.resize(EMOJI_SHAPE)
 
-        shadow_img_cv2 = self._PIL_to_cv2(emoji_img, alpha=True)
+        shadow_img_cv2 = PIL_to_cv2(emoji_img, alpha=True)
         bw = shadow_img_cv2[:, :, 3]
         contours, _ = cv2.findContours(bw, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
         for contour in contours:
             cv2.drawContours(shadow_img_cv2, [contour], -1, (0, 0, 255, 255), 20)
 
-        emoji_shadow_img = self._cv2_to_PIL(shadow_img_cv2, alpha=True)
+        emoji_shadow_img = cv2_to_PIL(shadow_img_cv2, alpha=True)
 
         # bottom right corner
         px, py = (
@@ -86,7 +87,7 @@ class ThumbnailBuilder:
         )
         img_pil.paste(emoji_shadow_img, (px, py), emoji_shadow_img.convert("RGBA"))
         img_pil.paste(emoji_img, (px, py), emoji_img.convert("RGBA"))
-        self._thumbnail_img = self._PIL_to_cv2(img_pil)
+        self._thumbnail_img = PIL_to_cv2(img_pil)
 
         return self
 
@@ -100,7 +101,7 @@ class ThumbnailBuilder:
         return random.choice(self._thumbnail_data["phrases"]).upper()
 
     def _add_thumbnail_phrase(self, phrase: str):
-        img_pil = self._cv2_to_PIL(self._thumbnail_img)
+        img_pil = cv2_to_PIL(self._thumbnail_img)
 
         _, _, txt_w, txt_h = self._phrase_font.getbbox(phrase)
         txt_img = Image.new("RGBA", THUMBNAIL_SHAPE[::-1])
@@ -118,16 +119,7 @@ class ThumbnailBuilder:
         px, py = 0, 0
         img_pil.paste(w, (px, py), w)
 
-        self._thumbnail_img = self._PIL_to_cv2(img_pil)
+        self._thumbnail_img = PIL_to_cv2(img_pil)
 
         return self
 
-    def _cv2_to_PIL(self, img: np.ndarray, alpha=False):
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB if not alpha else cv2.COLOR_BGRA2RGBA)
-        img_pil = Image.fromarray(img)
-        return img_pil
-
-    def _PIL_to_cv2(self, img: Image, alpha=False):
-        img = np.asarray(img)
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR if not alpha else cv2.COLOR_RGBA2BGRA)
-        return img
