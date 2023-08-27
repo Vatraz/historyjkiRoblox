@@ -14,7 +14,6 @@ class VideoBuilder:
     def __init__(self, clip_source_path: str, story_source_path: str, actors: Optional[List[Actor]] = None):
         self.gpt_story_parser = GptStoryParser()
         self.clip = self._load_clip(clip_source_path)
-        print(self.clip.size)
         self.story = self._load_story(story_source_path)
 
         self.actor_factory = ActorFactory(self.clip.size[0], self.clip.size[1])

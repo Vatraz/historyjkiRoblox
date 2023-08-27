@@ -35,41 +35,6 @@ class Actor:
         self.is_camera_on = False
         self.intervals = []
 
-    def get_all(self, max_image_height):
-        audio, images, text = [], [], []
-        for interval in self.intervals:
-            image_clip = mvp.ImageClip(interval.image_path)
-            image_width, image_height = image_clip.size
-            new_image_width = image_width * (max_image_height / image_height)
-            image_clip = image_clip.resize((new_image_width, max_image_height))
-            image_x, image_y = self.position.get_object_position(new_image_width, max_image_height)
-            image_clip = image_clip.set_position(image_x, iamge_y).set_start(interval.start).set_duration(interval.duration)
-            text.append(image_clip)
-
-            name_clip = mvp.TextClip(self.character.name, fontsize=60, color='red', stroke_color='yellow', stroke_width=3, font=font)
-            name_x = image_x + new_image_width * .5 - name_clip.size[0] * .5
-            name_text_clip = name_text_clip.set_position((name_x, image_y)).set_start(start).set_duration(duration)
-            text.append(name_text_clip)
-
-            for start_time, text, audio_clip in interval.dialogues:
-                audio_clip = audio_clip.set_start(start_time)
-                audio.append(audio_clip)
-
-    def get_images(self, font):
-        images, text = [], []
-        for interval in self.online_intervals:
-            start, duration = interval.get_start_and_duration()
-            image_clip = self.roblox_image.set_start(start).set_duration(duration)
-            images.append(image_clip)
-
-            name_text_clip = mvp.TextClip(self.character.name, fontsize=60, color='red', stroke_color='yellow', stroke_width=3, font=font)
-            image_x, image_y = image_clip.pos(0)
-            name_x = image_x + image_clip.size[0] * .5 - name_text_clip.size[0] * .5
-            name_text_clip = name_text_clip.set_position((name_x, image_y)).set_start(start).set_duration(duration)
-            text.append(name_text_clip)
-
-        return images, text
-
     def add_dialogue(self, start, text, audio: mvp.AudioFileClip):
         self.intervals[-1].dialogues.append((start, text, audio))
 
