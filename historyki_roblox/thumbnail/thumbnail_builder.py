@@ -4,7 +4,7 @@ import random
 
 import cv2
 import numpy as np
-from PIL import ImageFont, Image, ImageFilter, ImageDraw
+from PIL import ImageFont, Image, ImageFilter, ImageDraw, ImageOps
 
 from historyki_roblox.character_factory import Character
 
@@ -67,14 +67,24 @@ class ThumbnailBuilder:
         img_pil = self._cv2_to_PIL(self._thumbnail_img)
         emoji_file_name = random.choice(os.listdir(f"{THUMBNAIL_DATA_DIR_PATH}/emoji"))
         emoji_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/emoji/{emoji_file_name}")
+        emoji_img = ImageOps.expand(emoji_img, emoji_img.size[0]//20, fill=0)
         emoji_img = emoji_img.resize(EMOJI_SHAPE)
+
+        shadow_img_cv2 = self._PIL_to_cv2(emoji_img, alpha=True)
+        bw = shadow_img_cv2[:, :, 3]
+        contours, _ = cv2.findContours(bw, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+
+        for contour in contours:
+            cv2.drawContours(shadow_img_cv2, [contour], -1, (0, 0, 255, 255), 20)
+
+        emoji_shadow_img = self._cv2_to_PIL(shadow_img_cv2, alpha=True)
 
         # bottom right corner
         px, py = (
             THUMBNAIL_SHAPE[1] - EMOJI_SHAPE[1],
             THUMBNAIL_SHAPE[0] - EMOJI_SHAPE[0],
         )
-
+        img_pil.paste(emoji_shadow_img, (px, py), emoji_shadow_img.convert("RGBA"))
         img_pil.paste(emoji_img, (px, py), emoji_img.convert("RGBA"))
         self._thumbnail_img = self._PIL_to_cv2(img_pil)
 
@@ -112,12 +122,12 @@ class ThumbnailBuilder:
 
         return self
 
-    def _cv2_to_PIL(self, img: np.ndarray):
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    def _cv2_to_PIL(self, img: np.ndarray, alpha=False):
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB if not alpha else cv2.COLOR_BGRA2RGBA)
         img_pil = Image.fromarray(img)
         return img_pil
 
-    def _PIL_to_cv2(self, img: Image):
+    def _PIL_to_cv2(self, img: Image, alpha=False):
         img = np.asarray(img)
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR if not alpha else cv2.COLOR_RGBA2BGRA)
         return img
