@@ -19,6 +19,7 @@ class OskarekGenerator:
 
     def __init__(self, gpt_relayer: Optional[GtpRelayer] = None):
         self.gpt_relayer = gpt_relayer or GtpRelayer()
+        self.resource_manager = ResourceManager()
         self.face_descriptions_data = self._load_face_descriptions_data()
 
     def _load_face_descriptions_data(self) -> dict:
@@ -54,5 +55,5 @@ class OskarekGenerator:
             image = Image.open(image_data)
             image_format = image.format
             image_name = f'{tmp}{c}_bing.{image_format}'
-            ResourceManager().save_oskarek_image(image, image_name)
+            self.resource_manager.save_oskarek_image(image, image_name)
             # image.save(f'{ROOT_PATH}/data/oskareks/{image_name}')

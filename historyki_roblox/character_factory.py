@@ -5,6 +5,7 @@ import random
 from typing import NamedTuple, Optional
 
 from historyki_roblox.oskarek_generator import OskarekGenerator
+from historyki_roblox.resource_manager import ResourceManager
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -26,6 +27,7 @@ class Character:
 class CharacterFactory:
     def __init__(self, oskarek_generator: Optional[OskarekGenerator] = None):
         self.oskarek_generator = oskarek_generator or OskarekGenerator()
+        self.resource_manager = ResourceManager()
         self.voices_data = self._load_voices()
 
     def _load_voices(self) -> list:
@@ -38,7 +40,8 @@ class CharacterFactory:
 
     def choose_roblox_character(self, requested_gender: str) -> str:
         chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
-        list_of_characters = os.listdir(f'{ROOT_PATH}/data/characters')
+        list_of_characters = self.resource_manager.get_list_of_characters()
+        # list_of_characters = os.listdir(f'{ROOT_PATH}/data/characters')
         chosen = random.choice([char for char in list_of_characters if chosen_gender in char])
         return f'{ROOT_PATH}/data/characters/{chosen}'
 
