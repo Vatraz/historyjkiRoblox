@@ -10,6 +10,7 @@ from lxml.html import fromstring
 from typing import Optional
 
 from historyki_roblox.gpt_relayer import GtpRelayer
+from historyki_roblox.resource_manager import ResourceManager
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
@@ -53,4 +54,5 @@ class OskarekGenerator:
             image = Image.open(image_data)
             image_format = image.format
             image_name = f'{tmp}{c}_bing.{image_format}'
-            image.save(f'{ROOT_PATH}/data/oskareks/{image_name}')
+            ResourceManager().save_oskarek_image(image, image_name)
+            # image.save(f'{ROOT_PATH}/data/oskareks/{image_name}')
