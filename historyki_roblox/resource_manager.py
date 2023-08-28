@@ -11,16 +11,30 @@ class ResourceManager:
     def __init__(self):
         self.root_path = os.path.dirname(os.path.dirname(__file__))
 
+    # CHARACTER
+
     def get_list_of_characters(self):
         return os.listdir(f'{self.root_path}/data/characters')
-
-    def get_list_of_oskareks(self):
-        return os.listdir(f'{self.root_path}/output/oskareks')
 
     def get_roblox_character(self, requested_gender: str) -> str:
         chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
         chosen = random.choice([char for char in self.get_list_of_characters() if chosen_gender in char])
         return f'{self.root_path}/data/characters/{chosen}'
+
+    # OSKAREK
+
+    def get_list_of_oskareks(self):
+        return os.listdir(f'{self.root_path}/output/oskareks')
+
+    def save_oskarek_image(self, image: Image, image_name: str):
+        return image.save(f'{self.root_path}/output/oskareks/{image_name}')
+
+    def get_oskarek_image(self, requested_gender: str) -> str:
+        chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
+        chosen = random.choice([char for char in self.get_list_of_oskareks() if chosen_gender == char[0]])
+        return f'{self.root_path}/output/oskareks/{chosen}'
+
+    # OTHER
 
     def get_prompts_data(self):
         with open(f'{self.root_path}/data/stories/prompts.json') as fp:
@@ -36,14 +50,6 @@ class ResourceManager:
         return ImageFont.truetype(
             f"{self.root_path}/data/fonts/phrase.otf", size=65
         )
-
-    def save_oskarek_image(self, image: Image, image_name: str):
-        return image.save(f'{self.root_path}/output/oskareks/{image_name}')
-
-    def get_oskarek_image(self, requested_gender: str) -> str:
-        chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
-        chosen = random.choice([char for char in self.get_list_of_oskareks() if chosen_gender == char[0]])
-        return f'{self.root_path}/output/oskareks/{chosen}'
 
     def get_voices(self) -> list:
         with open(f'{self.root_path}/data/voices/voices.json', 'r') as f:
