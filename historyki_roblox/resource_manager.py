@@ -2,6 +2,8 @@ import json
 import os
 from pathlib import Path
 
+from PIL import ImageFont, Image
+
 
 class ResourceManager:
 
@@ -16,5 +18,18 @@ class ResourceManager:
             prompts = json.load(fp)
         return prompts
 
+    def get_thumbnail_data(self):
+        with open(f"{self.root_path}/data/thumbnail/thumbnail_data.json") as fp:
+            data = json.load(fp)
+        return data
 
-print(ResourceManager().get_prompts_data)
+    def get_phrase_font(self):
+        return ImageFont.truetype(
+            f"{self.root_path}/data/fonts/phrase.otf", size=65
+        )
+
+    def save_oskarek_image(self, image: Image, image_name: str):
+        return image.save(f'{self.root_path}/data/oskareks/{image_name}')
+
+
+print(ResourceManager().get_list_of_characters())
