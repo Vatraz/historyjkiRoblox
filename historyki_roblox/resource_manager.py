@@ -31,5 +31,10 @@ class ResourceManager:
     def save_oskarek_image(self, image: Image, image_name: str):
         return image.save(f'{self.root_path}/data/oskareks/{image_name}')
 
+    def get_voices(self) -> list:
+        with open(f'{self.root_path}/data/voices/voices.json', 'r') as f:
+            voices = json.load(f)
+        return voices['voices']
+
 
 print(ResourceManager().get_list_of_characters())

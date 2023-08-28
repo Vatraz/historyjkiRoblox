@@ -28,12 +28,13 @@ class CharacterFactory:
     def __init__(self, oskarek_generator: Optional[OskarekGenerator] = None):
         self.oskarek_generator = oskarek_generator or OskarekGenerator()
         self.resource_manager = ResourceManager()
-        self.voices_data = self._load_voices()
+        # self.voices_data = self._load_voices()
+        self.voices_data = ResourceManager().get_voices()
 
-    def _load_voices(self) -> list:
-        with open('data/voices/voices.json', 'r') as f:
-            voices = json.load(f)
-        return voices['voices']
+    # def _load_voices(self) -> list:
+    #     with open('data/voices/voices.json', 'r') as f:
+    #         voices = json.load(f)
+    #     return voices['voices']
 
     def choose_voice(self, gender: str) -> str:
         return random.choice(tuple(filter(lambda x: x['ssmlGender'] == gender, self.voices_data)))['name']
