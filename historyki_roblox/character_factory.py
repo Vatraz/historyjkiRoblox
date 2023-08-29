@@ -29,7 +29,7 @@ class CharacterFactory:
         self.oskarek_generator = oskarek_generator or OskarekGenerator()
         self.resource_manager = ResourceManager()
         # self.voices_data = self._load_voices()
-        self.voices_data = ResourceManager().get_voices()
+        self.voices_data = self.resource_manager.get_voices()
 
     # def _load_voices(self) -> list:
     #     with open('data/voices/voices.json', 'r') as f:
