@@ -19,6 +19,7 @@ EMOJI_SHAPE = (300, 300)
 class ThumbnailBuilder:
     def __init__(self):
         self._phrase_font = self._load_phrase_font()
+        self._name_font = self._load_name_font()
         self._thumbnail_data = self._load_thumbnail_data()
 
         self._thumbnail_img = self._create_thumbnail_base()
@@ -31,6 +32,11 @@ class ThumbnailBuilder:
     def _load_phrase_font(self):
         return ImageFont.truetype(
             f"{THUMBNAIL_DATA_DIR_PATH}/fonts/phrase.otf", size=65
+        )
+
+    def _load_name_font(self):
+        return ImageFont.truetype(
+            f"{THUMBNAIL_DATA_DIR_PATH}/fonts/phrase.otf", size=50
         )
 
     def _create_thumbnail_base(self) -> np.ndarray:
@@ -55,11 +61,30 @@ class ThumbnailBuilder:
 
         step_y = int(ROBLOX_SHAPE[0] * 0.2)
         step_x = int(ROBLOX_SHAPE[1] * 0.6)
+        text_offset_x = 10
         for idx, character in enumerate(characters):
+            # characters
             char_img = Image.open(f"{ROBLOX_IMG_DIR_PATH}/{character.roblox_character}")
             char_img = char_img.resize(ROBLOX_SHAPE)
             px, py = idx * step_x, ROBLOX_SHAPE[1] // 2 - idx * step_y
             img_pil.paste(char_img, (px, py), char_img.convert("RGBA"))
+
+            # names
+            _, _, txt_w, txt_h = self._name_font.getbbox(character.name)
+            txt_img = Image.new("RGBA", img_pil.size)
+            d = ImageDraw.Draw(txt_img)
+            d.text(
+                (px + text_offset_x, py+step_y//2),
+                character.name,
+                font=self._name_font,
+                fill="white",
+                stroke_width=5,
+                stroke_fill="red",
+            )
+            px, py = 0, 0
+            img_pil.paste(txt_img, (px, py), txt_img)
+
+
         self._thumbnail_img = PIL_to_cv2(img_pil)
 
         return self
