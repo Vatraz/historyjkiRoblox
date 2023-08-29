@@ -13,7 +13,7 @@ THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
 ROBLOX_IMG_DIR_PATH = "./data/characters"
 THUMBNAIL_SHAPE = (720, 1280)
 ROBLOX_SHAPE = (370, 370)
-EMOJI_SHAPE = (300, 300)
+EMOJI_SHAPE = (350, 350)
 
 
 class ThumbnailBuilder:
