@@ -74,7 +74,7 @@ class ThumbnailBuilder:
             txt_img = Image.new("RGBA", img_pil.size)
             d = ImageDraw.Draw(txt_img)
             d.text(
-                (px + text_offset_x, py+step_y//2),
+                (px + text_offset_x, py + step_y // 2),
                 character.name,
                 font=self._name_font,
                 fill="white",
@@ -84,7 +84,6 @@ class ThumbnailBuilder:
             px, py = 0, 0
             img_pil.paste(txt_img, (px, py), txt_img)
 
-
         self._thumbnail_img = PIL_to_cv2(img_pil)
 
         return self
@@ -93,7 +92,7 @@ class ThumbnailBuilder:
         img_pil = cv2_to_PIL(self._thumbnail_img)
         emoji_file_name = random.choice(os.listdir(f"{THUMBNAIL_DATA_DIR_PATH}/emoji"))
         emoji_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/emoji/{emoji_file_name}")
-        emoji_img = ImageOps.expand(emoji_img, emoji_img.size[0]//20, fill=0)
+        emoji_img = ImageOps.expand(emoji_img, emoji_img.size[0] // 20, fill=0)
         emoji_img = emoji_img.resize(EMOJI_SHAPE)
 
         shadow_img_cv2 = PIL_to_cv2(emoji_img, alpha=True)
@@ -147,4 +146,3 @@ class ThumbnailBuilder:
         self._thumbnail_img = PIL_to_cv2(img_pil)
 
         return self
-
