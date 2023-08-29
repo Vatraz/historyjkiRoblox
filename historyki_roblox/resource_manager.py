@@ -83,4 +83,3 @@ class ResourceManager:
 
 
 # print(random.choice(ResourceManager().get_list_of_backgrounds()))
-
