@@ -1,8 +1,13 @@
 import json
 import os
 import random
+from enum import Enum
 
 from PIL import ImageFont, Image
+
+
+class EmojiCategory(Enum):
+    WOW = "w"
 
 
 class ResourceManager:
@@ -46,22 +51,14 @@ class ResourceManager:
             data = json.load(fp)
         return data
 
-    def get_thumbnail_background(self, resize_=None, filter_=None):
-        background_image = Image.open(random.choice(self.get_list_of_backgrounds()))
-        if resize_:
-            background_image = background_image.resize(resize_)
-        if filter_:
-            background_image = background_image.filter(filter_)
-        return background_image
+    def get_thumbnail_background(self):
+        return Image.open(random.choice(self.get_list_of_backgrounds()))
 
     # possible categories: WOW, LAUGH, SAD etc...
-    def get_thumbnail_emoji(self, category: str, resize_=None):
-        chosen_category = category[0].lower()
+    def get_thumbnail_emoji(self, category: EmojiCategory):
+        chosen_category = category.value
         chosen_emoji = random.choice([char for char in self.get_list_of_emoji() if chosen_category in char])
-        emoji_img = Image.open(chosen_emoji)
-        if resize_:
-            emoji_img = emoji_img.resize(resize_)
-        return emoji_img
+        return Image.open(chosen_emoji)
 
     # OTHER
 
