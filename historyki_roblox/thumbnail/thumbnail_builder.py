@@ -7,6 +7,7 @@ import numpy as np
 from PIL import ImageFont, Image, ImageFilter, ImageDraw
 
 from historyki_roblox.character_factory import Character
+from historyki_roblox.resource_manager import ResourceManager
 
 THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
 ROBLOX_IMG_DIR_PATH = "./data/characters"
@@ -21,6 +22,7 @@ class ThumbnailBuilder:
         self._thumbnail_data = self._load_thumbnail_data()
 
         self._thumbnail_img = self._create_thumbnail_base()
+        self.resource_manager = ResourceManager()
 
     def _load_thumbnail_data(self):
         with open(f"{THUMBNAIL_DATA_DIR_PATH}/thumbnail_data.json") as fp:
@@ -41,7 +43,7 @@ class ThumbnailBuilder:
 
     def add_background(self):
         img_pil = self._cv2_to_PIL(self._thumbnail_img)
-        background_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/background/1.png")
+        background_img = self.resource_manager.get_thumbnail_background()
         background_img = background_img.resize(THUMBNAIL_SHAPE[::-1])
         background_img = background_img.filter(ImageFilter.BLUR)
         img_pil.paste(background_img, (0, 0), background_img.convert("RGBA"))
@@ -65,8 +67,7 @@ class ThumbnailBuilder:
 
     def add_emoji(self):
         img_pil = self._cv2_to_PIL(self._thumbnail_img)
-        emoji_file_name = random.choice(os.listdir(f"{THUMBNAIL_DATA_DIR_PATH}/emoji"))
-        emoji_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/emoji/{emoji_file_name}")
+        emoji_img = self.resource_manager.get_thumbnail_emoji(EmojiCategory.WOW)
         emoji_img = emoji_img.resize(EMOJI_SHAPE)
 
         # bottom right corner
