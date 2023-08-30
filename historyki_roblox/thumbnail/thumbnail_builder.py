@@ -43,10 +43,9 @@ class ThumbnailBuilder:
 
     def add_background(self):
         img_pil = self._cv2_to_PIL(self._thumbnail_img)
-        background_img = self.resource_manager.get_thumbnail_background(THUMBNAIL_SHAPE[::-1], ImageFilter.BLUR)
-        # background_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/background/w1.png")
-        # background_img = background_img.resize(THUMBNAIL_SHAPE[::-1])
-        # background_img = background_img.filter(ImageFilter.BLUR)
+        background_img = self.resource_manager.get_thumbnail_background()
+        background_img = background_img.resize(THUMBNAIL_SHAPE[::-1])
+        background_img = background_img.filter(ImageFilter.BLUR)
         img_pil.paste(background_img, (0, 0), background_img.convert("RGBA"))
 
         self._thumbnail_img = self._PIL_to_cv2(img_pil)
@@ -68,10 +67,8 @@ class ThumbnailBuilder:
 
     def add_emoji(self):
         img_pil = self._cv2_to_PIL(self._thumbnail_img)
-        # emoji_file_name = random.choice(os.listdir(f"{THUMBNAIL_DATA_DIR_PATH}/emoji"))
-        # emoji_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/emoji/{emoji_file_name}")
-        # emoji_img = emoji_img.resize(EMOJI_SHAPE)
-        emoji_img = self.resource_manager.get_thumbnail_emoji('WOW', EMOJI_SHAPE)
+        emoji_img = self.resource_manager.get_thumbnail_emoji(EmojiCategory.WOW)
+        emoji_img = emoji_img.resize(EMOJI_SHAPE)
 
         # bottom right corner
         px, py = (
