@@ -4,9 +4,10 @@ from tqdm import tqdm
 from typing import Dict, List, NamedTuple, Optional, Tuple, Union
 
 from historyki_roblox.actor_factory import Actor, ActorFactory
-from historyki_roblox.voice_generator import VoiceGenerator
+from historyki_roblox.resource_manager import ResourceManager
 from historyki_roblox.story.story import Dialogue, Event, Didascalia, Story
 from historyki_roblox.story.story_parser import GptStoryParser
+from historyki_roblox.voice_generator import VoiceGenerator
 
 
 class VideoBuilder:
@@ -16,6 +17,7 @@ class VideoBuilder:
         self.clip = self._load_clip(clip_source_path)
         self.story = self._load_story(story_source_path)
 
+        self.resource_manager = ResourceManager()
         self.actor_factory = ActorFactory(self.clip.size[0], self.clip.size[1])
         self.voice_generator = VoiceGenerator()
 
@@ -29,6 +31,7 @@ class VideoBuilder:
 
         self.lector_voice = 'pl-PL-Standard-E'
         self.font = 'data/fonts/super_dream.ttf'
+
 
     def _load_clip(self, clip_source_path: str) -> mvp.VideoFileClip:
         return mvp.VideoFileClip(clip_source_path)
@@ -173,7 +176,7 @@ class VideoBuilder:
                 max_image_height = self.clip.size[1] * .4
                 x, y, w, h = self.add_image_to_scene(i.image_path, i.start, i.duration, actor.position.x, actor.position.y, actor.position.side, max_image_height)
                 name_x, name_y = x + w * .5, y
-                self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, 'center', 60, 'green')
+                self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, 'center', 60, actor.color)
 
                 text_x, text_y = 0, y + h * .5
                 if actor.position.side == 'East':
@@ -183,13 +186,18 @@ class VideoBuilder:
                 elif actor.position.side == 'West':
                     text_x = x + w
 
+                text_width = self.clip.size[1] * .5
                 for start, content, audio_clip in i.dialogues:
-                    self.add_text_to_scene(content, start, audio_clip.duration, text_x, text_y, actor.position.side, max_width=self.clip.size[1] * .5)
+                    self.add_text_to_scene(content, start, audio_clip.duration, text_x, text_y, actor.position.side, color=actor.color, max_width=text_width)
 
+    def save(self) -> str:
         looped_clip = self.get_looped_clip()
         video = mvp.CompositeVideoClip([looped_clip] + self.images + self.text).set_duration(self.time)
         video = video.set_duration(self.time)
  
-        combined_audio = mvp.concatenate_audioclips(self.audio)
-        video = video.set_audio(combined_audio)
-        video.write_videofile('test.mp4')
+        concated_audio = mvp.concatenate_audioclips(self.audio)
+        video = video.set_audio(concated_audio)
+
+        video_path = self.resource_manager.get_video_save_path()
+        video.write_videofile(video_path)
+        return video_path

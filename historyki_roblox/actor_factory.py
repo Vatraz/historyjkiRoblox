@@ -1,4 +1,5 @@
 import moviepy.editor as mvp
+import random
 
 from typing import NamedTuple, Optional, Tuple, Union
 
@@ -28,9 +29,10 @@ class Interval:
 
 class Actor:
 
-    def __init__(self, character: Character, position: Position):
+    def __init__(self, character: Character, position: Position, text_color: str):
         self.character = character
         self.position = position
+        self.color = text_color
         self.is_online = False
         self.is_camera_on = False
         self.intervals = []
@@ -71,6 +73,7 @@ class ActorFactory:
         self.clip_width = clip_width
         self.clip_height = clip_height
         self.character_factory = CharacterFactory()
+        self.colors = mvp.TextClip.list('color')
 
     def get_position(self, position_number: int) -> Position:
         x, y, side = 0, 0, None
@@ -88,7 +91,14 @@ class ActorFactory:
             x, y, side = self.clip_width * .5, self.clip_height * .75, 'center'
         return Position(x=x, y=y, side=side)
 
+    def get_color(self) -> str:
+        n = random.randint(0, len(self.colors))
+        color = self.colors[n]
+        self.colors.pop(n)
+        return color
+
     def create_actor(self, name: str, position_number: int, gender: Optional[str] = None, image: Optional[str] = None) -> Actor:
         character = self.character_factory.create_random_character(name, gender, image)
         position = self.get_position(position_number)
-        return Actor(character, position)
+        text_color = self.get_color()
+        return Actor(character, position, text_color)
