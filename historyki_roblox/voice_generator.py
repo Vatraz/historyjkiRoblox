@@ -5,9 +5,10 @@ import os
 import requests
 
 from io import BytesIO
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 
-ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
+from historyki_roblox.resource_manager import ResourceManager
+
 GTTS_API_KEY = os.environ.get('GTTS_API_KEY')
 
 
@@ -17,21 +18,17 @@ class VoiceGeneratorException(Exception):
 
 class VoiceGenerator:
 
-    def __init__(self, api_key: str = None):
+    def __init__(self, api_key: Optional[str] = None):
         self.api_key = api_key or GTTS_API_KEY
         self.base_url = 'https://texttospeech.googleapis.com/v1'
+        self.resource_manager = ResourceManager()
 
-    def synthesize(self, text: str, voice: str, pitch: int=0, speaking_rate: int=0) -> str:
+    def synthesize(self, text: str, voice: str, pitch: int = 0, speaking_rate: int = 0) -> str:
         # valid speaking_rate is between 0.25 and 4.0.
         # Out of range: valid pitch is between -20.0 and 20.0.
-        dir_name = f'{ROOT_PATH}/output/dialogues/{voice}-{pitch}-{speaking_rate}'
-        if os.path.exists(dir_name) is False:
-            os.mkdir(dir_name)
-
-        mp3_filename = text.lower().replace(' ', '_') + '.mp3'
-        mp3_filepath = f'{dir_name}/{mp3_filename}'
-        if os.path.exists(mp3_filepath) is True:
-            return mp3_filepath
+        filepath = self.resource_manager.get_dialogue_path(f'{voice}-{pitch}-{speaking_rate}', text)
+        if os.path.exists(filepath):
+            return filepath
 
         body = {
             'audioConfig': {'audioEncoding': 'MP3', 'pitch': pitch, 'speakingRate': speaking_rate},
@@ -44,10 +41,10 @@ class VoiceGenerator:
             raise VoiceGenerator(f'response status code: {response.status_code}\n{response.text}')
 
         binary_data = base64.b64decode(response.json()['audioContent'].encode())
-        with open(mp3_filepath, 'wb') as f:
+        with open(filepath, 'wb') as f:
             f.write(binary_data)
 
-        return mp3_filepath
+        return filepath
 
     def get_voices(self, language_code: str='pl-PL') -> None:
         params = {'key': self.api_key, 'languageCode': language_code}
