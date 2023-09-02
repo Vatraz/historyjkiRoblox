@@ -1,8 +1,9 @@
 import json
 import os
 import random
-from enum import Enum
+import string
 
+from enum import Enum
 from PIL import ImageFont, Image
 
 
@@ -77,5 +78,20 @@ class ResourceManager:
             voices = json.load(f)
         return voices['voices']
 
+    def get_random_string(self, length: int = 10) -> str:
+        characters = string.ascii_letters + string.digits
+        return ''.join([random.choice(characters) for _ in range(length)])
+
+    def get_dialogue_path(self, dirname: str, text: str) -> str:
+        filepath = f'{self.root_path}/output/dialogues/{dirname}'
+        if os.path.exists(filepath) is False:
+            os.mkdir(filepath)
+        filename = text.lower().replace(' ', '_') + '.mp3'
+        filepath = filepath + '/' + filename
+        return filepath
+
+    def get_video_save_path(self) -> str:
+        video_name = self.get_random_string() + '.mp4'
+        return f'{self.root_path}/output/video/{video_name}'
 
 # print(random.choice(ResourceManager().get_list_of_backgrounds()))
