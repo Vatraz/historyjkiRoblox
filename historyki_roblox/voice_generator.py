@@ -1,15 +1,11 @@
-import os
 import base64
 import json
 import os
 import requests
 
-from io import BytesIO
-from typing import NamedTuple, Optional
+from typing import Optional
 
 from historyki_roblox.resource_manager import ResourceManager
-
-GTTS_API_KEY = os.environ.get('GTTS_API_KEY')
 
 
 class VoiceGeneratorException(Exception):
@@ -19,9 +15,9 @@ class VoiceGeneratorException(Exception):
 class VoiceGenerator:
 
     def __init__(self, api_key: Optional[str] = None):
-        self.api_key = api_key or GTTS_API_KEY
-        self.base_url = 'https://texttospeech.googleapis.com/v1'
         self.resource_manager = ResourceManager()
+        self.api_key = api_key or self.resource_manager.get_gtts_api_key()
+        self.base_url = 'https://texttospeech.googleapis.com/v1'
 
     def synthesize(self, text: str, voice: str, pitch: int = 0, speaking_rate: int = 0) -> str:
         # valid speaking_rate is between 0.25 and 4.0.

@@ -1,25 +1,74 @@
-Bartosz [roblox]: Co tam pedały?
-Robbcio => leave room
-Grubbcio [roblox]: Tydzień chlania, czaisz to?
-Bartosz [roblox]: Dobra pedały pokacujcie twarze, teraz!
-Bartosz => turn on camera
-Grubbcio => turn on camera
-JJ => turn on camera
-MiChał => turn on camera
-PawełSointa => turn on camera
-Bartosz [roblox]: Ładnie dzisiaj wyglądacie.
-Grubbcio [roblox]: Dzięki Bartosz, ty też.
-JJ [roblox]: Dzięki Bartosz, ty też.
-MiChał [roblox]: Dzięki Bartosz, ty też.
-PawełSointa [roblox]: Dzięki Bartosz, ty też.
-Bartosz => turn off camera
-Grubbcio => turn off camera
-JJ => turn off camera
-MiChał => turn off camera
-PawełSointa => turn off camera
-Bartosz [roblox]: Gdzie ten pedał, Robert.
-Robbcio => join room
-Robbcio [roblox]: co jest.
-Robbcio => turn on camera
-Bartosz [roblox]: Macie prace domowom.
-PawełSointa [roblox]: Nie...
+Friz => leave room
+Robert: no elo
+Krystyna: serwus
+Robert: czemu cie nie było na gierce gogusiu
+Krystyna: no właśnie, byliśmy umówieni
+Bartosz: hehe
+Robert: Co się cieszysz preclu, mów o co ci chodzi
+Bartosz: Hehe jak ci powiem to pożałujesz że nazwałeś mnie preclem
+Robert: ok
+Krystyna: dobra mów o co cho
+Bartosz: dobrze ale musicie mi obiecać że nie będziecie zazdrośni
+Robert: hm no dobrze obiecuje
+Krystyna: obiecuje też
+Bartosz: no
+Bartosz: więc chodzi o to że grałem sobie w taką gierkę dzisiaj na necie inną
+Robert: co mnie to obchodzi
+Bartosz: już zazdrościsz
+Krystyna: nie przerywaj mu jezu
+Robert: heh tak się drocze
+Robert: dawaj Bartosz mów bo już bym pograł co
+Bartosz: dobra więc grałem i w tej gierce poznałem takiego chłopa co nazywa się Karol 
+Krystyna: i to jest ta historia? Przecież też znam Karola
+Robert: ja nie znam dobrze ale kojarze też wielu
+Bartosz: a czy ci karolowie mają na nazwisko Wiśniewski i pseudonim friz?
+Krystyna: wow
+Robert: co ty gadasz?
+Bartosz: no normalnie poznałem friza i teraz jesteśmy kumplami
+Krystyna: coś ściemniasz chyba nie wierze ci
+Robert: no wiadomo że ściemnia
+Bartosz: hehe wiedziałem że będziecie mi zazdrościć
+Robert: niby czego kłamania?
+Bartosz: no nw może tego że będę w Genzie haha
+Krystyna: w to na pewno nie uwierzę, to niemożliwe
+Bartosz: możliwe, Friz powiedział mi że jestem super osobą zabawną pomysłową itd i świetnie się nadam
+Robert: no niezła wkrętka pozdro
+Krystyna: właśnie jak to jest prawda to to udowodnij
+Bartosz: tak się składa że mogę to bardzo łatwo udowodnić zapraszając go do naszej grupki
+Robert: No to dawaj cwaniaku
+Bartosz: Pa tera
+Friz => join room
+Friz: cześć cześć siemanko tu friz
+Krystyna: Nie wierzę, jak to serio ty, to udowodnij i włącz kamerkę
+Friz: jasna sprawa, już odpalam 
+Friz => turn on camera
+Friz: czy teraz wierzysz Bartoszowi?
+Krystyna: OMG Friz
+Robert: wow nie wierze Friz jestem twoim fanem a Bartosz to mój przyjaciel dodasz mnie do znajomych?
+Friz: Bartosz, co to za laluś?
+Bartosz: To mój kolega Robert, nie wierzył że poznałem ciebie
+Krystyna: ja wierzyłam
+Bartosz: ta jasne
+Robert: Dobra może nie wierzyłem ale no teraz wierze, to jak Friz dodasz mnie?
+Friz: Pomyślę
+Krystyna: Czy Bartosz serio będzie w Genzie?
+Friz: Tak. Jest bardzo zabawny wesoły kreatywny pomysłowy. Lepszy niż Tromba i Mini Majk. Świetnie się nada.
+Krystyna: Bartosz czy możemy na chwilę na priv?
+Friz => leave room
+Robert => leave room
+Bartosz: no dobra
+Bartosz: co tam
+Krystyna: no ogólnie od dawna mi się podobasz
+Bartosz: o
+Krystyna: no i tak pomyślałam czy chcesz zostać moim chłopakiem?
+Bartosz: no dobra, niech będzie
+Krystyna: OMG super, wszyscy padną jak zobaczą że jestem dziewczyną członka Genzie
+Robert => join room
+Friz => join room
+Robert: o czym gadaliście?
+Bartosz: takie tam
+Krystyna: Bartosz i ja jesteśmy parą
+Robert: co? i teraz ty też będziesz członkiem Genzie?
+Friz: no nie tak szybko ale kiedyś na pewno w końcu Bartosz będzie w Genzie
+Bartosz: i co Robercik, teraz ci głupio? Mam dupeczke i sławnego kumpla, a ty dalej cały dzień przy kompie
+Robert: Zamknij się!

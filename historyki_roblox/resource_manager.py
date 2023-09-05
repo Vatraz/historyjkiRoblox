@@ -78,6 +78,9 @@ class ResourceManager:
             voices = json.load(f)
         return voices['voices']
 
+    def get_gtts_api_key(self) -> str:
+        return os.environ.get('GTTS_API_KEY')
+
     def get_random_string(self, length: int = 10) -> str:
         characters = string.ascii_letters + string.digits
         return ''.join([random.choice(characters) for _ in range(length)])
