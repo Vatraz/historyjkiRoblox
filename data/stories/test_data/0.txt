@@ -1,74 +1,74 @@
 Friz => leave room
-Robert: no elo
-Krystyna: serwus
-Robert: czemu cie nie było na gierce gogusiu
-Krystyna: no właśnie, byliśmy umówieni
-Bartosz: hehe
-Robert: Co się cieszysz preclu, mów o co ci chodzi
-Bartosz: Hehe jak ci powiem to pożałujesz że nazwałeś mnie preclem
-Robert: ok
-Krystyna: dobra mów o co cho
-Bartosz: dobrze ale musicie mi obiecać że nie będziecie zazdrośni
-Robert: hm no dobrze obiecuje
-Krystyna: obiecuje też
-Bartosz: no
-Bartosz: więc chodzi o to że grałem sobie w taką gierkę dzisiaj na necie inną
-Robert: co mnie to obchodzi
-Bartosz: już zazdrościsz
-Krystyna: nie przerywaj mu jezu
-Robert: heh tak się drocze
-Robert: dawaj Bartosz mów bo już bym pograł co
-Bartosz: dobra więc grałem i w tej gierce poznałem takiego chłopa co nazywa się Karol 
-Krystyna: i to jest ta historia? Przecież też znam Karola
-Robert: ja nie znam dobrze ale kojarze też wielu
-Bartosz: a czy ci karolowie mają na nazwisko Wiśniewski i pseudonim friz?
-Krystyna: wow
-Robert: co ty gadasz?
-Bartosz: no normalnie poznałem friza i teraz jesteśmy kumplami
-Krystyna: coś ściemniasz chyba nie wierze ci
-Robert: no wiadomo że ściemnia
-Bartosz: hehe wiedziałem że będziecie mi zazdrościć
-Robert: niby czego kłamania?
-Bartosz: no nw może tego że będę w Genzie haha
-Krystyna: w to na pewno nie uwierzę, to niemożliwe
-Bartosz: możliwe, Friz powiedział mi że jestem super osobą zabawną pomysłową itd i świetnie się nadam
-Robert: no niezła wkrętka pozdro
-Krystyna: właśnie jak to jest prawda to to udowodnij
-Bartosz: tak się składa że mogę to bardzo łatwo udowodnić zapraszając go do naszej grupki
-Robert: No to dawaj cwaniaku
-Bartosz: Pa tera
+Robert[dd]: no elo
+Krystyna[dd]: serwus
+Robert[dd]: czemu cie nie było na gierce gogusiu
+Krystyna[dd]: no właśnie, byliśmy umówieni
+Bartosz[dd]: hehe
+Robert[dd]: Co się cieszysz preclu, mów o co ci chodzi
+Bartosz[dd]: Hehe jak ci powiem to pożałujesz że nazwałeś mnie preclem
+Robert[dd]: ok
+Krystyna[dd]: dobra mów o co cho
+Bartosz[dd]: dobrze ale musicie mi obiecać że nie będziecie zazdrośni
+Robert[dd]: hm no dobrze obiecuje
+Krystyna[dd]: obiecuje też
+Bartosz[dd]: no
+Bartosz[dd]: więc chodzi o to że grałem sobie w taką gierkę dzisiaj na necie inną
+Robert[dd]: co mnie to obchodzi
+Bartosz[dd]: już zazdrościsz
+Krystyna[dd]: nie przerywaj mu jezu
+Robert[dd]: heh tak się drocze
+Robert[dd]: dawaj Bartosz mów bo już bym pograł co
+Bartosz[dd]: dobra więc grałem i w tej gierce poznałem takiego chłopa co nazywa się Karol 
+Krystyna[dd]: i to jest ta historia? Przecież też znam Karola
+Robert[dd]: ja nie znam dobrze ale kojarze też wielu
+Bartosz[dd]: a czy ci karolowie mają na nazwisko Wiśniewski i pseudonim friz?
+Krystyna[dd]: wow
+Robert[dd]: co ty gadasz?
+Bartosz[dd]: no normalnie poznałem friza i teraz jesteśmy kumplami
+Krystyna[dd]: coś ściemniasz chyba nie wierze ci
+Robert[dd]: no wiadomo że ściemnia
+Bartosz[dd]: hehe wiedziałem że będziecie mi zazdrościć
+Robert[dd]: niby czego kłamania?
+Bartosz[dd]: no nw może tego że będę w Genzie haha
+Krystyna[dd]: w to na pewno nie uwierzę, to niemożliwe
+Bartosz[dd]: możliwe, Friz powiedział mi że jestem super osobą zabawną pomysłową itd i świetnie się nadam
+Robert[dd]: no niezła wkrętka pozdro
+Krystyna[dd]: właśnie jak to jest prawda to to udowodnij
+Bartosz[dd]: tak się składa że mogę to bardzo łatwo udowodnić zapraszając go do naszej grupki
+Robert[dd]: No to dawaj cwaniaku
+Bartosz[dd]: Pa tera
 Friz => join room
-Friz: cześć cześć siemanko tu friz
-Krystyna: Nie wierzę, jak to serio ty, to udowodnij i włącz kamerkę
-Friz: jasna sprawa, już odpalam 
+Friz[dd]: cześć cześć siemanko tu friz
+Krystyna[dd]: Nie wierzę, jak to serio ty, to udowodnij i włącz kamerkę
+Friz[dd]: jasna sprawa, już odpalam 
 Friz => turn on camera
-Friz: czy teraz wierzysz Bartoszowi?
-Krystyna: OMG Friz
-Robert: wow nie wierze Friz jestem twoim fanem a Bartosz to mój przyjaciel dodasz mnie do znajomych?
-Friz: Bartosz, co to za laluś?
-Bartosz: To mój kolega Robert, nie wierzył że poznałem ciebie
-Krystyna: ja wierzyłam
-Bartosz: ta jasne
-Robert: Dobra może nie wierzyłem ale no teraz wierze, to jak Friz dodasz mnie?
-Friz: Pomyślę
-Krystyna: Czy Bartosz serio będzie w Genzie?
-Friz: Tak. Jest bardzo zabawny wesoły kreatywny pomysłowy. Lepszy niż Tromba i Mini Majk. Świetnie się nada.
-Krystyna: Bartosz czy możemy na chwilę na priv?
+Friz[dd]: czy teraz wierzysz Bartoszowi?
+Krystyna[dd]: OMG Friz
+Robert[dd]: wow nie wierze Friz jestem twoim fanem a Bartosz to mój przyjaciel dodasz mnie do znajomych?
+Friz[dd]: Bartosz, co to za laluś?
+Bartosz[dd]: To mój kolega Robert, nie wierzył że poznałem ciebie
+Krystyna[dd]: ja wierzyłam
+Bartosz[dd]: ta jasne
+Robert[dd]: Dobra może nie wierzyłem ale no teraz wierze, to jak Friz dodasz mnie?
+Friz[dd]: Pomyślę
+Krystyna[dd]: Czy Bartosz serio będzie w Genzie?
+Friz[dd]: Tak. Jest bardzo zabawny wesoły kreatywny pomysłowy. Lepszy niż Tromba i Mini Majk. Świetnie się nada.
+Krystyna[dd]: Bartosz czy możemy na chwilę na priv?
 Friz => leave room
 Robert => leave room
-Bartosz: no dobra
-Bartosz: co tam
-Krystyna: no ogólnie od dawna mi się podobasz
-Bartosz: o
-Krystyna: no i tak pomyślałam czy chcesz zostać moim chłopakiem?
-Bartosz: no dobra, niech będzie
-Krystyna: OMG super, wszyscy padną jak zobaczą że jestem dziewczyną członka Genzie
+Bartosz[dd]: no dobra
+Bartosz[dd]: co tam
+Krystyna[dd]: no ogólnie od dawna mi się podobasz
+Bartosz[dd]: o
+Krystyna[dd]: no i tak pomyślałam czy chcesz zostać moim chłopakiem?
+Bartosz[dd]: no dobra, niech będzie
+Krystyna[dd]: OMG super, wszyscy padną jak zobaczą że jestem dziewczyną członka Genzie
 Robert => join room
 Friz => join room
-Robert: o czym gadaliście?
-Bartosz: takie tam
-Krystyna: Bartosz i ja jesteśmy parą
-Robert: co? i teraz ty też będziesz członkiem Genzie?
-Friz: no nie tak szybko ale kiedyś na pewno w końcu Bartosz będzie w Genzie
-Bartosz: i co Robercik, teraz ci głupio? Mam dupeczke i sławnego kumpla, a ty dalej cały dzień przy kompie
-Robert: Zamknij się!
+Robert[dd]: o czym gadaliście?
+Bartosz[dd]: takie tam
+Krystyna[dd]: Bartosz i ja jesteśmy parą
+Robert[dd]: co? i teraz ty też będziesz członkiem Genzie?
+Friz[dd]: no nie tak szybko ale kiedyś na pewno w końcu Bartosz będzie w Genzie
+Bartosz[dd]: i co Robercik, teraz ci głupio? Mam dupeczke i sławnego kumpla, a ty dalej cały dzień przy kompie
+Robert[dd]: Zamknij się!
