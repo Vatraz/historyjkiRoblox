@@ -38,7 +38,7 @@ Bartosz[dd]: tak się składa że mogę to bardzo łatwo udowodnić zapraszając
 Robert[dd]: No to dawaj cwaniaku
 Bartosz[dd]: Pa tera
 Friz => join room
-Friz[dd]: cześć cześć siemanko tu friz
+Friz[dd]: Siemako widzowie, tu friz
 Krystyna[dd]: Nie wierzę, jak to serio ty, to udowodnij i włącz kamerkę
 Friz[dd]: jasna sprawa, już odpalam 
 Friz => turn on camera
@@ -54,9 +54,9 @@ Friz[dd]: Pomyślę
 Krystyna[dd]: Czy Bartosz serio będzie w Genzie?
 Friz[dd]: Tak. Jest bardzo zabawny wesoły kreatywny pomysłowy. Lepszy niż Tromba i Mini Majk. Świetnie się nada.
 Krystyna[dd]: Bartosz czy możemy na chwilę na priv?
+Bartosz[dd]: no dobra
 Friz => leave room
 Robert => leave room
-Bartosz[dd]: no dobra
 Bartosz[dd]: co tam
 Krystyna[dd]: no ogólnie od dawna mi się podobasz
 Bartosz[dd]: o
