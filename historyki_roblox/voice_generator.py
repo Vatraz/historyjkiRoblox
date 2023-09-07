@@ -17,6 +17,7 @@ class VoiceGenerator:
     def __init__(self, api_key: Optional[str] = None):
         self.resource_manager = ResourceManager()
         self.api_key = api_key or self.resource_manager.get_gtts_api_key()
+        print('api key', self.api_key)
         self.base_url = 'https://texttospeech.googleapis.com/v1'
 
     def synthesize(self, text: str, voice: str, pitch: int = 0, speaking_rate: int = 0) -> str:

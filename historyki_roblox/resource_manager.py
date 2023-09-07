@@ -94,6 +94,8 @@ class ResourceManager:
         return filepath
 
     def get_video_save_path(self) -> str:
+        if os.path.exists(f'{self.root_path}/output/video') is False:
+            os.mkdir(f'{self.root_path}/output/video')
         video_name = self.get_random_string() + '.mp4'
         return f'{self.root_path}/output/video/{video_name}'
 
