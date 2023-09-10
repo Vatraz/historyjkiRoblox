@@ -23,19 +23,24 @@ class GptStoryParser:
         return story_lines
 
     def _is_line_dialogue(self, line: str) -> bool:
-        return "[" in line and "]" in line and (("-") in line or ":" in line)
+        return ":" in line
 
     def _is_line_event(self, line: str) -> bool:
         return '=>' in line
 
     def _parse_line_to_dialogue(self, line: str) -> Dialogue:
-        emotion_match = re.search("\[.*\\]", line)
-        content_raw = line[emotion_match.end() :]
-        name_raw = line[: emotion_match.start()]
+        if "[" in line:
+            emotion_match = re.search("\[.*\\]", line)
+            content_raw = line[emotion_match.end() :]
+            name_raw = line[: emotion_match.start()]
 
-        emotion = emotion_match.group()[1:-1]
-        name = name_raw.strip()
-        content = " ".join(content_raw.split()[1:])
+            emotion = emotion_match.group()[1:-1]
+            name = name_raw.strip()
+            content = " ".join(content_raw.split()[1:])
+        else:
+            name, content = line.split(':')
+            name, content = name.strip(), content.strip()
+            emotion = None
 
         return Dialogue(content=content, actor=name, emotion=emotion)
 
@@ -55,5 +60,7 @@ class GptStoryParser:
 
 
 if __name__ == "__main__":
-    input = "".join(open("data/stories/test_data/0.txt").readlines())
-    GptStoryParser().parse_raw_story(input)
+    input = "".join(open("data/stories/test_data/3.txt").readlines())
+    parsed_story = GptStoryParser().parse_raw_story(input)
+    print("done")
+
