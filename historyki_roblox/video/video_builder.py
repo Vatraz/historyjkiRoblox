@@ -1,9 +1,9 @@
 import moviepy.editor as mvp
 
-from tqdm import tqdm
-from typing import Dict, List, NamedTuple, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 
 from historyki_roblox.actor_factory import Actor, ActorFactory
+from historyki_roblox.story.actions import Action
 from historyki_roblox.voice_generator import VoiceGenerator
 from historyki_roblox.story.story import Dialogue, Event, Didascalia, Story
 from historyki_roblox.story.story_parser import GptStoryParser
@@ -78,15 +78,15 @@ class VideoBuilder:
 
     def handle_event(self, event: Event):
         actor = self.actors[event.actor]
-        if event.action == 'join room':
+        if event.action == Action.JOIN_ROOM.value:
             actor.join_room(self.time)
-        elif event.action == 'leave room':
+        elif event.action == Action.LEAVE_ROOM.value:
             actor.leave_room(self.time)
-        elif event.action == 'turn on camera':
+        elif event.action == Action.TURN_ON_CAMERA.value:
             actor.turn_on_camera(self.time)
-        elif event.action == 'turn off camera':
+        elif event.action == Action.TURN_OFF_CAMERA.value:
             actor.turn_off_camera(self.time)
-        elif event.action == 'change skin':
+        elif event.action == Action.CHANGE_SKIN.value:
             actor.change_skin(self.time)
 
     def handle_dialogue(self, dialogue: Dialogue):
