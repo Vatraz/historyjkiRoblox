@@ -78,11 +78,11 @@ class ActorFactory:
         if position_number == 0:
             x, y, side = 0, .25, 'West'
         elif position_number == 1:
-            x, y, side = .25, 'East'
+            x, y, side = 1, .25, 'East'
         elif position_number == 2:
             x, y, side = 0, .75, 'West'
         elif position_number == 3:
-            x, y, side = .75, 'East'
+            x, y, side = 1, .75, 'East'
         elif position_number == 4:
             x, y, side = .5, .25, 'center'
         elif position_number == 5:

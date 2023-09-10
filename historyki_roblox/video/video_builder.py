@@ -12,17 +12,16 @@ from historyki_roblox.voice_generator import VoiceGenerator
 
 class VideoBuilder:
 
-    def __init__(self):
+    def __init__(self, story_source_path: str, actors: Dict[str, Actor]):
         self.gpt_story_parser = GptStoryParser()
-
-        self.clip = mvp.ColorClip(size=(1920, 1080))
-        self.story = None
-
         self.actor_factory = ActorFactory()
         self.resource_manager = ResourceManager()
         self.voice_generator = VoiceGenerator()
 
-        self.actors = []
+        self.clip = mvp.ColorClip(size=(1920, 1080), color=(0, 0, 0))
+        self.story = self.load_story(story_source_path)
+        self.actors = actors or self.create_actors()
+
         self.images = []
         self.text = []
         self.audio = []
@@ -34,57 +33,26 @@ class VideoBuilder:
         self.font = 'data/fonts/Roboto-Black.ttf'
 
 
-    def _load_clip(self, clip_source_path: str) -> mvp.VideoFileClip:
-        return mvp.VideoFileClip(clip_source_path)
-
-    def _load_story(self, story_source_path: str) -> Story:
+    def load_story(self, story_source_path: str) -> Story:
         story_text = "".join(open(story_source_path).readlines())
         return self.gpt_story_parser.parse_raw_story(story_text)
 
-    def _create_actors(self) -> Dict[str, Actor]:
+    def create_actors(self) -> Dict[str, Actor]:
         return {name: self.actor_factory.create_actor(name, index) for index, name in enumerate(self.story.actors)}
 
-    def add_story(self, story_source_path: str, actors: List[Actor] = None):
-        ...
-
     def add_background_video(self, clip_source_path: str):
-        self.clip = mvp.VideoClip(clip_source_path)
+        self.clip = mvp.VideoFileClip(clip_source_path)
 
     def get_looped_clip(self):
+        if isinstance(self.clip, mvp.ColorClip):
+            self.clip = self.clip.set_duration(self.time)
+            return self.clip
         return mvp.concatenate_videoclips([self.clip for _ in range(int(self.time / self.clip.duration) + 1)])
 
     def add_silent_pause(self):
         silence = mvp.AudioClip(make_frame=lambda t: [0], duration=self.pause_duration)
         self.audio.append(silence)
         self.time += self.pause_duration
-
-    def add_text_with_voice_to_scene(self, text: str, voice: str, x: int, y: int, text_width: int, side: str='center', font_size: int=45, color: str='white'):
-        self.add_silent_pause()
-        audio_source_path = self.voice_generator.synthesize(text, voice)
-        audio_clip = mvp.AudioFileClip(audio_source_path)
-        text_clip = mvp.TextClip(
-            text, 
-            fontsize=font_size, 
-            color=color, 
-            stroke_color='black', 
-            stroke_width=2, 
-            font=self.font, 
-            method='caption', 
-            align=side, 
-            size=(text_width, None)
-        )
-        text_width, text_height = text_clip.size
-        text_y = y - text_height * .5
-        text_x = x - text_width * .5
-        if side == 'West':
-            text_x = x
-        elif side == 'East':
-            text_x = x - text_width
-        text_clip = text_clip.set_position((text_x, text_y)).set_start(self.time).set_duration(audio_clip.duration)
-
-        self.audio.append(audio_clip)
-        self.text.append(text_clip)
-        self.time += audio_clip.duration
 
     def handle_event(self, event: Event):
         actor = self.actors[event.actor]
@@ -110,15 +78,21 @@ class VideoBuilder:
         self.add_silent_pause()
 
     def lector(self, text: str):
+        audio_source_path = self.voice_generator.synthesize(text, self.lector_voice)
+        audio_clip = mvp.AudioFileClip(audio_source_path)
+        self.audio.append(audio_clip)
+        self.time += audio_clip.duration
+        self.add_silent_pause()
+
         w, h = self.clip.size
         x = w * .5
         y = h * .5
         text_width = w * .75
-        self.add_text_with_voice_to_scene(text, self.lector_voice, x, y, text_width, font_size=60)
+        self.add_text_to_scene(text, self.time, audio_clip.duration, x, y, side='center', font_size=60, max_width=text_width)
 
     def get_object_position(self, x: int, y: int, width: int, height: int, side: str) -> Tuple[int, int]:
-        pos_x = x * self.clip.size[0]
-        pos_y = y * self.clip.size[1] - height * .5
+        pos_x = x
+        pos_y = y - height * .5
         if side == 'East':
             pos_x -= width
         elif side == 'center':
@@ -135,7 +109,7 @@ class VideoBuilder:
             image_clip = image_clip.resize((new_image_width, max_height))
 
         image_width, image_height = image_clip.size
-        image_x, image_y = self.get_real_position(x, y, image_width, image_height, side)
+        image_x, image_y = self.get_object_position(x, y, image_width, image_height, side)
         image_clip = image_clip.set_position((image_x, image_y)).set_start(start).set_duration(duration)
         self.images.append(image_clip)
         return image_x, image_y, image_width, image_height
@@ -152,11 +126,11 @@ class VideoBuilder:
             align=side,
             size=(max_width, None)
         )
-        text_x, text_y = self.get_real_position(x, y, text_clip.size[0], text_clip.size[1], side)
+        text_x, text_y = self.get_object_position(x, y, text_clip.size[0], text_clip.size[1], side)
         text_clip = text_clip.set_position((text_x, text_y)).set_start(start).set_duration(duration)
         self.text.append(text_clip)
 
-    def montage(self):
+    def add_story_elements_to_video(self):
         self.lector('No hejka brzdące, co tam u was słychać?\n Piszcie w komentarzach.\n Zmasakrujcie przycisk subskrypcji!!!')
         
         for actor in self.actors.values():
@@ -182,7 +156,10 @@ class VideoBuilder:
             actor.leave_room(self.time)
             for i in actor.intervals:
                 max_image_height = self.clip.size[1] * .4
-                x, y, w, h = self.add_image_to_scene(i.image_path, i.start, i.duration, actor.position.x, actor.position.y, actor.position.side, max_image_height)
+                image_x = actor.position.x * self.clip.size[0]
+                image_y = actor.position.y * self.clip.size[1]
+
+                x, y, w, h = self.add_image_to_scene(i.image_path, i.start, i.duration, image_x, image_y, actor.position.side, max_image_height)
                 name_x, name_y = x + w * .5, y
                 self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, 'center', 60, actor.color)
 
@@ -201,12 +178,12 @@ class VideoBuilder:
     def save(self) -> str:
         looped_clip = self.get_looped_clip()
         video = mvp.CompositeVideoClip([looped_clip] + self.images + self.text).set_duration(self.time)
-        video = video.set_duration(self.time)
-        # video = video.set_duration(20)
+        # video = video.set_duration(self.time)
+        video = video.set_duration(20)
  
         concated_audio = mvp.concatenate_audioclips(self.audio)
         video = video.set_audio(concated_audio)
 
         video_path = self.resource_manager.get_video_save_path()
-        video.write_videofile(video_path)
+        video.write_videofile(video_path, fps=30)
         return video_path
