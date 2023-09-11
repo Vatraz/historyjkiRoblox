@@ -53,13 +53,13 @@ class ResourceManager:
         return data
 
     def get_thumbnail_background(self):
-        return Image.open(random.choice(self.get_list_of_backgrounds()))
+        return Image.open(f'{self.root_path}/data/thumbnail/background/{random.choice(self.get_list_of_backgrounds())}')
 
     # possible categories: WOW, LAUGH, SAD etc...
     def get_thumbnail_emoji(self, category: EmojiCategory):
         chosen_category = category.value
         chosen_emoji = random.choice([char for char in self.get_list_of_emoji() if chosen_category in char])
-        return Image.open(chosen_emoji)
+        return Image.open(f'{self.root_path}/data/thumbnail/emoji/{chosen_emoji}')
 
     # OTHER
 
@@ -98,5 +98,11 @@ class ResourceManager:
             os.mkdir(f'{self.root_path}/output/video')
         video_name = self.get_random_string() + '.mp4'
         return f'{self.root_path}/output/video/{video_name}'
+
+    def get_discord_join_path(self) -> str:
+        return f'{self.root_path}/data/sounds/discord_join.mp3'
+
+    def get_discord_leave_path(self) -> str:
+        return f'{self.root_path}/data/sounds/discord_leave.mp3'
 
 # print(random.choice(ResourceManager().get_list_of_backgrounds()))

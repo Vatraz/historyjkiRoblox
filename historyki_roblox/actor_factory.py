@@ -95,8 +95,8 @@ class ActorFactory:
         self.colors.pop(n)
         return color
 
-    def create_actor(self, name: str, position_number: int, gender: Optional[str] = None, image: Optional[str] = None) -> Actor:
-        character = self.character_factory.create_random_character(name, gender, image)
+    def create_actor(self, name: str, position_number: int, gender: Optional[str] = None, image: Optional[str] = None, roblox_image: Optional[str] = None) -> Actor:
+        character = self.character_factory.create_random_character(name, gender, image, roblox_image)
         position = self.get_position(position_number)
         text_color = self.get_color()
         return Actor(character, position, text_color)

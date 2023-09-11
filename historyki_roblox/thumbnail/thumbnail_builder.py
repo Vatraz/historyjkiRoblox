@@ -7,7 +7,7 @@ import numpy as np
 from PIL import ImageFont, Image, ImageFilter, ImageDraw
 
 from historyki_roblox.character_factory import Character
-from historyki_roblox.resource_manager import ResourceManager
+from historyki_roblox.resource_manager import EmojiCategory, ResourceManager
 
 THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
 ROBLOX_IMG_DIR_PATH = "./data/characters"
@@ -57,7 +57,7 @@ class ThumbnailBuilder:
         step_y = int(ROBLOX_SHAPE[0] * 0.2)
         step_x = int(ROBLOX_SHAPE[1] * 0.6)
         for idx, character in enumerate(characters):
-            char_img = Image.open(f"{ROBLOX_IMG_DIR_PATH}/{character.roblox_character}")
+            char_img = Image.open(character.skin_image_path)
             char_img = char_img.resize(ROBLOX_SHAPE)
             px, py = idx * step_x, ROBLOX_SHAPE[1] // 2 - idx * step_y
             img_pil.paste(char_img, (px, py), char_img.convert("RGBA"))

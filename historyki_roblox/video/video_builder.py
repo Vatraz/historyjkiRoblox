@@ -3,7 +3,8 @@ import moviepy.editor as mvp
 from typing import Dict, List, Optional, Tuple, Union
 
 from historyki_roblox.actor_factory import Actor, ActorFactory
-from historyki_roblox.voice_generator import VoiceGenerator
+from historyki_roblox.resource_manager import ResourceManager
+from historyki_roblox.story.actions import Action
 from historyki_roblox.story.story import Dialogue, Event, Didascalia, Story
 from historyki_roblox.story.story_parser import GptStoryParser
 from historyki_roblox.voice_generator import VoiceGenerator
@@ -24,7 +25,7 @@ class VideoBuilder:
         self.images = []
         self.text = []
         self.audio = []
-        self.pause_duration = 1
+        self.pause_duration = .95
         self.time = 0
         self.subscription_reminder = False
 
@@ -56,9 +57,9 @@ class VideoBuilder:
     def handle_event(self, event: Event):
         actor = self.actors[event.actor]
         if event.action == Action.JOIN_ROOM.value:
-            actor.join_room(self.time)
+            self.actor_join(actor, is_sound=True)
         elif event.action == Action.LEAVE_ROOM.value:
-            actor.leave_room(self.time)
+            self.actor_leave(actor, is_sound=True)
         elif event.action == Action.TURN_ON_CAMERA.value:
             actor.turn_on_camera(self.time)
         elif event.action == Action.TURN_OFF_CAMERA.value:
@@ -80,14 +81,14 @@ class VideoBuilder:
         audio_source_path = self.voice_generator.synthesize(text, self.lector_voice)
         audio_clip = mvp.AudioFileClip(audio_source_path)
         self.audio.append(audio_clip)
-        self.time += audio_clip.duration
-        self.add_silent_pause()
 
         w, h = self.clip.size
         x = w * .5
         y = h * .5
-        text_width = w * .75
+        text_width = w * .8
         self.add_text_to_scene(text, self.time, audio_clip.duration, x, y, side='center', font_size=60, max_width=text_width)
+        self.time += audio_clip.duration
+        self.add_silent_pause()
 
     def get_object_position(self, x: int, y: int, width: int, height: int, side: str) -> Tuple[int, int]:
         pos_x = x
@@ -129,18 +130,35 @@ class VideoBuilder:
         text_clip = text_clip.set_position((text_x, text_y)).set_start(start).set_duration(duration)
         self.text.append(text_clip)
 
+    def add_sound(self, sound_file_path: str):
+        audio_clip = mvp.AudioFileClip(sound_file_path)
+        self.audio.append(audio_clip)
+        self.time += audio_clip.duration
+
+    def actor_join(self, actor: Actor, is_sound: bool = False):
+        actor.join_room(self.time)
+        if is_sound is True:
+            self.add_sound(self.resource_manager.get_discord_join_path())
+
+    def actor_leave(self, actor: Actor, is_sound: bool = True):
+        actor.leave_room(self.time)
+        if is_sound is True:
+            self.add_sound(self.resource_manager.get_discord_join_path())
+
     def add_story_elements_to_video(self):
-        self.lector('No hejka brzdące, co tam u was słychać?\n Piszcie w komentarzach.\n Zmasakrujcie przycisk subskrypcji!!!')
-        
+        # self.lector('No hejka brzdące, milego ogladania')
+        # self.lector('Jeżeli posiadacie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie je w komentarzu.')
+        # self.lector('Jeśli wam się podobało nie zapomnijcie zostawcić lajka oraz subskrypcji na kanale.')
+
         for actor in self.actors.values():
-            actor.join_room(self.time)
+            self.actor_join(actor, is_sound=False)
 
         for scenario_element in self.story.scenario:
 
-            if self.subscription_reminder is False and self.time > 60:
-                self.lector('Dawaj subka, teraz.')
-                self.lector('Widze że nie dałeś.')
-                self.subscription_reminder = True
+            # if self.subscription_reminder is False and self.time > 60:
+            #     self.lector('Dawaj subka, teraz.')
+            #     self.lector('Widze że nie dałeś.')
+            #     self.subscription_reminder = True
                 
             if type(scenario_element) == Dialogue:
                 self.handle_dialogue(scenario_element)
@@ -149,10 +167,11 @@ class VideoBuilder:
             elif type(scenario_element) == Didascalia:
                 ...
 
-        self.lector('Hejka założyłam konto na instagramie i możecie wpaść tutaj i napisać w razie jakiś pytań.')
+        self.lector('Jeżeli posiadacie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie o tym komentarzu.')
+        self.lector('Jeżeli wam się podobało nie zapomnijcie zostawić lajka pod filmikiem oraz subskrypcji na kanale.')
 
         for name, actor in self.actors.items():
-            actor.leave_room(self.time)
+            self.actor_leave(actor, is_sound=False)
             for i in actor.intervals:
                 max_image_height = self.clip.size[1] * .4
                 image_x = actor.position.x * self.clip.size[0]
@@ -177,8 +196,8 @@ class VideoBuilder:
     def save(self) -> str:
         looped_clip = self.get_looped_clip()
         video = mvp.CompositeVideoClip([looped_clip] + self.images + self.text).set_duration(self.time)
-        # video = video.set_duration(self.time)
-        video = video.set_duration(20)
+        video = video.set_duration(self.time)
+        # video = video.set_duration(20)
  
         concated_audio = mvp.concatenate_audioclips(self.audio)
         video = video.set_audio(concated_audio)
