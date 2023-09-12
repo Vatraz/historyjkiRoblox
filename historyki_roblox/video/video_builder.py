@@ -2,7 +2,7 @@ import moviepy.editor as mvp
 
 from typing import Dict, Tuple, Union
 
-from historyki_roblox.actor_factory import ActorVideoIntervalSet, ActorVideoIntervalSetFactory
+from historyki_roblox.video.actor_factory import ActorVideoIntervalSet, ActorVideoIntervalSetFactory
 from historyki_roblox.resource_manager import ResourceManager
 from historyki_roblox.story.actions import Action
 from historyki_roblox.story.story import Dialogue, Event, Didascalia, Story

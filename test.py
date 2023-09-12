@@ -1,4 +1,4 @@
-from historyki_roblox.actor_factory import ActorVideoIntervalSetFactory
+from historyki_roblox.video.actor_factory import ActorVideoIntervalSetFactory
 from historyki_roblox.video.video_builder import VideoBuilder
 
 actor_factory = ActorVideoIntervalSetFactory()
