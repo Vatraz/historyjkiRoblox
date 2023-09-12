@@ -8,7 +8,6 @@ from PIL import ImageFont, Image, ImageFilter, ImageDraw, ImageOps
 
 from historyki_roblox.character_factory import Character
 from historyki_roblox.image_utils import cv2_to_PIL, PIL_to_cv2
-from historyki_roblox.resource_manager import ResourceManager
 
 THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
 ROBLOX_IMG_DIR_PATH = "./data/characters"
@@ -24,7 +23,6 @@ class ThumbnailBuilder:
         self._thumbnail_data = self._load_thumbnail_data()
 
         self._thumbnail_img = self._create_thumbnail_base()
-        self.resource_manager = ResourceManager()
 
     def _load_thumbnail_data(self):
         with open(f"{THUMBNAIL_DATA_DIR_PATH}/thumbnail_data.json") as fp:
