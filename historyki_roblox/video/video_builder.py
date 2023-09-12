@@ -1,6 +1,7 @@
 import moviepy.editor as mvp
 
 from typing import Dict, Tuple, Union
+from tqdm import tqdm
 
 from historyki_roblox.video.actor_factory import ActorVideoIntervalSet, ActorVideoIntervalSetFactory
 from historyki_roblox.resource_manager import ResourceManager
@@ -150,7 +151,7 @@ class VideoBuilder:
         for actor in self.actors.values():
             self.actor_join(actor, is_sound=False)
 
-        for scenario_element in self.story.scenario:
+        for scenario_element in tqdm(self.story.scenario, desc="Parsing scenario elements"):
             if type(scenario_element) == Dialogue:
                 self.handle_dialogue(scenario_element)
             elif type(scenario_element) == Event:
@@ -161,28 +162,31 @@ class VideoBuilder:
         self.lector('Jeżeli macie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie o tym w komentarzu.')
         self.lector('Jeżeli wam się podobało nie zapomnijcie zostawić lajka pod filmikiem oraz subskrypcji na kanale.')
 
-        for name, actor in self.actors.items():
-            self.actor_leave(actor, is_sound=False)
-            for i in actor.video_intervals:
-                max_image_height = self.clip.size[1] * .4
-                image_x = actor.position.x * self.clip.size[0]
-                image_y = actor.position.y * self.clip.size[1]
+        with tqdm(total=sum([len(a.video_intervals) for a in self.actors.values()]), desc="Parsing intervals") as progress_bar:
+            for name, actor in self.actors.items():
+                self.actor_leave(actor, is_sound=False)
+                for i in actor.video_intervals:
+                    max_image_height = self.clip.size[1] * .4
+                    image_x = actor.position.x * self.clip.size[0]
+                    image_y = actor.position.y * self.clip.size[1]
 
-                x, y, w, h = self.add_image_to_scene(i.image_path, i.start, i.duration, image_x, image_y, actor.position.side, max_image_height)
-                name_x, name_y = x + w * .5, y
-                self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, VideoSide.CENTER, 60, actor.color)
+                    x, y, w, h = self.add_image_to_scene(i.image_path, i.start, i.duration, image_x, image_y, actor.position.side, max_image_height)
+                    name_x, name_y = x + w * .5, y
+                    self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, VideoSide.CENTER, 60, actor.color)
 
-                text_x, text_y = 0, y + h * .5
-                if actor.position.side == VideoSide.EAST:
-                    text_x = x
-                elif actor.position.side == VideoSide.CENTER:
-                    text_x = x + w * .5
-                elif actor.position.side == VideoSide.WEST:
-                    text_x = x + w
+                    text_x, text_y = 0, y + h * .5
+                    if actor.position.side == VideoSide.EAST:
+                        text_x = x
+                    elif actor.position.side == VideoSide.CENTER:
+                        text_x = x + w * .5
+                    elif actor.position.side == VideoSide.WEST:
+                        text_x = x + w
 
-                text_width = self.clip.size[0] * .5
-                for start, content, audio_clip in i.dialogues:
-                    self.add_text_to_scene(content, start, audio_clip.duration, text_x, text_y, actor.position.side, color=actor.color, max_width=text_width)
+                    text_width = self.clip.size[0] * .5
+                    for start, content, audio_clip in i.dialogues:
+                        self.add_text_to_scene(content, start, audio_clip.duration, text_x, text_y, actor.position.side, color=actor.color, max_width=text_width)
+
+                    progress_bar.update(1)
 
     def save(self) -> str:
         looped_clip = self.get_looped_clip()
