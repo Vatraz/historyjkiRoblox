@@ -7,6 +7,7 @@ from historyki_roblox.resource_manager import ResourceManager
 from historyki_roblox.story.actions import Action
 from historyki_roblox.story.story import Dialogue, Event, Didascalia, Story
 from historyki_roblox.story.story_parser import GptStoryParser
+from historyki_roblox.video.video_position import VideoSide
 from historyki_roblox.voice_generator import VoiceGenerator
 
 
@@ -86,22 +87,22 @@ class VideoBuilder:
         x = w * .5
         y = h * .5
         text_width = w * .8
-        self.add_text_to_scene(text, self.time, audio_clip.duration, x, y, side='center', font_size=60, max_width=text_width)
+        self.add_text_to_scene(text, self.time, audio_clip.duration, x, y, side=VideoSide.CENTER, font_size=60, max_width=text_width)
         self.time += audio_clip.duration
         self.add_silent_pause()
 
-    def get_object_position(self, x: int, y: int, width: int, height: int, side: str) -> Tuple[int, int]:
+    def get_object_position(self, x: int, y: int, width: int, height: int, side: VideoSide) -> Tuple[int, int]:
         pos_x = x
         pos_y = y - height * .5
-        if side == 'East':
+        if side == VideoSide.EAST:
             pos_x -= width
-        elif side == 'center':
+        elif side == VideoSide.CENTER:
             pos_x -= width * .5
-        elif side == 'West':
+        elif side == VideoSide.WEST:
             pass
         return pos_x, pos_y
 
-    def add_image_to_scene(self, image_path: str, start: int, duration: int, x: int, y: int, side: str, max_height: Union[int, None]):
+    def add_image_to_scene(self, image_path: str, start: int, duration: int, x: int, y: int, side: VideoSide, max_height: Union[int, None]):
         image_clip = mvp.ImageClip(image_path)
         if max_height is not None:
             image_width, image_height = image_clip.size
@@ -114,7 +115,7 @@ class VideoBuilder:
         self.images.append(image_clip)
         return image_x, image_y, image_width, image_height
 
-    def add_text_to_scene(self, text: str, start: int, duration: int, x: int, y: int, side: str, font_size: int = 45, color: str = 'white', max_width: Union[int, None] = None):
+    def add_text_to_scene(self, text: str, start: int, duration: int, x: int, y: int, side: VideoSide, font_size: int = 45, color: str = 'white', max_width: Union[int, None] = None):
         text_clip = mvp.TextClip(
             text,
             fontsize=font_size,
@@ -123,7 +124,7 @@ class VideoBuilder:
             stroke_width=3,
             font=self.font,
             method='caption',
-            align=side,
+            align=side.value,
             size=(max_width, None)
         )
         text_x, text_y = self.get_object_position(x, y, text_clip.size[0], text_clip.size[1], side)
@@ -169,14 +170,14 @@ class VideoBuilder:
 
                 x, y, w, h = self.add_image_to_scene(i.image_path, i.start, i.duration, image_x, image_y, actor.position.side, max_image_height)
                 name_x, name_y = x + w * .5, y
-                self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, 'center', 60, actor.color)
+                self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, VideoSide.CENTER, 60, actor.color)
 
                 text_x, text_y = 0, y + h * .5
-                if actor.position.side == 'East':
+                if actor.position.side == VideoSide.EAST:
                     text_x = x
-                elif actor.position.side == 'center':
+                elif actor.position.side == VideoSide.CENTER:
                     text_x = x + w * .5
-                elif actor.position.side == 'West':
+                elif actor.position.side == VideoSide.WEST:
                     text_x = x + w
 
                 text_width = self.clip.size[0] * .5

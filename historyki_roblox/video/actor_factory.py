@@ -1,15 +1,10 @@
 import moviepy.editor as mvp
 import random
 
-from typing import NamedTuple, Optional
+from typing import Optional
 from historyki_roblox.character_factory import Character, CharacterFactory
 from historyki_roblox.resource_manager import ResourceManager
-
-
-class Position(NamedTuple):
-    x: float
-    y: float
-    side: str
+from historyki_roblox.video.video_position import Position, VideoSide
 
 
 class VideoInterval:
@@ -76,17 +71,17 @@ class ActorVideoIntervalSetFactory:
     def get_position(self, position_number: int) -> Position:
         x, y, side = 0, 0, None
         if position_number == 0:
-            x, y, side = 0, .25, 'West'
+            x, y, side = 0, .25, VideoSide.WEST
         elif position_number == 1:
-            x, y, side = 1, .25, 'East'
+            x, y, side = 1, .25, VideoSide.EAST
         elif position_number == 2:
-            x, y, side = 0, .75, 'West'
+            x, y, side = 0, .75, VideoSide.WEST
         elif position_number == 3:
-            x, y, side = 1, .75, 'East'
+            x, y, side = 1, .75, VideoSide.EAST
         elif position_number == 4:
-            x, y, side = .5, .25, 'center'
+            x, y, side = .5, .25, VideoSide.CENTER
         elif position_number == 5:
-            x, y, side = .5, .75, 'center'
+            x, y, side = .5, .75, VideoSide.CENTER
         return Position(x=x, y=y, side=side)
 
     def get_color(self) -> str:
