@@ -1,8 +1,9 @@
 import json
 import os
 import random
-from enum import Enum
+import string
 
+from enum import Enum
 from PIL import ImageFont, Image
 
 
@@ -52,13 +53,13 @@ class ResourceManager:
         return data
 
     def get_thumbnail_background(self):
-        return Image.open(random.choice(self.get_list_of_backgrounds()))
+        return Image.open(f'{self.root_path}/data/thumbnail/background/{random.choice(self.get_list_of_backgrounds())}')
 
     # possible categories: WOW, LAUGH, SAD etc...
     def get_thumbnail_emoji(self, category: EmojiCategory):
         chosen_category = category.value
         chosen_emoji = random.choice([char for char in self.get_list_of_emoji() if chosen_category in char])
-        return Image.open(chosen_emoji)
+        return Image.open(f'{self.root_path}/data/thumbnail/emoji/{chosen_emoji}')
 
     # OTHER
 
@@ -77,5 +78,31 @@ class ResourceManager:
             voices = json.load(f)
         return voices['voices']
 
+    def get_gtts_api_key(self) -> str:
+        return os.environ.get('GTTS_API_KEY')
+
+    def get_random_string(self, length: int = 10) -> str:
+        characters = string.ascii_letters + string.digits
+        return ''.join([random.choice(characters) for _ in range(length)])
+
+    def get_dialogue_path(self, dirname: str, text: str) -> str:
+        filepath = f'{self.root_path}/output/dialogues/{dirname}'
+        if os.path.exists(filepath) is False:
+            os.mkdir(filepath)
+        filename = text.lower().replace(' ', '_') + '.mp3'
+        filepath = filepath + '/' + filename
+        return filepath
+
+    def get_video_save_path(self) -> str:
+        if os.path.exists(f'{self.root_path}/output/video') is False:
+            os.mkdir(f'{self.root_path}/output/video')
+        video_name = self.get_random_string() + '.mp4'
+        return f'{self.root_path}/output/video/{video_name}'
+
+    def get_discord_join_path(self) -> str:
+        return f'{self.root_path}/data/sounds/discord_join.mp3'
+
+    def get_discord_leave_path(self) -> str:
+        return f'{self.root_path}/data/sounds/discord_leave.mp3'
 
 # print(random.choice(ResourceManager().get_list_of_backgrounds()))

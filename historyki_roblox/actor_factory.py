@@ -1,4 +1,5 @@
 import moviepy.editor as mvp
+import random
 
 from typing import NamedTuple, Optional, Tuple, Union
 
@@ -6,8 +7,8 @@ from historyki_roblox.character_factory import Character, CharacterFactory
 
 
 class Position(NamedTuple):
-    x: int
-    y: int
+    x: float
+    y: float
     side: str
 
 
@@ -28,9 +29,10 @@ class Interval:
 
 class Actor:
 
-    def __init__(self, character: Character, position: Position):
+    def __init__(self, character: Character, position: Position, text_color: str):
         self.character = character
         self.position = position
+        self.color = text_color
         self.is_online = False
         self.is_camera_on = False
         self.intervals = []
@@ -67,28 +69,34 @@ class Actor:
 
 
 class ActorFactory:
-    def __init__(self, clip_width, clip_height):
-        self.clip_width = clip_width
-        self.clip_height = clip_height
+    def __init__(self):
         self.character_factory = CharacterFactory()
+        self.colors = ['yellow', 'violet', 'SkyBlue', 'HotPink', 'cyan', 'azure']
 
     def get_position(self, position_number: int) -> Position:
         x, y, side = 0, 0, None
         if position_number == 0:
-            x, y, side = 0, self.clip_height * .25, 'West'
+            x, y, side = 0, .25, 'West'
         elif position_number == 1:
-            x, y, side = self.clip_width, self.clip_height * .25, 'East'
+            x, y, side = 1, .25, 'East'
         elif position_number == 2:
-            x, y, side = 0, self.clip_height * .75, 'West'
+            x, y, side = 0, .75, 'West'
         elif position_number == 3:
-            x, y, side = self.clip_width, self.clip_height * .75, 'East'
+            x, y, side = 1, .75, 'East'
         elif position_number == 4:
-            x, y, side = self.clip_width * .5, self.clip_height * .25, 'center'
+            x, y, side = .5, .25, 'center'
         elif position_number == 5:
-            x, y, side = self.clip_width * .5, self.clip_height * .75, 'center'
+            x, y, side = .5, .75, 'center'
         return Position(x=x, y=y, side=side)
 
-    def create_actor(self, name: str, position_number: int, gender: Optional[str] = None, image: Optional[str] = None) -> Actor:
-        character = self.character_factory.create_random_character(name, gender, image)
+    def get_color(self) -> str:
+        n = random.randint(0, len(self.colors) - 1)
+        color = self.colors[n]
+        self.colors.pop(n)
+        return color
+
+    def create_actor(self, name: str, position_number: int, gender: Optional[str] = None, image: Optional[str] = None, roblox_image: Optional[str] = None) -> Actor:
+        character = self.character_factory.create_random_character(name, gender, image, roblox_image)
         position = self.get_position(position_number)
-        return Actor(character, position)
+        text_color = self.get_color()
+        return Actor(character, position, text_color)

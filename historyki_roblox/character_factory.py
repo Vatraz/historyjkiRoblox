@@ -33,7 +33,7 @@ class CharacterFactory:
     def choose_voice(self, gender: str) -> str:
         return random.choice(tuple(filter(lambda x: x['ssmlGender'] == gender, self.voices_data)))['name']
 
-    def create_random_character(self, name: str, gender: Optional[str] = None, image: Optional[str] = None) -> Character:
+    def create_random_character(self, name: str, gender: Optional[str] = None, image: Optional[str] = None, roblox_image: Optional[str] = None) -> Character:
         if gender is None:
             gender = 'FEMALE' if name[-1] == 'a' else 'MALE'
         
@@ -41,5 +41,8 @@ class CharacterFactory:
             image = self.oskarek_generator.get_oskarek_from_openai(gender)
 
         voice = self.choose_voice(gender)
-        roblox_image_path = self.resource_manager.get_roblox_character(gender)
-        return Character(name=name, gender=gender, voice=voice, skin_image_path=roblox_image_path, face_image_path=image)
+
+        if roblox_image is None:
+            roblox_image = self.resource_manager.get_roblox_character(gender)
+
+        return Character(name=name, gender=gender, voice=voice, skin_image_path=roblox_image, face_image_path=image)
