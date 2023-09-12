@@ -33,9 +33,9 @@ class OskarekGenerator:
         response = requests.get(image_url)
         image_data = BytesIO(response.content)
         image = Image.open(image_data)
-        image_path = f'{ROOT_PATH}/output/oskareks/{str(uuid.uuid4())}.{image.format}'
-        image.save(image_path)
-        return image_path
+        image_name = f'{str(uuid.uuid4())}.{image.format}'
+        self.resource_manager.save_oskarek_image(image, image_name)
+        return image_name
 
     def get_oskarek_from_bing(self, gender: str) -> str:
         search = 'instaboy' if gender == 'MALE' else 'instagirl'

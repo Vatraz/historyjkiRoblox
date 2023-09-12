@@ -1,6 +1,6 @@
 import moviepy.editor as mvp
 
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, Tuple, Union
 
 from historyki_roblox.actor_factory import Actor, ActorFactory
 from historyki_roblox.resource_manager import ResourceManager
@@ -37,8 +37,8 @@ class VideoBuilder:
         story_text = "".join(open(story_source_path).readlines())
         return self.gpt_story_parser.parse_raw_story(story_text)
 
-    def create_actors(self) -> Dict[str, Actor]:
-        return {name: self.actor_factory.create_actor(name, index) for index, name in enumerate(self.story.actors)}
+    def create_actors(self) -> Dict[str, ActorVideoIntervalSet]:
+        return {name: self.actor_factory.create_actor_interval_set(name, index) for index, name in enumerate(self.story.actors)}
 
     def add_background_video(self, clip_source_path: str):
         self.clip = mvp.VideoFileClip(clip_source_path)
@@ -146,20 +146,10 @@ class VideoBuilder:
             self.add_sound(self.resource_manager.get_discord_join_path())
 
     def add_story_elements_to_video(self):
-        # self.lector('No hejka brzdące, milego ogladania')
-        # self.lector('Jeżeli posiadacie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie je w komentarzu.')
-        # self.lector('Jeśli wam się podobało nie zapomnijcie zostawcić lajka oraz subskrypcji na kanale.')
-
         for actor in self.actors.values():
             self.actor_join(actor, is_sound=False)
 
         for scenario_element in self.story.scenario:
-
-            # if self.subscription_reminder is False and self.time > 60:
-            #     self.lector('Dawaj subka, teraz.')
-            #     self.lector('Widze że nie dałeś.')
-            #     self.subscription_reminder = True
-                
             if type(scenario_element) == Dialogue:
                 self.handle_dialogue(scenario_element)
             elif type(scenario_element) == Event:

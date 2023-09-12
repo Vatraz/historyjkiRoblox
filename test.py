@@ -4,10 +4,10 @@ from historyki_roblox.video.video_builder import VideoBuilder
 actor_factory = ActorFactory()
 
 characters = [
-    ('Bartosz', 'MALE','data/images/alien.png'),
-    ('Robert', 'MALE','data/images/robbcio.png'),
-    ('Krystyna', 'FEMALE','data/images/mc.png'),
-    ('Friz', 'MALE','data/images/pawel.png'),
+    ('Bartosz', 'MALE','alien.png'),
+    ('Robert', 'MALE','robbcio.png'),
+    ('Krystyna', 'FEMALE','mc.png'),
+    ('Friz', 'MALE','pawel.png'),
 ]
 
 n, actors = 0, {}
