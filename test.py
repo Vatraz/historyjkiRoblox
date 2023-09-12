@@ -1,7 +1,7 @@
-from historyki_roblox.actor_factory import ActorFactory
+from historyki_roblox.actor_factory import ActorVideoIntervalSetFactory
 from historyki_roblox.video.video_builder import VideoBuilder
 
-actor_factory = ActorFactory()
+actor_factory = ActorVideoIntervalSetFactory()
 
 characters = [
     ('Bartosz', 'MALE','alien.png'),
@@ -12,7 +12,7 @@ characters = [
 
 n, actors = 0, {}
 for name, gender, image in characters:
-    actor = actor_factory.create_actor(name, n, gender, image)
+    actor = actor_factory.create_actor_interval_set(name, n, gender, image)
     actors[name] = actor
     n += 1
 

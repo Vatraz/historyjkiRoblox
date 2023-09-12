@@ -1,9 +1,9 @@
 import moviepy.editor as mvp
 import random
 
-from typing import NamedTuple, Optional, Tuple, Union
-
+from typing import NamedTuple, Optional
 from historyki_roblox.character_factory import Character, CharacterFactory
+from historyki_roblox.resource_manager import ResourceManager
 
 
 class Position(NamedTuple):
@@ -12,7 +12,7 @@ class Position(NamedTuple):
     side: str
 
 
-class Interval:
+class VideoInterval:
 
     def __init__(self, start: int, image_path: str):
         self.start = start
@@ -27,26 +27,26 @@ class Interval:
             self.end = time
 
 
-class Actor:
-
+class ActorVideoIntervalSet:
     def __init__(self, character: Character, position: Position, text_color: str):
         self.character = character
         self.position = position
         self.color = text_color
         self.is_online = False
         self.is_camera_on = False
-        self.intervals = []
+        self.video_intervals = []
+        self._resource_manager = ResourceManager()
 
     def add_dialogue(self, start, text, audio: mvp.AudioFileClip):
-        self.intervals[-1].dialogues.append((start, text, audio))
+        self.video_intervals[-1].dialogues.append((start, text, audio))
 
     def end_current_interval(self, time: int):
-        if len(self.intervals) != 0: 
-            self.intervals[-1].set_end(time)
+        if len(self.video_intervals) != 0:
+            self.video_intervals[-1].set_end(time)
 
     def join_room(self, time: int):
         self.is_online = True
-        self.intervals.append(Interval(time, self.character.skin_image_path))
+        self.video_intervals.append(VideoInterval(time, self._resource_manager.get_roblox_character_path(self.character.skin_image)))
     
     def leave_room(self, time: int):
         self.is_online = False
@@ -55,20 +55,20 @@ class Actor:
     def turn_on_camera(self, time: int):
         self.is_camera_on = True
         self.end_current_interval(time)
-        self.intervals.append(Interval(time, self.character.face_image_path))
+        self.video_intervals.append(VideoInterval(time, self._resource_manager.get_oskarek_path(self.character.face_image)))
 
     def turn_off_camera(self, time: int):
         self.is_camera_on = False
         self.end_current_interval(time)
-        self.intervals.append(Interval(time, self.character.skin_image_path))
+        self.video_intervals.append(VideoInterval(time, self._resource_manager.get_roblox_character_path(self.character.skin_image)))
 
     def change_skin(self, time: int):
         self.end_current_interval(time)
         self.character.change_skin()
-        self.intervals.append(Interval(time, self.character.skin_image_path))
+        self.video_intervals.append(VideoInterval(time, self._resource_manager.get_roblox_character_path(self.character.skin_image)))
 
 
-class ActorFactory:
+class ActorVideoIntervalSetFactory:
     def __init__(self):
         self.character_factory = CharacterFactory()
         self.colors = ['yellow', 'violet', 'SkyBlue', 'HotPink', 'cyan', 'azure']
@@ -95,8 +95,8 @@ class ActorFactory:
         self.colors.pop(n)
         return color
 
-    def create_actor(self, name: str, position_number: int, gender: Optional[str] = None, image: Optional[str] = None, roblox_image: Optional[str] = None) -> Actor:
+    def create_actor_interval_set(self, name: str, position_number: int, gender: Optional[str] = None, image: Optional[str] = None, roblox_image: Optional[str] = None) -> ActorVideoIntervalSet:
         character = self.character_factory.create_random_character(name, gender, image, roblox_image)
         position = self.get_position(position_number)
         text_color = self.get_color()
-        return Actor(character, position, text_color)
+        return ActorVideoIntervalSet(character, position, text_color)

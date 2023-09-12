@@ -2,7 +2,7 @@ import moviepy.editor as mvp
 
 from typing import Dict, Tuple, Union
 
-from historyki_roblox.actor_factory import Actor, ActorFactory
+from historyki_roblox.actor_factory import ActorVideoIntervalSet, ActorVideoIntervalSetFactory
 from historyki_roblox.resource_manager import ResourceManager
 from historyki_roblox.story.actions import Action
 from historyki_roblox.story.story import Dialogue, Event, Didascalia, Story
@@ -12,9 +12,9 @@ from historyki_roblox.voice_generator import VoiceGenerator
 
 class VideoBuilder:
 
-    def __init__(self, story_source_path: str, actors: Dict[str, Actor]):
+    def __init__(self, story_source_path: str, actors: Dict[str, ActorVideoIntervalSet]):
         self.gpt_story_parser = GptStoryParser()
-        self.actor_factory = ActorFactory()
+        self.actor_factory = ActorVideoIntervalSetFactory()
         self.resource_manager = ResourceManager()
         self.voice_generator = VoiceGenerator()
 
@@ -135,12 +135,12 @@ class VideoBuilder:
         self.audio.append(audio_clip)
         self.time += audio_clip.duration
 
-    def actor_join(self, actor: Actor, is_sound: bool = False):
+    def actor_join(self, actor: ActorVideoIntervalSet, is_sound: bool = False):
         actor.join_room(self.time)
         if is_sound is True:
             self.add_sound(self.resource_manager.get_discord_join_path())
 
-    def actor_leave(self, actor: Actor, is_sound: bool = True):
+    def actor_leave(self, actor: ActorVideoIntervalSet, is_sound: bool = True):
         actor.leave_room(self.time)
         if is_sound is True:
             self.add_sound(self.resource_manager.get_discord_join_path())
@@ -157,12 +157,12 @@ class VideoBuilder:
             elif type(scenario_element) == Didascalia:
                 ...
 
-        self.lector('Jeżeli posiadacie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie o tym komentarzu.')
+        self.lector('Jeżeli macie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie o tym w komentarzu.')
         self.lector('Jeżeli wam się podobało nie zapomnijcie zostawić lajka pod filmikiem oraz subskrypcji na kanale.')
 
         for name, actor in self.actors.items():
             self.actor_leave(actor, is_sound=False)
-            for i in actor.intervals:
+            for i in actor.video_intervals:
                 max_image_height = self.clip.size[1] * .4
                 image_x = actor.position.x * self.clip.size[0]
                 image_y = actor.position.y * self.clip.size[1]
