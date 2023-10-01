@@ -21,12 +21,17 @@ class ResourceManager:
     def get_list_of_characters(self):
         return os.listdir(f'{self.root_path}/data/characters')
 
-    def get_roblox_character(self, requested_gender: str) -> str:
+    def get_random_roblox_character_name(self, requested_gender: str) -> str:
         chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
-        chosen = random.choice([char for char in self.get_list_of_characters() if chosen_gender in char])
-        return f'{self.root_path}/data/characters/{chosen}'
+        return random.choice([char for char in self.get_list_of_characters() if chosen_gender in char])
+
+    def get_roblox_character_path(self, character_name: str) -> str:
+        return f'{self.root_path}/data/characters/{character_name}'
 
     # OSKAREK
+
+    def get_list_of_predefined_oskareks(self):
+        return os.listdir(f'{self.root_path}/data/oskareks/images')
 
     def get_list_of_oskareks(self):
         return os.listdir(f'{self.root_path}/output/oskareks')
@@ -34,10 +39,16 @@ class ResourceManager:
     def save_oskarek_image(self, image: Image, image_name: str):
         return image.save(f'{self.root_path}/output/oskareks/{image_name}')
 
-    def get_oskarek_image(self, requested_gender: str) -> str:
+    def get_random_oskarek_image_name(self, requested_gender: str) -> str:
         chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
-        chosen = random.choice([char for char in self.get_list_of_oskareks() if chosen_gender == char[0]])
-        return f'{self.root_path}/output/oskareks/{chosen}'
+        return  random.choice([char for char in self.get_list_of_oskareks() if chosen_gender == char[0]])
+
+    def get_oskarek_path(self, oskarek_name: str) -> str:
+        if oskarek_name in self.get_list_of_predefined_oskareks():
+            return f'{self.root_path}/data/oskareks/images/{oskarek_name}'
+        else:
+            return f'{self.root_path}/output/oskareks/{oskarek_name}'
+
 
     # THUMBNAIL
 

@@ -1,20 +1,22 @@
 import moviepy.editor as mvp
 
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, Tuple, Union
+from tqdm import tqdm
 
-from historyki_roblox.actor_factory import Actor, ActorFactory
+from historyki_roblox.video.actor_factory import ActorVideoIntervalSet, ActorVideoIntervalSetFactory
 from historyki_roblox.resource_manager import ResourceManager
 from historyki_roblox.story.actions import Action
 from historyki_roblox.story.story import Dialogue, Event, Didascalia, Story
 from historyki_roblox.story.story_parser import GptStoryParser
+from historyki_roblox.video.video_position import VideoSide
 from historyki_roblox.voice_generator import VoiceGenerator
 
 
 class VideoBuilder:
 
-    def __init__(self, story_source_path: str, actors: Dict[str, Actor]):
+    def __init__(self, story_source_path: str, actors: Dict[str, ActorVideoIntervalSet]):
         self.gpt_story_parser = GptStoryParser()
-        self.actor_factory = ActorFactory()
+        self.actor_factory = ActorVideoIntervalSetFactory()
         self.resource_manager = ResourceManager()
         self.voice_generator = VoiceGenerator()
 
@@ -37,8 +39,8 @@ class VideoBuilder:
         story_text = "".join(open(story_source_path).readlines())
         return self.gpt_story_parser.parse_raw_story(story_text)
 
-    def create_actors(self) -> Dict[str, Actor]:
-        return {name: self.actor_factory.create_actor(name, index) for index, name in enumerate(self.story.actors)}
+    def create_actors(self) -> Dict[str, ActorVideoIntervalSet]:
+        return {name: self.actor_factory.create_actor_interval_set(name, index) for index, name in enumerate(self.story.actors)}
 
     def add_background_video(self, clip_source_path: str):
         self.clip = mvp.VideoFileClip(clip_source_path)
@@ -86,22 +88,22 @@ class VideoBuilder:
         x = w * .5
         y = h * .5
         text_width = w * .8
-        self.add_text_to_scene(text, self.time, audio_clip.duration, x, y, side='center', font_size=60, max_width=text_width)
+        self.add_text_to_scene(text, self.time, audio_clip.duration, x, y, side=VideoSide.CENTER, font_size=60, max_width=text_width)
         self.time += audio_clip.duration
         self.add_silent_pause()
 
-    def get_object_position(self, x: int, y: int, width: int, height: int, side: str) -> Tuple[int, int]:
+    def get_object_position(self, x: int, y: int, width: int, height: int, side: VideoSide) -> Tuple[int, int]:
         pos_x = x
         pos_y = y - height * .5
-        if side == 'East':
+        if side == VideoSide.EAST:
             pos_x -= width
-        elif side == 'center':
+        elif side == VideoSide.CENTER:
             pos_x -= width * .5
-        elif side == 'West':
+        elif side == VideoSide.WEST:
             pass
         return pos_x, pos_y
 
-    def add_image_to_scene(self, image_path: str, start: int, duration: int, x: int, y: int, side: str, max_height: Union[int, None]):
+    def add_image_to_scene(self, image_path: str, start: int, duration: int, x: int, y: int, side: VideoSide, max_height: Union[int, None]):
         image_clip = mvp.ImageClip(image_path)
         if max_height is not None:
             image_width, image_height = image_clip.size
@@ -114,7 +116,7 @@ class VideoBuilder:
         self.images.append(image_clip)
         return image_x, image_y, image_width, image_height
 
-    def add_text_to_scene(self, text: str, start: int, duration: int, x: int, y: int, side: str, font_size: int = 45, color: str = 'white', max_width: Union[int, None] = None):
+    def add_text_to_scene(self, text: str, start: int, duration: int, x: int, y: int, side: VideoSide, font_size: int = 45, color: str = 'white', max_width: Union[int, None] = None):
         text_clip = mvp.TextClip(
             text,
             fontsize=font_size,
@@ -123,7 +125,7 @@ class VideoBuilder:
             stroke_width=3,
             font=self.font,
             method='caption',
-            align=side,
+            align=side.value,
             size=(max_width, None)
         )
         text_x, text_y = self.get_object_position(x, y, text_clip.size[0], text_clip.size[1], side)
@@ -135,31 +137,21 @@ class VideoBuilder:
         self.audio.append(audio_clip)
         self.time += audio_clip.duration
 
-    def actor_join(self, actor: Actor, is_sound: bool = False):
+    def actor_join(self, actor: ActorVideoIntervalSet, is_sound: bool = False):
         actor.join_room(self.time)
         if is_sound is True:
             self.add_sound(self.resource_manager.get_discord_join_path())
 
-    def actor_leave(self, actor: Actor, is_sound: bool = True):
+    def actor_leave(self, actor: ActorVideoIntervalSet, is_sound: bool = True):
         actor.leave_room(self.time)
         if is_sound is True:
             self.add_sound(self.resource_manager.get_discord_join_path())
 
     def add_story_elements_to_video(self):
-        # self.lector('No hejka brzdące, milego ogladania')
-        # self.lector('Jeżeli posiadacie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie je w komentarzu.')
-        # self.lector('Jeśli wam się podobało nie zapomnijcie zostawcić lajka oraz subskrypcji na kanale.')
-
         for actor in self.actors.values():
             self.actor_join(actor, is_sound=False)
 
-        for scenario_element in self.story.scenario:
-
-            # if self.subscription_reminder is False and self.time > 60:
-            #     self.lector('Dawaj subka, teraz.')
-            #     self.lector('Widze że nie dałeś.')
-            #     self.subscription_reminder = True
-                
+        for scenario_element in tqdm(self.story.scenario, desc="Parsing scenario elements"):
             if type(scenario_element) == Dialogue:
                 self.handle_dialogue(scenario_element)
             elif type(scenario_element) == Event:
@@ -167,31 +159,34 @@ class VideoBuilder:
             elif type(scenario_element) == Didascalia:
                 ...
 
-        self.lector('Jeżeli posiadacie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie o tym komentarzu.')
+        self.lector('Jeżeli macie ciekawe pomysły na nowe historyjki lub chcecie aby wasze imię znalazło sie w historyjce napiszcie o tym w komentarzu.')
         self.lector('Jeżeli wam się podobało nie zapomnijcie zostawić lajka pod filmikiem oraz subskrypcji na kanale.')
 
-        for name, actor in self.actors.items():
-            self.actor_leave(actor, is_sound=False)
-            for i in actor.intervals:
-                max_image_height = self.clip.size[1] * .4
-                image_x = actor.position.x * self.clip.size[0]
-                image_y = actor.position.y * self.clip.size[1]
+        with tqdm(total=sum([len(a.video_intervals) for a in self.actors.values()]), desc="Parsing intervals") as progress_bar:
+            for name, actor in self.actors.items():
+                self.actor_leave(actor, is_sound=False)
+                for i in actor.video_intervals:
+                    max_image_height = self.clip.size[1] * .4
+                    image_x = actor.position.x * self.clip.size[0]
+                    image_y = actor.position.y * self.clip.size[1]
 
-                x, y, w, h = self.add_image_to_scene(i.image_path, i.start, i.duration, image_x, image_y, actor.position.side, max_image_height)
-                name_x, name_y = x + w * .5, y
-                self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, 'center', 60, actor.color)
+                    x, y, w, h = self.add_image_to_scene(i.image_path, i.start, i.duration, image_x, image_y, actor.position.side, max_image_height)
+                    name_x, name_y = x + w * .5, y
+                    self.add_text_to_scene(name, i.start, i.duration, name_x, name_y, VideoSide.CENTER, 60, actor.color)
 
-                text_x, text_y = 0, y + h * .5
-                if actor.position.side == 'East':
-                    text_x = x
-                elif actor.position.side == 'center':
-                    text_x = x + w * .5
-                elif actor.position.side == 'West':
-                    text_x = x + w
+                    text_x, text_y = 0, y + h * .5
+                    if actor.position.side == VideoSide.EAST:
+                        text_x = x
+                    elif actor.position.side == VideoSide.CENTER:
+                        text_x = x + w * .5
+                    elif actor.position.side == VideoSide.WEST:
+                        text_x = x + w
 
-                text_width = self.clip.size[0] * .5
-                for start, content, audio_clip in i.dialogues:
-                    self.add_text_to_scene(content, start, audio_clip.duration, text_x, text_y, actor.position.side, color=actor.color, max_width=text_width)
+                    text_width = self.clip.size[0] * .5
+                    for start, content, audio_clip in i.dialogues:
+                        self.add_text_to_scene(content, start, audio_clip.duration, text_x, text_y, actor.position.side, color=actor.color, max_width=text_width)
+
+                    progress_bar.update(1)
 
     def save(self) -> str:
         looped_clip = self.get_looped_clip()

@@ -12,16 +12,16 @@ ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 class Character:
 
-    def __init__(self, name: str, gender: str, voice: str, face_image_path: str, skin_image_path: str):
+    def __init__(self, name: str, gender: str, voice: str, face_image: str, skin_image: str):
         self.name = name
         self.gender = gender
         self.voice = voice
-        self.face_image_path = face_image_path
-        self.skin_image_path = skin_image_path
+        self.face_image = face_image
+        self.skin_image = skin_image
+
 
     def change_skin(self):
-        chosen = random.choice([char for char in os.listdir(f'{ROOT_PATH}/data/characters') if self.gender[0].lower() in char])
-        self.skin_image_path = f'{ROOT_PATH}/data/characters/{chosen}'
+        self.skin_image = ResourceManager().get_random_roblox_character_name(self.gender)
 
 
 class CharacterFactory:
@@ -43,6 +43,6 @@ class CharacterFactory:
         voice = self.choose_voice(gender)
 
         if roblox_image is None:
-            roblox_image = self.resource_manager.get_roblox_character(gender)
+            roblox_image = self.resource_manager.get_random_roblox_character_name(gender)
 
-        return Character(name=name, gender=gender, voice=voice, skin_image_path=roblox_image, face_image_path=image)
+        return Character(name=name, gender=gender, voice=voice, skin_image=roblox_image, face_image=image)
