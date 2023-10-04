@@ -23,7 +23,7 @@ class GptStoryParser:
         return story_lines
 
     def _is_line_dialogue(self, line: str) -> bool:
-        return ":" in line
+        return not line.startswith(":") and ":" in line
 
     def _is_line_event(self, line: str) -> bool:
         return '=>' in line
