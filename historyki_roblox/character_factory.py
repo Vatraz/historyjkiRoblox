@@ -38,7 +38,7 @@ class CharacterFactory:
             gender = 'FEMALE' if name[-1] == 'a' else 'MALE'
         
         if image is None:
-            image = self.oskarek_generator.get_oskarek_from_openai(gender)
+            image = self.resource_manager.get_random_predefined_oskarek_image_name(gender)
 
         voice = self.choose_voice(gender)
 
