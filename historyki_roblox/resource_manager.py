@@ -41,7 +41,11 @@ class ResourceManager:
 
     def get_random_oskarek_image_name(self, requested_gender: str) -> str:
         chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
-        return  random.choice([char for char in self.get_list_of_oskareks() if chosen_gender == char[0]])
+        return random.choice([char for char in self.get_list_of_oskareks() if chosen_gender == char[0]])
+
+    def get_random_predefined_oskarek_image_name(self, requested_gender: str) -> str:
+        chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
+        return random.choice([char for char in self.get_list_of_predefined_oskareks() if chosen_gender == char[0]])
 
     def get_oskarek_path(self, oskarek_name: str) -> str:
         if oskarek_name in self.get_list_of_predefined_oskareks():
