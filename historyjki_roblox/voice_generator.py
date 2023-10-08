@@ -3,13 +3,19 @@ import json
 import os
 import requests
 
-from typing import Optional
+from typing import NamedTuple, Optional
 
-from historyki_roblox.resource_manager import ResourceManager
+from historyjki_roblox.resource_manager import ResourceManager
 
 
 class VoiceGeneratorException(Exception):
     pass
+
+
+class Voice(NamedTuple):
+    name: str
+    pitch: float
+    speaking_rate: int
 
 
 class VoiceGenerator:
@@ -19,17 +25,17 @@ class VoiceGenerator:
         self.api_key = api_key or self.resource_manager.get_gtts_api_key()
         self.base_url = 'https://texttospeech.googleapis.com/v1'
 
-    def synthesize(self, text: str, voice: str, pitch: int = 0, speaking_rate: int = 0) -> str:
+    def synthesize(self, text: str, voice: Voice) -> str:
         # valid speaking_rate is between 0.25 and 4.0.
         # Out of range: valid pitch is between -20.0 and 20.0.
-        filepath = self.resource_manager.get_dialogue_path(f'{voice}-{pitch}-{speaking_rate}', text)
+        filepath = self.resource_manager.get_dialogue_path(f'{voice.name}-{voice.pitch}-{voice.speaking_rate}', text)
         if os.path.exists(filepath):
             return filepath
 
         body = {
-            'audioConfig': {'audioEncoding': 'MP3', 'pitch': pitch, 'speakingRate': speaking_rate},
+            'audioConfig': {'audioEncoding': 'MP3', 'pitch': voice.pitch, 'speakingRate': voice.speaking_rate},
             'input': {'text': text},
-            'voice': {'languageCode': 'pl-PL', 'name': voice}
+            'voice': {'languageCode': 'pl-PL', 'name': voice.name}
         }
         params = {'key': self.api_key}
         response = requests.post(f'{self.base_url}/text:synthesize', params=params, json=body)
