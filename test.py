@@ -1,22 +1,27 @@
-from historyki_roblox.video.actor_factory import ActorVideoIntervalSetFactory
-from historyki_roblox.video.video_builder import VideoBuilder
+from historyjki_roblox.character_factory import CharacterFactory
+from historyjki_roblox.story.story_parser import GptStoryParser
+from historyjki_roblox.video.video_builder import VideoBuilder
 
-actor_factory = ActorVideoIntervalSetFactory()
+character_factory = CharacterFactory()
+story_parser = GptStoryParser()
 
-characters = [
-    ('Bartosz', 'MALE','alien.png'),
-    ('Robert', 'MALE','robbcio.png'),
-    ('Krystyna', 'FEMALE','mc.png'),
-    ('Friz', 'MALE','pawel.png'),
+characters_data = [
+    ('Bartosz', 'alien.png', 'alien.png'), 
+    ('Robert', 'robbcio.png', 'm90.png'), 
+    ('Krystyna', 'barbara.png', 'f94.png'), 
+    ('Friz', 'friz.jpg', 'm45.png')
 ]
 
-n, actors = 0, {}
-for name, gender, image in characters:
-    actor = actor_factory.create_actor_interval_set(name, n, gender, image)
-    actors[name] = actor
-    n += 1
+characters = []
+for name, image, roblox_image in characters_data:
+    character = character_factory.create_character(name=name, image=image, roblox_image=roblox_image)
+    characters.append(character)
 
-video_builder = VideoBuilder('data/stories/test_data/0.txt', actors)
-video_builder.add_background_video('steven.webm')
-video_builder.add_story_elements_to_video()
-video_builder.save()
+story_text = "".join(open('data/stories/test_data/3.txt').readlines())
+story = story_parser.parse_raw_story(story_text)
+
+video_builder = VideoBuilder(story=story, characters=characters, is_video_horizontal=False)
+video_builder.assign_story_elements()
+video_builder.add_background_video()
+video_builder.add_actors_content()
+video_path = video_builder.save()

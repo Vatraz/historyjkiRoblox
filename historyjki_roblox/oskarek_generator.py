@@ -9,8 +9,8 @@ from io import BytesIO
 from lxml.html import fromstring
 from typing import Optional
 
-from historyki_roblox.gpt_relayer import GtpRelayer
-from historyki_roblox.resource_manager import ResourceManager
+from historyjki_roblox.gpt_relayer import GtpRelayer
+from historyjki_roblox.resource_manager import ResourceManager
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
