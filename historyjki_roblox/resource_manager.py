@@ -21,7 +21,7 @@ class ResourceManager:
     def get_list_of_characters(self):
         return os.listdir(f'{self.root_path}/data/characters')
 
-    def get_random_roblox_character_name(self, requested_gender: str) -> str:
+    def get_random_roblox_character(self, requested_gender: str) -> str:
         chosen_gender = 'f' if requested_gender == 'FEMALE' else 'm'
         return random.choice([char for char in self.get_list_of_characters() if chosen_gender in char])
 
@@ -53,6 +53,11 @@ class ResourceManager:
         else:
             return f'{self.root_path}/output/oskareks/{oskarek_name}'
 
+    def get_face_image_path(self, image_name: str) -> str:
+        return f'{self.root_path}/data/images/{image_name}'
+
+    def get_roblox_image_path(self, image_name: str) -> str:
+        return f'{self.root_path}/data/characters/{image_name}'
 
     # THUMBNAIL
 
@@ -134,4 +139,9 @@ class ResourceManager:
 
     def get_discord_leave_path(self) -> str:
         return f'{self.root_path}/data/sounds/discord_leave.mp3'
+
+    def get_background_videos(self, is_horizontal: bool = True) -> list[str]:
+        last_dir = 'horizontal' if is_horizontal is True else 'vertical'
+        videos_dir = f'{self.root_path}/data/videos/{last_dir}'
+        return [f'{videos_dir}/{i}' for i in os.listdir(videos_dir)]
 
