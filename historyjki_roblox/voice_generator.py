@@ -1,5 +1,4 @@
 import base64
-import json
 import os
 import requests
 
@@ -17,9 +16,16 @@ class Voice(NamedTuple):
     pitch: float
     speaking_rate: int
 
+    @classmethod
+    def from_json(cls, data) -> "Voice":
+        return Voice(
+            name=data["name"],
+            pitch=data["speaking_rate"],
+            speaking_rate=data["speaking_rate"],
+        )
+
 
 class VoiceGenerator:
-
     def __init__(self, api_key: Optional[str] = None):
         self.resource_manager = ResourceManager()
         self.api_key = api_key or self.resource_manager.get_gtts_api_key()
@@ -28,7 +34,7 @@ class VoiceGenerator:
     def synthesize(self, text: str, voice: Voice) -> str:
         # valid speaking_rate is between 0.25 and 4.0.
         # Out of range: valid pitch is between -20.0 and 20.0.
-        filepath = self.resource_manager.get_dialogue_path(f'{voice.name}-{voice.pitch}-{voice.speaking_rate}', text)
+        filepath = self.resource_manager.get_dialogue_path(f'{voice.name}-{voice.pitch}-{voice.speaking_rate}', ''.join(filter(str.isalpha, text)))
         if os.path.exists(filepath):
             return filepath
 
@@ -47,12 +53,3 @@ class VoiceGenerator:
             f.write(binary_data)
 
         return filepath
-
-    def get_voices(self, language_code: str='pl-PL') -> None:
-        params = {'key': self.api_key, 'languageCode': language_code}
-        response = requests.get(f'{self.base_url}/voices', params=params)
-        if response.status_code != 200:
-            return
-        
-        with open(f'{ROOT_PATH}/voices.json', 'w') as f:
-            json.dump(response.json(), f)

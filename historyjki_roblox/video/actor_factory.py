@@ -46,7 +46,7 @@ class Actor:
             self.intervals[-1].set_end(time)
 
     def join_room(self, time: int):
-        self.intervals.append(Interval(time, self.character.skin_image, position_number=self.position_number))
+        self.intervals.append(Interval(time, self.character.get_skin_image_path(), position_number=self.position_number))
         self.is_online = True
     
     def leave_room(self, time: int):
@@ -55,18 +55,18 @@ class Actor:
 
     def turn_on_camera(self, time: int):
         self.end_current_interval(time)
-        self.intervals.append(Interval(time, self.character.face_image, position_number=self.position_number))
+        self.intervals.append(Interval(time, self.character.get_face_image_path(), position_number=self.position_number))
         self.is_camera_on = True
 
     def turn_off_camera(self, time: int):
         self.is_camera_on = False
         self.end_current_interval(time)
-        self.intervals.append(Interval(time, self.character.skin_image, position_number=self.position_number))
+        self.intervals.append(Interval(time, self.character.get_skin_image_path(), position_number=self.position_number))
 
     def change_skin(self, time: int):
         self.end_current_interval(time)
         self.character.change_skin()
-        self.intervals.append(Interval(time, self.character.skin_image))
+        self.intervals.append(Interval(time, self.character.get_skin_image_path(), position_number=self.position_number))
 
 
 class ActorVideoIntervalSetFactory:

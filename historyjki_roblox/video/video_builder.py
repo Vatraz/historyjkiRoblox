@@ -1,6 +1,7 @@
 import random
 import moviepy.editor as mvp
 
+from tqdm import tqdm
 from typing import Dict, List, Optional, Tuple
 
 from historyjki_roblox.video.actor_factory import Actor, ActorVideoIntervalSetFactory
@@ -13,7 +14,6 @@ from historyjki_roblox.voice_generator import VoiceGenerator
 
 
 class VideoBuilder:
-
     def __init__(self, story: Story, is_video_horizontal: bool = True, characters: Optional[List[Character]] = None):
         self.actor_factory = ActorVideoIntervalSetFactory()
         self.resource_manager = ResourceManager()
@@ -38,7 +38,6 @@ class VideoBuilder:
 
         if characters is not None:
             for index, character in enumerate(characters):
-                print(character)
                 actors[character.name] = self.actor_factory.create_actor(character.name, index, character=character)
         else:
             for index, name in enumerate(self.story.actors):
@@ -91,7 +90,6 @@ class VideoBuilder:
 
     def handle_dialogue(self, dialogue: Dialogue):
         actor = self.actors[dialogue.actor]
-        print(dialogue.content, actor.character.voice)
         audio_source_path = self.voice_generator.synthesize(dialogue.content, actor.character.voice)
         audio_clip = mvp.AudioFileClip(audio_source_path).set_start(self.time)
         actor.add_dialogue(self.time, dialogue.content, audio_clip.duration)
@@ -141,7 +139,7 @@ class VideoBuilder:
     def assign_story_elements(self):
         self.handle_dialogue(Dialogue(actor='lector', content='Zmasakrujcie przycisk subskrypcji.', emotion='spokój'))
         self.join_all()
-        for scenario_element in self.story.scenario:
+        for scenario_element in tqdm(self.story.scenario, desc="Parsing scenario elements"):
             if isinstance(scenario_element, Dialogue):
                 self.handle_dialogue(scenario_element)
             elif type(scenario_element) == Event:
@@ -258,30 +256,31 @@ class VideoBuilder:
 
     def add_actors_content(self):
         font_size, stroke_width = self.get_font_size_and_stroke_width()
-        for name, actor in self.actors.items():
-            for interval in actor.intervals:
+        with tqdm(total=sum([len(a.intervals) for a in self.actors.values()]),
+                  desc="Parsing intervals") as progress_bar:
+            for name, actor in self.actors.items():
+                for interval in actor.intervals:
+                    image_clip = mvp.ImageClip(interval.image_path)
+                    image_width, image_height = self.get_image_size(image_clip.size)
+                    image_clip = image_clip.resize((image_width, image_height))
+                    image_x, image_y = self.get_image_position(interval.position_number, image_width, image_height)
+                    image_clip = image_clip.set_start(interval.start).set_duration(interval.duration).set_position((image_x, image_y))
 
-                print(name, actor.character.name, interval.image_path)
-                image_clip = mvp.ImageClip(interval.image_path)
-                image_width, image_height = self.get_image_size(image_clip.size)
-                image_clip = image_clip.resize((image_width, image_height))
-                image_x, image_y = self.get_image_position(interval.position_number, image_width, image_height)
-                image_clip = image_clip.set_start(interval.start).set_duration(interval.duration).set_position((image_x, image_y))
+                    if actor.is_lector is False:
+                        name_text_clip = mvp.TextClip(name, fontsize=font_size+20, color=actor.color, stroke_color='black', stroke_width=stroke_width+1, font=self.font, method='caption')
+                        name_text_clip = name_text_clip.set_start(interval.start).set_duration(interval.duration)
+                        name_text_clip = self.set_name_position_based_on_image(interval.position_number, name_text_clip, image_clip)
+                        self.images.append(image_clip)
+                        self.text.append(name_text_clip)
 
-                if actor.is_lector is False:
-                    name_text_clip = mvp.TextClip(name, fontsize=font_size+20, color=actor.color, stroke_color='black', stroke_width=stroke_width+1, font=self.font, method='caption')
-                    name_text_clip = name_text_clip.set_start(interval.start).set_duration(interval.duration)
-                    name_text_clip = self.set_name_position_based_on_image(interval.position_number, name_text_clip, image_clip)
-                    self.images.append(image_clip)
-                    self.text.append(name_text_clip)
-
-                max_w = self.get_dialogue_max_width()
-                for start, content, duration in interval.dialogues:
-                    side = self.get_text_side(interval.position_number)
-                    dialogue_text_clip = mvp.TextClip(content, fontsize=font_size, color=actor.color, stroke_color='black', stroke_width=stroke_width, font=self.font, method='caption', align=side, size=(max_w, None))
-                    dialogue_text_clip = dialogue_text_clip.set_start(start).set_duration(duration)
-                    dialogue_text_clip = self.set_text_position_based_on_image(interval.position_number, side, dialogue_text_clip, image_clip)
-                    self.text.append(dialogue_text_clip)
+                    max_w = self.get_dialogue_max_width()
+                    for start, content, duration in interval.dialogues:
+                        side = self.get_text_side(interval.position_number)
+                        dialogue_text_clip = mvp.TextClip(content, fontsize=font_size, color=actor.color, stroke_color='black', stroke_width=stroke_width, font=self.font, method='caption', align=side, size=(max_w, None))
+                        dialogue_text_clip = dialogue_text_clip.set_start(start).set_duration(duration)
+                        dialogue_text_clip = self.set_text_position_based_on_image(interval.position_number, side, dialogue_text_clip, image_clip)
+                        self.text.append(dialogue_text_clip)
+                progress_bar.update(1)
 
     def add_background_video(self):
         # concat random downloaded

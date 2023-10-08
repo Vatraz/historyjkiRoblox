@@ -1,10 +1,10 @@
 import eel
 import jsons
 
-from historyki_roblox.character_factory import CharacterFactory
-from historyki_roblox.resource_manager import ResourceManager
-from historyki_roblox.story.story import Story
-from historyki_roblox.story.story_parser import GptStoryParser
+from historyjki_roblox.character_factory import CharacterFactory, Character
+from historyjki_roblox.resource_manager import ResourceManager
+from historyjki_roblox.story.story import Story
+from historyjki_roblox.story.story_parser import GptStoryParser
 
 
 class HistoryjkaEditor:
@@ -24,7 +24,7 @@ class HistoryjkaEditor:
             self._story = None
         else:
             self._raw_story = historyjka_data['raw_story']
-            self._characters = historyjka_data['characters']
+            self._characters = {n: Character.from_json(d) for n, d in historyjka_data['characters'].items()}
             self._story = Story.from_json(historyjka_data['parsed_story'])
 
     def update_story(self, raw_story: str, characters_overrides: dict, save=True):
@@ -39,7 +39,7 @@ class HistoryjkaEditor:
     def _update_saved_characters(self, ids: list[str]) -> None:
         for ch_id in ids:
             if ch_id not in self._characters:
-                self._characters[ch_id] = self._character_factory.create_random_character(name=ch_id)
+                self._characters[ch_id] = self._character_factory.create_character(name=ch_id)
 
     def _apply_characters_overrides(self, characters_overrides: dict) -> None:
         for character_override in characters_overrides:

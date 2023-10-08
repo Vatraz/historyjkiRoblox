@@ -17,7 +17,7 @@ for name, image, roblox_image in characters_data:
     character = character_factory.create_character(name=name, image=image, roblox_image=roblox_image)
     characters.append(character)
 
-story_text = "".join(open('data/stories/test_data/3.txt').readlines())
+story_text = "".join(open('data/stories/test_data/3.txt', encoding="utf-8").readlines())
 story = story_parser.parse_raw_story(story_text)
 
 video_builder = VideoBuilder(story=story, characters=characters, is_video_horizontal=False)
