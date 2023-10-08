@@ -6,19 +6,19 @@ const CHARACTER_SKIN_SELECT_ID_PREFIX = "character_select_skin_"
 // ============ APP STATE
 let app_state = {
     scenario: [],
-    characters: [],
+    actors: [], // actors in scenario
+    characters: {}, // all characters
     available_characters_photos: [],
     available_characters_skins: [],
 }
 
 // ============ PARSED ELEMENTS
 let updateCharacters = () => {
-
     // Add or update character details
     // TODO: this is disgusting :0
     let characters_list_elem = document.getElementById("character_details_list")
-    app_state.characters.forEach(character_data => {
-        let name = character_data.name
+    app_state.actors.forEach(name => {
+        let character_data = app_state.characters[name]
         let character_element = document.getElementById(`${CHARACTER_DETAILS_ID_PREFIX}${name}`)
 
         if (character_element !== null) {
@@ -55,10 +55,9 @@ let updateCharacters = () => {
     })
 
     // Remove characters if they no longer exist in the story
-    let characters_update_names = app_state.characters.map(char => char.name)
     let existing_characters_names = getCharactersNamesInCharactersDetailsList()
     existing_characters_names.forEach(existing_name => {
-        if (!characters_update_names.includes(existing_name)) {
+        if (!app_state.actors.includes(existing_name)) {
             debugger
             document.getElementById(`${CHARACTER_DETAILS_ID_PREFIX}${existing_name}`).remove()
 
@@ -92,7 +91,10 @@ setInterval(function () {
         scenario_raw,
         characters_overrides
     )(function (parsed_data) {
+        debugger
+
         app_state.scenario = parsed_data.parsed_story.scenario
+        app_state.actors = parsed_data.parsed_story.actors
         app_state.characters = parsed_data.characters
 
         updateParsedStory()

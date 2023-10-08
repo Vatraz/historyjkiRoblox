@@ -76,8 +76,23 @@ class ResourceManager:
         chosen_emoji = random.choice([char for char in self.get_list_of_emoji() if chosen_category in char])
         return Image.open(f'{self.root_path}/data/thumbnail/emoji/{chosen_emoji}')
 
-    # OTHER
+    # HISTORYJKAS
+    def get_saved_historyjkas(self):
+        os.listdir(f'{self.root_path}/stories')
 
+    def load_historyjka_data(self, name: str) -> dict | None:
+        try:
+            with open(f'{self.root_path}/stories/{name}.json') as fp:
+                return json.load(fp)
+        except:
+            return None
+
+    def save_historyjka_data(self, name: str, data: dict):
+        with open(f'{self.root_path}/stories/{name}.json', 'w') as fp:
+            json.dump(data, fp)
+
+
+    # OTHER
     def get_prompts_data(self):
         with open(f'{self.root_path}/data/stories/prompts.json') as fp:
             prompts = json.load(fp)
@@ -120,4 +135,3 @@ class ResourceManager:
     def get_discord_leave_path(self) -> str:
         return f'{self.root_path}/data/sounds/discord_leave.mp3'
 
-# print(random.choice(ResourceManager().get_list_of_backgrounds()))

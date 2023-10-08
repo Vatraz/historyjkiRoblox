@@ -9,9 +9,7 @@ from historyki_roblox.resource_manager import ResourceManager
 
 ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
-
 class Character:
-
     def __init__(self, name: str, gender: str, voice: str, face_image: str, skin_image: str):
         self.name = name
         self.gender = gender
@@ -23,6 +21,15 @@ class Character:
     def change_skin(self):
         self.skin_image = ResourceManager().get_random_roblox_character_name(self.gender)
 
+    @classmethod
+    def from_json(cls, data: dict) -> "Character":
+        return Character(
+            name=data.get('name'),
+            gender=data.get('gender'),
+            voice=data.get('voice'),
+            face_image=data.get('face_image'),
+            skin_image=data.get('skin_image'),
+        )
 
 class CharacterFactory:
     def __init__(self, oskarek_generator: Optional[OskarekGenerator] = None):
