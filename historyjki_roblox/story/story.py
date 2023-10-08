@@ -39,5 +39,5 @@ class Story(NamedTuple):
             scenario=scenario,
             actors=data["actors"],
             setting=data["setting"],
-            summary=data["summary"]
+            summary=data["summary"],
         )

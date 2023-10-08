@@ -6,21 +6,25 @@ character_factory = CharacterFactory()
 story_parser = GptStoryParser()
 
 characters_data = [
-    ('Bartosz', 'alien.png', 'alien.png'), 
-    ('Robert', 'robbcio.png', 'm90.png'), 
-    ('Krystyna', 'barbara.png', 'f94.png'), 
-    ('Friz', 'friz.jpg', 'm45.png')
+    ("Bartosz", "alien.png", "alien.png"),
+    ("Robert", "robbcio.png", "m90.png"),
+    ("Krystyna", "barbara.png", "f94.png"),
+    ("Friz", "friz.jpg", "m45.png"),
 ]
 
 characters = []
 for name, image, roblox_image in characters_data:
-    character = character_factory.create_character(name=name, image=image, roblox_image=roblox_image)
+    character = character_factory.create_character(
+        name=name, image=image, roblox_image=roblox_image
+    )
     characters.append(character)
 
-story_text = "".join(open('data/stories/test_data/3.txt', encoding="utf-8").readlines())
+story_text = "".join(open("data/stories/test_data/3.txt", encoding="utf-8").readlines())
 story = story_parser.parse_raw_story(story_text)
 
-video_builder = VideoBuilder(story=story, characters=characters, is_video_horizontal=False)
+video_builder = VideoBuilder(
+    story=story, characters=characters, is_video_horizontal=False
+)
 video_builder.assign_story_elements()
 video_builder.add_background_video()
 video_builder.add_actors_content()

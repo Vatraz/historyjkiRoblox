@@ -7,7 +7,9 @@ from historyjki_roblox.voice_generator import Voice
 
 
 class Character:
-    def __init__(self, name: str, gender: str, voice: Voice, face_image: str, skin_image: str):
+    def __init__(
+        self, name: str, gender: str, voice: Voice, face_image: str, skin_image: str
+    ):
         self.name = name
         self.gender = gender
         self.voice = voice
@@ -21,16 +23,18 @@ class Character:
         return ResourceManager().get_roblox_image_path(self.skin_image)
 
     def change_skin(self):
-        self.skin_image = ResourceManager().get_random_roblox_character_name(self.gender)
+        self.skin_image = ResourceManager().get_random_roblox_character_name(
+            self.gender
+        )
 
     @classmethod
     def from_json(cls, data: dict) -> "Character":
         return Character(
-            name=data.get('name'),
-            gender=data.get('gender'),
-            voice=Voice.from_json(data.get('voice')),
-            face_image=data.get('face_image'),
-            skin_image=data.get('skin_image'),
+            name=data.get("name"),
+            gender=data.get("gender"),
+            voice=Voice.from_json(data.get("voice")),
+            face_image=data.get("face_image"),
+            skin_image=data.get("skin_image"),
         )
 
 
@@ -45,20 +49,35 @@ class CharacterFactory:
         pitch = 0
         # speaking_rate = random.randint(250, 400) * .01
         speaking_rate = 1
-        voice_name = random.choice(tuple(filter(lambda x: x['ssmlGender'] == gender, self.voices_data)))['name']
+        voice_name = random.choice(
+            tuple(filter(lambda x: x["ssmlGender"] == gender, self.voices_data))
+        )["name"]
         return Voice(name=voice_name, pitch=pitch, speaking_rate=speaking_rate)
 
-    def create_character(self, name: str, gender: Optional[str] = None, image: Optional[str] = None,
-                         roblox_image: Optional[str] = None) -> Character:
+    def create_character(
+        self,
+        name: str,
+        gender: Optional[str] = None,
+        image: Optional[str] = None,
+        roblox_image: Optional[str] = None,
+    ) -> Character:
         if gender is None:
-            gender = 'FEMALE' if name[-1] == 'a' else 'MALE'
+            gender = "FEMALE" if name[-1] == "a" else "MALE"
 
         if image is None:
-            image = 'alien.png'
+            image = "alien.png"
 
         voice = self.choose_voice(gender)
 
         if roblox_image is None:
-            roblox_image = self.resource_manager.get_random_roblox_character_name(gender)
+            roblox_image = self.resource_manager.get_random_roblox_character_name(
+                gender
+            )
 
-        return Character(name=name, gender=gender, voice=voice, skin_image=roblox_image, face_image=image)
+        return Character(
+            name=name,
+            gender=gender,
+            voice=voice,
+            skin_image=roblox_image,
+            face_image=image,
+        )
