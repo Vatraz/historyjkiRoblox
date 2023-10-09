@@ -26,10 +26,17 @@ class GtpRelayer:
             ) from exe
         return answer
 
-    def generate_image(self, prompt: str, n: int=1, size: int=256, response_format: str='url') -> List[str]:
+    def generate_image(
+        self, prompt: str, n: int = 1, size: int = 256, response_format: str = "url"
+    ) -> List[str]:
         try:
-            response = openai.Image.create(prompt=prompt, n=n, size=f'{size}x{size}', response_format=response_format)
-            image = response['data'][0][response_format]
+            response = openai.Image.create(
+                prompt=prompt,
+                n=n,
+                size=f"{size}x{size}",
+                response_format=response_format,
+            )
+            image = response["data"][0][response_format]
         except Exception as ex:
             raise GtpRelayerException(
                 f"Failed to fetch Image response: {prompt}"

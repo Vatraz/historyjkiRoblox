@@ -5,60 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Historyjka Editor</title>
-    <style>
-      h1{
-        color: Blue;
-        text-align: center;
-      }
-      button{
-        display: block;
-        margin: 0 auto;
-      }
-      .main_edit{
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: center;
-        align-items: stretch;
-      }
-      .main_edit_column{
-          flex-basis: 50%;
-          /*max-width: 100%;*/
-          align-content: center;
-          justify-content: center;
-          text-align: center;
-      }
-      .main_text_edit{
-      }
-      #scenario_raw {
-        min-height: 300px;
-        width: 100%;
-        resize: vertical;
-      }
-    </style>
+    <style></style>
   </head>
   <body>
     <h1>Historyjki Roblox </h1>
-    <div class="main_edit">
-      <div class="main_edit_column">
-        <div>Scenario Editor</div>
-        <form class="main_text_edit">
-          <textarea type="text" id="scenario_raw"></textarea>
-        </form>
-      </div>
-      <div class="main_edit_column">
-        <div>Parsed Story</div>
-        <div id="parsed_story"></div>
-      </div>
-      <div id="scenario_details">
-        <div>Actors:</div>
-        <div id="character_details_list">
-        </div>
-      </div>
+    <div>
+        I co? Witam w grze
     </div>
-    <div class="random_number"></div>
+    <ul id="stories_list">
+    </ul>
     <script type="text/javascript" src="../eel.js"></script>
-    <script src="./script.js"></script>
+    <script src="script_index.js"></script>
   </body>
 </html>
