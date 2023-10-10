@@ -94,18 +94,15 @@ let updateEditorWithParsedData = (parsed_data, reload_raw_story = false) => {
 }
 
 // ============ UPDATE DATA
-// periodically checks the available photos
-setInterval(function () {
+// init state on load; check the available photos
+window.addEventListener("load", (event) => {
     eel.get_characters_faces()(function (photos) {
         app_state.available_characters_photos = photos
     })
     eel.get_characters_skins()(function (photos) {
         app_state.available_characters_skins = photos
     })
-}, 1001);
 
-// init state on load
-window.addEventListener("load", (event) => {
     eel.load_historyjka_editor(localStorage.getItem(KEY_FILENAME))(
         ((parsed_data) => {
             updateEditorWithParsedData(parsed_data, true)

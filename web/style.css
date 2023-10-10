@@ -62,7 +62,7 @@ button {
     overflow-x: hidden;
     overflow-y: scroll;
     max-height: 500px;
-    min-height: 100px
+    min-height: 300px
 }
 
 #scenario_raw {
@@ -86,6 +86,15 @@ button {
 
 #controls_container > div {
     text-align: center;
+}
+
+li {
+    cursor: pointer;
+}
+
+li:hover {
+    cursor: pointer;
+    color: var(--plat)
 }
 
 #scenario_details {
