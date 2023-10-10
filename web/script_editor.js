@@ -1,6 +1,9 @@
+import {KEY_FILENAME} from './consts.js'
+
 const CHARACTER_DETAILS_ID_PREFIX = "character_details_"
 const CHARACTER_FACE_SELECT_ID_PREFIX = "character_select_photo_"
 const CHARACTER_SKIN_SELECT_ID_PREFIX = "character_select_skin_"
+const SCENARIO_RAW_ID = "scenario_raw"
 
 
 // ============ APP STATE
@@ -10,6 +13,12 @@ let app_state = {
     characters: {}, // all characters
     available_characters_photos: [],
     available_characters_skins: [],
+}
+
+let updateAppStateWithParsedScenario = (parsed_data) => {
+    app_state.scenario = parsed_data.parsed_story.scenario
+    app_state.actors = parsed_data.parsed_story.actors
+    app_state.characters = parsed_data.characters
 }
 
 // ============ PARSED ELEMENTS
@@ -71,7 +80,22 @@ let updateParsedStory = () => {
     }).join('');
 }
 
+let overrideRawText = (raw_story) => {
+    let raw_story_element = document.getElementById(SCENARIO_RAW_ID)
+    raw_story_element.value = raw_story
+}
+
+let updateEditorWithParsedData = (parsed_data, reload_raw_story = false) => {
+    if (reload_raw_story) {
+        overrideRawText(parsed_data.raw_story)
+    }
+    updateAppStateWithParsedScenario(parsed_data)
+    updateParsedStory()
+    updateCharacters()
+}
+
 // ============ UPDATE DATA
+// periodically checks the available photos
 setInterval(function () {
     eel.get_characters_faces()(function (photos) {
         app_state.available_characters_photos = photos
@@ -81,26 +105,27 @@ setInterval(function () {
     })
 }, 1001);
 
+// init state on load
+window.addEventListener("load", (event) => {
+    eel.load_historyjka_editor(localStorage.getItem(KEY_FILENAME))(
+        ((parsed_data) => {
+            updateEditorWithParsedData(parsed_data, true)
+        })
+    )
+})
+
 
 // periodically checks the raw scenario textedit and updates parsed story and editable elements
 setInterval(function () {
-    let scenario_raw = document.getElementById("scenario_raw").value
+    let scenario_raw = document.getElementById(SCENARIO_RAW_ID).value
     let characters_overrides = getCharactersEditToCharactersOverridePayload()
 
     eel.parse_scenario(
         scenario_raw,
         characters_overrides
-    )(function (parsed_data) {
-        debugger
-
-        app_state.scenario = parsed_data.parsed_story.scenario
-        app_state.actors = parsed_data.parsed_story.actors
-        app_state.characters = parsed_data.characters
-
-        updateParsedStory()
-        updateCharacters()
-    })
+    )(updateEditorWithParsedData)
 }, 1000);
+
 
 let getCharactersEditToCharactersOverridePayload = () => {
     let characters_override_payload = []
