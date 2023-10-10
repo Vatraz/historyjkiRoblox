@@ -55,7 +55,7 @@ class VoiceGenerator:
             f"{self.base_url}/text:synthesize", params=params, json=body
         )
         if response.status_code != 200:
-            raise VoiceGenerator(
+            raise VoiceGeneratorException(
                 f"response status code: {response.status_code}\n{response.text}"
             )
 
