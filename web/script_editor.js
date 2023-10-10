@@ -67,7 +67,6 @@ let updateCharacters = () => {
     let existing_characters_names = getCharactersNamesInCharactersDetailsList()
     existing_characters_names.forEach(existing_name => {
         if (!app_state.actors.includes(existing_name)) {
-            debugger
             document.getElementById(`${CHARACTER_DETAILS_ID_PREFIX}${existing_name}`).remove()
 
         }
