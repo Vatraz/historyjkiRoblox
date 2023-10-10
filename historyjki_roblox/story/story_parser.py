@@ -1,5 +1,6 @@
-from historyjki_roblox.story.story import Story, Dialogue, Event, Scenario
 import re
+
+from historyjki_roblox.story.story import Story, Dialogue, Event, Scenario
 
 
 class GptStoryParser:
@@ -38,7 +39,7 @@ class GptStoryParser:
             name = name_raw.strip()
             content = " ".join(content_raw.split()[1:])
         else:
-            name, content = line.split(":")
+            name, content = line[: line.index(":") - 1], line[line.index(":") :]
             name, content = name.strip(), content.strip()
             emotion = None
 
