@@ -75,8 +75,20 @@ let updateCharacters = () => {
 
 let updateParsedStory = () => {
     document.querySelector("#parsed_story").innerHTML = app_state.scenario.map(scenario_elem => {
-        return `<div>${scenario_elem.actor}: ${scenario_elem.content}</div>`;
+        if (scenario_elem.actor && scenario_elem.content) {
+            return `<div><span style=${characterNameToStyle(scenario_elem.actor)}>${scenario_elem.actor}:</span> ${scenario_elem.content}</div>`;
+        } else if (scenario_elem.actor && scenario_elem.action) {
+            return `<div>=> <span style=${characterNameToStyle(scenario_elem.actor)}>${scenario_elem.actor}</span> action: ${scenario_elem.action}</div>`;
+        } else {
+            return `<div>=> ${scenario_elem.content}</div>`;
+        }
     }).join('');
+}
+
+let characterNameToStyle = (actor_name) => {
+    let actor_factor = app_state.actors.indexOf(actor_name) / app_state.actors.length
+    let H = Math.floor(actor_factor * 300)
+    return `"color: hsl(${H}, 60%, 40%); font-weight: bold"`
 }
 
 let overrideRawText = (raw_story) => {
