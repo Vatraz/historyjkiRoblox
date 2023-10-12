@@ -31,7 +31,6 @@ class ResourceManager:
         return f"{self.root_path}/data/characters/{character_name}"
 
     # OSKAREK
-
     def get_list_of_predefined_oskareks(self):
         return self._listdir(f"{self.root_path}/data/oskareks/images")
 

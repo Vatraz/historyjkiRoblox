@@ -12,8 +12,6 @@ from PIL import Image
 from historyjki_roblox.gpt_relayer import GtpRelayer
 from historyjki_roblox.resource_manager import ResourceManager
 
-ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
-
 
 class OskarekGenerator:
     def __init__(self, gpt_relayer: Optional[GtpRelayer] = None):
