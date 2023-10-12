@@ -9,24 +9,33 @@
 </head>
 <body>
 <h1>Historyjki Roblox </h1>
-<div class="navbar">
-    <div id="navbar_name"></div>
-    <div id="navbar_controls">
-        <button class="stories_list_button" id="navbar_back">Go back</button>
-    </div>
 
-</div>
-<div class="main_edit">
-    <textarea class="main_edit_column" type="text" id="scenario_raw"></textarea>
-    <div class="main_edit_column" id="scenario_parsed">
-        <div id="parsed_story"></div>
+<div class="main_edit_container">
+    <div class="navbar">
+        <div id="navbar_name"></div>
+        <div id="navbar_controls">
+            <button class="stories_list_button" id="navbar_back">Go back</button>
+        </div>
+    </div>
+    <div class="main_edit">
+        <textarea class="main_edit_column" type="text" id="scenario_raw"></textarea>
+        <div class="main_edit_column" id="scenario_parsed">
+            <div id="parsed_story"></div>
+        </div>
+    </div>
+    <div class="main_edit">
+        <div class="scenario_details">
+            <div>Actors:</div>
+            <div id="character_details_list">
+            </div>
+        </div>
+        <div class="scenario_details">
+            :)
+        </div>
     </div>
 </div>
-<div id="scenario_details">
-    <div>Actors:</div>
-    <div id="character_details_list">
-    </div>
-</div>
+
+
 <div class="random_number"></div>
 <script type="text/javascript" src="../eel.js"></script>
 <script type="module" src="script_editor.js"></script>

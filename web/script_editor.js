@@ -37,26 +37,26 @@ let updateCharacters = () => {
             let new_character_element_raw = `
               <div class="character_details" id="${CHARACTER_DETAILS_ID_PREFIX}${name}">
                 <span class="character_name">${name}</span>
-                <select class="character_img_select" id="${CHARACTER_FACE_SELECT_ID_PREFIX}${name}">
-                  <option value="${character_data.face_image}">${character_data.face_image}</option>
-                  ${app_state.available_characters_photos.map(
-                image_name => `
-                      <option value="${image_name}">
-                        ${image_name}
-                      </option>
-                    `
-            )}
-                </select>
-                <select class="character_img_select" id="${CHARACTER_SKIN_SELECT_ID_PREFIX}${name}">
-                  <option value="${character_data.skin_image}">${character_data.skin_image}</option>
-                  ${app_state.available_characters_skins.map(
-                image_name => `
-                      <option value="${image_name}">
-                        ${image_name}
-                      </option>
-                    `
-            )}
-                </select>
+                <div class="character_details_edit">
+                    photo:
+                    <select class="character_img_select" id="${CHARACTER_FACE_SELECT_ID_PREFIX}${name}">
+                      <option value="${character_data.face_image}">${character_data.face_image}</option>
+                      ${app_state.available_characters_photos.map(image_name => `
+                                  <option value="${image_name}">
+                                    ${image_name}
+                                  </option>
+                                `)}
+                    </select>
+                    skin:
+                    <select class="character_img_select" id="${CHARACTER_SKIN_SELECT_ID_PREFIX}${name}">
+                      <option value="${character_data.skin_image}">${character_data.skin_image}</option>
+                      ${app_state.available_characters_skins.map(image_name => `
+                                  <option value="${image_name}">
+                                    ${image_name}
+                                  </option>
+                                `)}
+                    </select>
+                </div>
               </div>
             `
             characters_list_elem.innerHTML += new_character_element_raw

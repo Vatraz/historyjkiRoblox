@@ -1,11 +1,15 @@
 :root {
     --jet: #F5E663;
     --white: #F8F7F9;
+    --gray: #edefef;
     --cari: #92DCE5;
     --plat: #D90368;
     --indygo: #284B63;
     --indygo_v2: #2f556f;
     --black: #1f1d1d;
+
+    --border_radius_main: 0.6rem;
+    --max_width_edit: 80rem;
 }
 
 
@@ -15,7 +19,6 @@ html {
 }
 
 body {
-    /* background: var(--indygo); */
     background-color: var(--indygo);
     background-image: linear-gradient(90deg, transparent 50%, var(--indygo_v2) 50%);
     background-size: 50px 50px;
@@ -36,7 +39,6 @@ p div {
     font-size: 1rem;
 }
 
-
 button {
     display: block;
     margin: 0 auto;
@@ -44,13 +46,24 @@ button {
 
 .main_edit {
     margin: 0;
-    width: calc(100vw - (100vw - 100%));
+    width: 100%;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: stretch;
     justify-content: space-around;
     flex-direction: row;
     align-content: stretch;
+
+}
+
+.main_edit_container {
+    width: calc(100vw - (100vw - 100%));
+    max-width: var(--max_width_edit);
+    margin: auto;
+}
+
+div.main_edit_container > *:last-child {
+    align-items: flex-start;
 }
 
 .main_edit_column {
@@ -58,18 +71,24 @@ button {
     padding: 1rem;
     margin: 0.2rem;
     background-color: var(--white);
-    border-radius: 1rem 0rem 0rem 1rem;
+    border-radius: var(--border_radius_main) 0 0 var(--border_radius_main);
     overflow-x: hidden;
     overflow-y: scroll;
     max-height: 500px;
     min-height: 300px
 }
 
-#scenario_raw {
-    background-color: var(--white);
+textarea#scenario_raw {
+    font-size: 1rem;
+    line-height: 1.2rem;
+    padding: 1.2rem 1rem 1rem;
     resize: none;
     width: 100%;
-
+    background-image:
+        repeating-linear-gradient(
+         var(--white)    0 1.2rem,
+         var(--gray)   1.2rem 2.4rem
+            )
 }
 
 #controls_container {
@@ -99,32 +118,63 @@ li:hover {
     color: var(--plat)
 }
 
-#scenario_details {
-    width: 50%;
+.scenario_details {
+    flex: 1;
     min-width: 20rem;
     text-align: center;
-    margin: auto;
+    margin: 0.2rem;
     font-size: 1.2rem;
-    padding: 1rem;
+    padding: 1.2rem;
     background-color: var(--white);
-    border-radius: 1rem;
+    border-radius: var(--border_radius_main);
 }
 
 #character_details_list > div {
     text-align: left;
-    margin-left: 2rem;
+    margin-left: 0.6rem;
     margin-right: 2rem;
     padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-bottom: 0.6rem;
     font-size: 1rem;
 }
 
-.character_name {
-    width: 8rem;
-    display: inline-block;
+.character_details_edit {
+    display: flex;
+    margin: auto;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-end;
+    font-size: 1rem;
 }
 
-.character_img_select {
+.character_details {
+    margin: 0;
+    border-bottom-style: dotted;
+    border-color: var(--plat);
+}
+
+.character_details:last-child {
+    border: none;
+}
+
+.character_details_edit > * {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.character_details_edit > *:last-child {
+    margin-right: 0;
+}
+
+span.character_name {
+    font-size: 1.2rem;
+}
+
+span.character_name:after {
+    content: ':';
+}
+
+select.character_img_select {
     background-color: var(--white);
     border-radius: 0.3rem;
 }
@@ -132,7 +182,7 @@ li:hover {
 button#new_story_button {
     margin-top: 1rem;
     font-size: 1.2rem;
-    border-radius: 0.5rem;
+    border-radius: var(--border_radius_main);
     padding: 0.6rem;
     background-color: var(--white);
 }
@@ -149,7 +199,7 @@ button#new_story_button:hover {
 button.stories_list_button {
     margin-left: 0.5rem;
     font-size: 1.2rem;
-    border-radius: 0.6rem;
+    border-radius: var(--border_radius_main);
     background-color: var(--white);
 }
 
@@ -159,22 +209,26 @@ button.stories_list_button:hover {
 }
 
 .navbar {
-    width: 80%;
     background-color: var(--white);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-radius: 1rem;
-    margin: auto;
+    border-radius: var(--border_radius_main);
     flex-wrap: nowrap;
     align-content: stretch;
-    padding: 0.5rem 1.5rem;
+    padding: 0;
+    margin: 0.2rem;
 }
 
 #navbar_name {
     font-size: 1.2rem;
     font-weight: bold;
     color: var(--plat);
+    margin: 0.6rem 1.2rem;
+}
+
+#navbar_back {
+    margin: 0.6rem 1.2rem;
 }
 
 #navbar_name:before {
