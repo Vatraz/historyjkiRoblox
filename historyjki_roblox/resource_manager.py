@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import shutil
 import string
 
 from enum import Enum
@@ -108,6 +109,15 @@ class ResourceManager:
     def save_historyjka_data(self, filename: str, data: dict):
         with open(f"{self.root_path}/stories/{filename}", "w") as fp:
             json.dump(data, fp)
+
+    def remove_historyjka(self, filename: str):
+        os.remove(f"{self.root_path}/stories/{filename}")
+
+    def copy_historyjka(self, original_filename, copy_filename):
+        shutil.copy(
+            f"{self.root_path}/stories/{original_filename}",
+            f"{self.root_path}/stories/{copy_filename}",
+        )
 
     # OTHER
     def get_prompts_data(self):

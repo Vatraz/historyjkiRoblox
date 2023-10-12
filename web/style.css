@@ -26,9 +26,9 @@ h1 {
     font-size: 2.5rem;
     font-weight: bold;
     color: var(--white);
-      -webkit-text-fill-color: var(--white);
-      -webkit-text-stroke-color: var(--black);
-      -webkit-text-stroke-width: 0.05em;
+    -webkit-text-fill-color: var(--white);
+    -webkit-text-stroke-color: var(--black);
+    -webkit-text-stroke-width: 0.05em;
     text-align: center;
 }
 
@@ -89,11 +89,13 @@ button {
 }
 
 li {
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
 }
 
 li:hover {
-    cursor: pointer;
     color: var(--plat)
 }
 
@@ -101,7 +103,6 @@ li:hover {
     width: 50%;
     min-width: 20rem;
     text-align: center;
-    min-width: 20rem;
     margin: auto;
     font-size: 1.2rem;
     padding: 1rem;
@@ -126,4 +127,59 @@ li:hover {
 .character_img_select {
     background-color: var(--white);
     border-radius: 0.3rem;
+}
+
+button#new_story_button {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    padding: 0.6rem;
+    background-color: var(--white);
+}
+
+button#new_story_button:hover {
+    background-color: var(--plat);
+    cursor: pointer;
+}
+
+.stories_list_buttons {
+    display: flex;
+}
+
+button.stories_list_button {
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 0.6rem;
+    background-color: var(--white);
+}
+
+button.stories_list_button:hover {
+    cursor: pointer;
+    background-color: var(--jet);
+}
+
+.navbar {
+    width: 80%;
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1rem;
+    margin: auto;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    padding: 0.5rem 1.5rem;
+}
+
+#navbar_name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--plat);
+}
+
+#navbar_name:before {
+    content: "Historyjka: ";
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: var(--black);
 }

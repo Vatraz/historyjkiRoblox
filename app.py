@@ -86,6 +86,16 @@ def parse_scenario(scenario_raw, characters_overrides=None):
 
 
 @eel.expose
+def create_story_copy(org_filename: str, dst_filename: str):
+    return ResourceManager().copy_historyjka(org_filename, dst_filename)
+
+
+@eel.expose
+def remove_story(filename: str):
+    return ResourceManager().remove_historyjka(filename)
+
+
+@eel.expose
 def get_characters_skins():
     return ResourceManager().get_list_of_characters()
 

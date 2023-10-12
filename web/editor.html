@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Historyjka Editor</title>
     <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <h1>Historyjki Roblox </h1>
-    <div class="main_edit">
-        <textarea class="main_edit_column" type="text" id="scenario_raw"></textarea>
-        <div class="main_edit_column" id="scenario_parsed">
-          <div id="parsed_story"></div>
-        </div>
+</head>
+<body>
+<h1>Historyjki Roblox </h1>
+<div class="navbar">
+    <div id="navbar_name"></div>
+    <div id="navbar_controls">
+        <button class="stories_list_button" id="navbar_back">Go back</button>
     </div>
-    <div id="scenario_details">
-      <div>Actors:</div>
-        <div id="character_details_list">
-      </div>
+
+</div>
+<div class="main_edit">
+    <textarea class="main_edit_column" type="text" id="scenario_raw"></textarea>
+    <div class="main_edit_column" id="scenario_parsed">
+        <div id="parsed_story"></div>
     </div>
-    <div class="random_number"></div>
-    <script type="text/javascript" src="../eel.js"></script>
-    <script type="module" src="script_editor.js"></script>
-  </body>
+</div>
+<div id="scenario_details">
+    <div>Actors:</div>
+    <div id="character_details_list">
+    </div>
+</div>
+<div class="random_number"></div>
+<script type="text/javascript" src="../eel.js"></script>
+<script type="module" src="script_editor.js"></script>
+</body>
 </html>

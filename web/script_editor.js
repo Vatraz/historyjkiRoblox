@@ -96,6 +96,9 @@ let updateEditorWithParsedData = (parsed_data, reload_raw_story = false) => {
 // ============ UPDATE DATA
 // init state on load; check the available photos
 window.addEventListener("load", (event) => {
+    let filename = localStorage.getItem(KEY_FILENAME)
+    document.getElementById("navbar_name").innerText = filename.replace('.json', "")
+
     eel.get_characters_faces()(function (photos) {
         app_state.available_characters_photos = photos
     })
@@ -103,7 +106,7 @@ window.addEventListener("load", (event) => {
         app_state.available_characters_skins = photos
     })
 
-    eel.load_historyjka_editor(localStorage.getItem(KEY_FILENAME))(
+    eel.load_historyjka_editor(filename)(
         ((parsed_data) => {
             updateEditorWithParsedData(parsed_data, true)
         })
@@ -152,3 +155,9 @@ let getCharactersNamesInCharactersDetailsList = () => {
 
     return characters_names
 }
+
+// ============ CONTROLS
+let redirectToStoryList = () => {
+    window.location = 'index.html'
+}
+document.getElementById("navbar_back").onclick = redirectToStoryList
