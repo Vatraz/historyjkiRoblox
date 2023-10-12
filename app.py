@@ -1,7 +1,7 @@
 import eel
 import jsons
 
-from historyjki_roblox.character_factory import CharacterFactory, Character
+from historyjki_roblox.character_factory import Character, CharacterFactory
 from historyjki_roblox.resource_manager import ResourceManager
 from historyjki_roblox.story.story import Story
 from historyjki_roblox.story.story_parser import GptStoryParser

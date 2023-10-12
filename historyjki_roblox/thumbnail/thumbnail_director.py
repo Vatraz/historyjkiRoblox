@@ -1,9 +1,10 @@
-import numpy as np
-import cv2
 from typing import NamedTuple
 
-from historyki_roblox.character_factory import Character
-from historyki_roblox.thumbnail.thumbnail_builder import ThumbnailBuilder
+import cv2
+import numpy as np
+
+from historyjki_roblox.character_factory import Character
+from historyjki_roblox.thumbnail.thumbnail_builder import ThumbnailBuilder
 
 
 class ThumbnailDirector:

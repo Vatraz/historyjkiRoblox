@@ -4,10 +4,10 @@ import random
 
 import cv2
 import numpy as np
-from PIL import ImageFont, Image, ImageFilter, ImageDraw, ImageOps
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
 
-from historyki_roblox.character_factory import Character
-from historyki_roblox.image_utils import cv2_to_PIL, PIL_to_cv2
+from historyjki_roblox.character_factory import Character
+from historyjki_roblox.image_utils import PIL_to_cv2, cv2_to_PIL
 
 THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
 ROBLOX_IMG_DIR_PATH = "./data/characters"

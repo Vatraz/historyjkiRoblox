@@ -1,8 +1,8 @@
 import base64
 import os
-import requests
-
 from typing import NamedTuple, Optional
+
+import requests
 
 from historyjki_roblox.resource_manager import ResourceManager
 

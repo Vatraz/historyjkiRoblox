@@ -1,6 +1,6 @@
 import re
 
-from historyjki_roblox.story.story import Story, Dialogue, Event, Scenario
+from historyjki_roblox.story.story import Dialogue, Event, Scenario, Story
 
 
 class GptStoryParser:

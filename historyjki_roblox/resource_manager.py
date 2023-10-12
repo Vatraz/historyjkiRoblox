@@ -3,9 +3,9 @@ import os
 import random
 import shutil
 import string
-
 from enum import Enum
-from PIL import ImageFont, Image
+
+from PIL import Image, ImageFont
 
 
 class EmojiCategory(Enum):
