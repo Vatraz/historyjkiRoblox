@@ -1,6 +1,0 @@
-class RobloxVideoGenerator:
-    def __init__(self):
-        ...
-
-    def generate_roblox_story(self):
-        ...

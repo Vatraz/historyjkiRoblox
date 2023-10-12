@@ -80,8 +80,6 @@ def parse_scenario(scenario_raw, characters_overrides=None):
     historyjka_editor.update_story(
         raw_story=scenario_raw, characters_overrides=characters_overrides
     )
-
-    # TODO: this json could be our video generator input
     return historyjka_editor.get_historyjka_data()
 
 
