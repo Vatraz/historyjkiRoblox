@@ -129,6 +129,10 @@ li:hover {
     border-radius: var(--border_radius_main);
 }
 
+.scenario_details > img {
+    width: 10rem;
+}
+
 #character_details_list > div {
     text-align: left;
     margin-left: 0.6rem;
@@ -237,3 +241,4 @@ button.stories_list_button:hover {
     font-weight: normal;
     color: var(--black);
 }
+
