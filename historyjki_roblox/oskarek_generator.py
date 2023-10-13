@@ -1,18 +1,16 @@
-import os
 import json
+import os
 import random
-import requests
 import uuid
-
-from PIL import Image
 from io import BytesIO
-from lxml.html import fromstring
 from typing import Optional
+
+import requests
+from lxml.html import fromstring
+from PIL import Image
 
 from historyjki_roblox.gpt_relayer import GtpRelayer
 from historyjki_roblox.resource_manager import ResourceManager
-
-ROOT_PATH = os.path.dirname(os.path.dirname(__file__))
 
 
 class OskarekGenerator:

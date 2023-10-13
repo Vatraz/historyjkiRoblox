@@ -1,5 +1,6 @@
-from historyjki_roblox.story.story import Story, Dialogue, Event, Scenario
 import re
+
+from historyjki_roblox.story.story import Dialogue, Didascalia, Event, Scenario, Story
 
 
 class GptStoryParser:
@@ -12,6 +13,8 @@ class GptStoryParser:
                 scenario.append(self._parse_line_to_dialogue(line))
             elif self._is_line_event(line):
                 scenario.append(self._parse_line_to_event(line))
+            else:
+                scenario.append(self._parse_line_to_didascalia(line))
 
         actors = self._get_actors_from_scenario(scenario)
 
@@ -38,7 +41,7 @@ class GptStoryParser:
             name = name_raw.strip()
             content = " ".join(content_raw.split()[1:])
         else:
-            name, content = line.split(":")
+            name, content = line[: line.index(":")], line[line.index(":") + 1 :]
             name, content = name.strip(), content.strip()
             emotion = None
 
@@ -47,6 +50,9 @@ class GptStoryParser:
     def _parse_line_to_event(self, line: str) -> Event:
         name, action = line.split("=>")
         return Event(actor=name.strip(), action=action.strip())
+
+    def _parse_line_to_didascalia(self, line: str) -> Didascalia:
+        return Didascalia(content=line.strip())
 
     def _get_actors_from_scenario(self, scenario: Scenario) -> list[str]:
         actors = list(

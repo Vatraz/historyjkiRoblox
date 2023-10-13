@@ -1,0 +1,248 @@
+:root {
+    --jet: #F5E663;
+    --white: #F8F7F9;
+    --gray: #edefef;
+    --cari: #92DCE5;
+    --plat: #D90368;
+    --indygo: #284B63;
+    --indygo_v2: #2f556f;
+    --black: #1f1d1d;
+
+    --border_radius_main: 0.6rem;
+    --max_width_edit: 80rem;
+}
+
+
+html {
+    font-family: sans-serif;
+    color: var(--black);
+}
+
+body {
+    background-color: var(--indygo);
+    background-image: linear-gradient(90deg, transparent 50%, var(--indygo_v2) 50%);
+    background-size: 50px 50px;
+    margin: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--white);
+    -webkit-text-fill-color: var(--white);
+    -webkit-text-stroke-color: var(--black);
+    -webkit-text-stroke-width: 0.05em;
+    text-align: center;
+}
+
+p div {
+    font-size: 1rem;
+}
+
+button {
+    display: block;
+    margin: 0 auto;
+}
+
+.main_edit {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    flex-direction: row;
+    align-content: stretch;
+
+}
+
+.main_edit_container {
+    width: calc(100vw - (100vw - 100%));
+    max-width: var(--max_width_edit);
+    margin: auto;
+}
+
+div.main_edit_container > *:last-child {
+    align-items: flex-start;
+}
+
+.main_edit_column {
+    flex: 1;
+    padding: 1rem;
+    margin: 0.2rem;
+    background-color: var(--white);
+    border-radius: var(--border_radius_main) 0 0 var(--border_radius_main);
+    border-style: solid;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 500px;
+    min-height: 300px
+}
+
+textarea#scenario_raw {
+    font-size: 1rem;
+    line-height: 1.2rem;
+    padding: 1.2rem 1rem 1rem;
+    resize: none;
+    width: 100%;
+    background-image: repeating-linear-gradient(
+            var(--white) 0 1.2rem,
+            var(--gray) 1.2rem 2.4rem
+    )
+}
+
+#controls_container {
+    width: 45%;
+    min-width: 20rem;
+    margin: auto;
+    font-size: 1.2rem;
+    padding: 1rem;
+    background-color: var(--white);
+    border-radius: var(--border_radius_main);
+    border-style: solid;
+}
+
+
+#controls_container > div {
+    text-align: center;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--border_radius_main);
+}
+
+li:hover {
+    color: var(--plat)
+}
+
+.scenario_details {
+    flex: 1;
+    min-width: 20rem;
+    text-align: center;
+    margin: 0.2rem;
+    font-size: 1.2rem;
+    padding: 1.2rem;
+    background-color: var(--white);
+    border-radius: var(--border_radius_main);
+    border-style: solid;
+
+}
+
+.scenario_details > img {
+    width: 10rem;
+}
+
+#character_details_list > div {
+    text-align: left;
+    margin-left: var(--border_radius_main);
+    margin-right: 2rem;
+    padding-top: 0.2rem;
+    padding-bottom: var(--border_radius_main);
+    font-size: 1rem;
+}
+
+.character_details_edit {
+    display: flex;
+    margin: auto;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+    justify-content: flex-end;
+    font-size: 1rem;
+}
+
+.character_details {
+    margin: 0;
+    border-bottom-style: dotted;
+    border-color: var(--plat);
+}
+
+.character_details:last-child {
+    border: none;
+}
+
+.character_details_edit > * {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.character_details_edit > *:last-child {
+    margin-right: 0;
+}
+
+span.character_name {
+    font-size: 1.2rem;
+}
+
+span.character_name:after {
+    content: ':';
+}
+
+select.character_img_select {
+    background-color: var(--white);
+    border-radius: 0.3rem;
+}
+
+button#new_story_button {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    border-radius: var(--border_radius_main);
+    padding: var(--border_radius_main);
+    background-color: var(--white);
+}
+
+button#new_story_button:hover {
+    background-color: var(--plat);
+    cursor: pointer;
+}
+
+.stories_list_buttons {
+    display: flex;
+}
+
+button.stories_list_button {
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: var(--border_radius_main);
+    background-color: var(--white);
+}
+
+button.stories_list_button:hover {
+    cursor: pointer;
+    background-color: var(--jet);
+}
+
+.navbar {
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: var(--border_radius_main);
+    border-style: solid;
+
+    flex-wrap: nowrap;
+    align-content: stretch;
+    padding: 0;
+    margin: 0.2rem;
+}
+
+#navbar_name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--plat);
+    margin: var(--border_radius_main) 1.2rem;
+}
+
+#navbar_back {
+    margin: var(--border_radius_main) 1.2rem;
+}
+
+#navbar_name:before {
+    content: "Historyjka: ";
+    font-size: 1.2rem;
+    font-weight: normal;
+    color: var(--black);
+}
+

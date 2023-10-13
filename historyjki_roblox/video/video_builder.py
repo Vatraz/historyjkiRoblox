@@ -1,15 +1,14 @@
 import random
-import moviepy.editor as mvp
-
-from tqdm import tqdm
 from typing import Dict, List, Optional, Tuple
 
-from historyjki_roblox.video.actor_factory import Actor, ActorVideoIntervalSetFactory
+import moviepy.editor as mvp
+from tqdm import tqdm
+
 from historyjki_roblox.character_factory import Character
 from historyjki_roblox.resource_manager import ResourceManager
 from historyjki_roblox.story.actions import Action
-from historyjki_roblox.story.story import Dialogue, Event, Didascalia, Story
-
+from historyjki_roblox.story.story import Dialogue, Didascalia, Event, Story
+from historyjki_roblox.video.actor_factory import Actor, ActorVideoIntervalSetFactory
 from historyjki_roblox.voice_generator import VoiceGenerator
 
 
@@ -86,7 +85,7 @@ class VideoBuilder:
 
     def add_silent_pause(self, duration: Optional[int] = None):
         pause_duration = duration if duration is not None else self.pause_duration
-        silence = mvp.AudioClip(make_frame=lambda t: [0], duration=pause_duration)
+        silence = mvp.AudioClip(make_frame=lambda: [0], duration=pause_duration)
         self.audio.append(silence)
         self.time += self.pause_duration
 

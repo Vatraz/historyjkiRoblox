@@ -1,7 +1,7 @@
 import os
-import openai
-
 from typing import List
+
+import openai
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 

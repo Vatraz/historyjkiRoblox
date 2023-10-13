@@ -1,64 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Historyjka Editor</title>
-    <style>
-      h1{
-        color: Blue;
-        text-align: center;
-      }
-      button{
-        display: block;
-        margin: 0 auto;
-      }
-      .main_edit{
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: center;
-        align-items: stretch;
-      }
-      .main_edit_column{
-          flex-basis: 50%;
-          /*max-width: 100%;*/
-          align-content: center;
-          justify-content: center;
-          text-align: center;
-      }
-      .main_text_edit{
-      }
-      #scenario_raw {
-        min-height: 300px;
-        width: 100%;
-        resize: vertical;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Historyjki Roblox </h1>
-    <div class="main_edit">
-      <div class="main_edit_column">
-        <div>Scenario Editor</div>
-        <form class="main_text_edit">
-          <textarea type="text" id="scenario_raw"></textarea>
-        </form>
-      </div>
-      <div class="main_edit_column">
-        <div>Parsed Story</div>
-        <div id="parsed_story"></div>
-      </div>
-      <div id="scenario_details">
-        <div>Actors:</div>
-        <div id="character_details_list">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Historyjki Roblox </h1>
+
+<div class="main_edit_container">
+    <div class="navbar">
+        <div id="navbar_name"></div>
+        <div id="navbar_controls">
+            <button class="stories_list_button" id="navbar_back">Go back</button>
         </div>
-      </div>
     </div>
-    <div class="random_number"></div>
-    <script type="text/javascript" src="../eel.js"></script>
-    <script src="script_editor.js"></script>
-  </body>
+    <div class="main_edit">
+        <textarea class="main_edit_column" type="text" id="scenario_raw"></textarea>
+        <div class="main_edit_column" id="scenario_parsed">
+            <div id="parsed_story"></div>
+        </div>
+    </div>
+    <div class="main_edit">
+        <div class="scenario_details">
+            <div>Actors:</div>
+            <div id="character_details_list">
+            </div>
+        </div>
+        <div class="scenario_details">
+            <img src="static/loading.gif" alt=":)"/>
+        </div>
+    </div>
+</div>
+
+
+<div class="random_number"></div>
+<script type="text/javascript" src="../eel.js"></script>
+<script type="module" src="script_editor.js"></script>
+</body>
 </html>

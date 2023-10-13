@@ -1,10 +1,11 @@
 import json
 import os
 import random
+import shutil
 import string
-
 from enum import Enum
-from PIL import ImageFont, Image
+
+from PIL import Image, ImageFont
 
 
 class EmojiCategory(Enum):
@@ -18,7 +19,7 @@ class ResourceManager:
     # CHARACTER
 
     def get_list_of_characters(self):
-        return os.listdir(f"{self.root_path}/data/characters")
+        return self._listdir(f"{self.root_path}/data/characters")
 
     def get_random_roblox_character_name(self, requested_gender: str) -> str:
         chosen_gender = "f" if requested_gender == "FEMALE" else "m"
@@ -30,12 +31,11 @@ class ResourceManager:
         return f"{self.root_path}/data/characters/{character_name}"
 
     # OSKAREK
-
     def get_list_of_predefined_oskareks(self):
-        return os.listdir(f"{self.root_path}/data/oskareks/images")
+        return self._listdir(f"{self.root_path}/data/oskareks/images")
 
     def get_list_of_oskareks(self):
-        return os.listdir(f"{self.root_path}/output/oskareks")
+        return self._listdir(f"{self.root_path}/output/oskareks")
 
     def save_oskarek_image(self, image: Image, image_name: str):
         return image.save(f"{self.root_path}/output/oskareks/{image_name}")
@@ -71,10 +71,10 @@ class ResourceManager:
     # THUMBNAIL
 
     def get_list_of_backgrounds(self):
-        return os.listdir(f"{self.root_path}/data/thumbnail/background")
+        return self._listdir(f"{self.root_path}/data/thumbnail/background")
 
     def get_list_of_emoji(self):
-        return os.listdir(f"{self.root_path}/data/thumbnail/emoji")
+        return self._listdir(f"{self.root_path}/data/thumbnail/emoji")
 
     def get_thumbnail_data(self):
         with open(f"{self.root_path}/data/thumbnail/thumbnail_data.json") as fp:
@@ -96,18 +96,27 @@ class ResourceManager:
 
     # HISTORYJKAS
     def get_saved_historyjkas(self):
-        os.listdir(f"{self.root_path}/stories")
+        return self._listdir(f"{self.root_path}/stories")
 
-    def load_historyjka_data(self, name: str) -> dict | None:
+    def load_historyjka_data(self, filename: str) -> dict | None:
         try:
-            with open(f"{self.root_path}/stories/{name}.json") as fp:
+            with open(f"{self.root_path}/stories/{filename}") as fp:
                 return json.load(fp)
         except:
             return None
 
-    def save_historyjka_data(self, name: str, data: dict):
-        with open(f"{self.root_path}/stories/{name}.json", "w") as fp:
+    def save_historyjka_data(self, filename: str, data: dict):
+        with open(f"{self.root_path}/stories/{filename}", "w") as fp:
             json.dump(data, fp)
+
+    def remove_historyjka(self, filename: str):
+        os.remove(f"{self.root_path}/stories/{filename}")
+
+    def copy_historyjka(self, original_filename, copy_filename):
+        shutil.copy(
+            f"{self.root_path}/stories/{original_filename}",
+            f"{self.root_path}/stories/{copy_filename}",
+        )
 
     # OTHER
     def get_prompts_data(self):
@@ -153,6 +162,10 @@ class ResourceManager:
     def get_background_videos(self, is_horizontal: bool = True) -> list[str]:
         last_dir = "horizontal" if is_horizontal is True else "vertical"
         videos_dir = f"{self.root_path}/data/videos/{last_dir}"
+        return [f"{videos_dir}/{i}" for i in self._listdir(videos_dir)]
+
+    @staticmethod
+    def _listdir(path: str, ignore_hidden: bool = True):
         return [
-            f"{videos_dir}/{i}" for i in os.listdir(videos_dir) if not i.startswith(".")
+            n for n in os.listdir(path) if not n.startswith(".") or not ignore_hidden
         ]
