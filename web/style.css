@@ -72,6 +72,7 @@ div.main_edit_container > *:last-child {
     margin: 0.2rem;
     background-color: var(--white);
     border-radius: var(--border_radius_main) 0 0 var(--border_radius_main);
+    border-style: solid;
     overflow-x: hidden;
     overflow-y: scroll;
     max-height: 500px;
@@ -84,11 +85,10 @@ textarea#scenario_raw {
     padding: 1.2rem 1rem 1rem;
     resize: none;
     width: 100%;
-    background-image:
-        repeating-linear-gradient(
-         var(--white)    0 1.2rem,
-         var(--gray)   1.2rem 2.4rem
-            )
+    background-image: repeating-linear-gradient(
+            var(--white) 0 1.2rem,
+            var(--gray) 1.2rem 2.4rem
+    )
 }
 
 #controls_container {
@@ -98,7 +98,7 @@ textarea#scenario_raw {
     font-size: 1.2rem;
     padding: 1rem;
     background-color: var(--white);
-    border-radius: 3rem;
+    border-radius: var(--border_radius_main);
     border-style: solid;
 }
 
@@ -111,7 +111,7 @@ li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.6rem;
+    margin-bottom: var(--border_radius_main);
 }
 
 li:hover {
@@ -127,6 +127,8 @@ li:hover {
     padding: 1.2rem;
     background-color: var(--white);
     border-radius: var(--border_radius_main);
+    border-style: solid;
+
 }
 
 .scenario_details > img {
@@ -135,10 +137,10 @@ li:hover {
 
 #character_details_list > div {
     text-align: left;
-    margin-left: 0.6rem;
+    margin-left: var(--border_radius_main);
     margin-right: 2rem;
     padding-top: 0.2rem;
-    padding-bottom: 0.6rem;
+    padding-bottom: var(--border_radius_main);
     font-size: 1rem;
 }
 
@@ -187,7 +189,7 @@ button#new_story_button {
     margin-top: 1rem;
     font-size: 1.2rem;
     border-radius: var(--border_radius_main);
-    padding: 0.6rem;
+    padding: var(--border_radius_main);
     background-color: var(--white);
 }
 
@@ -218,6 +220,8 @@ button.stories_list_button:hover {
     align-items: center;
     justify-content: space-between;
     border-radius: var(--border_radius_main);
+    border-style: solid;
+
     flex-wrap: nowrap;
     align-content: stretch;
     padding: 0;
@@ -228,11 +232,11 @@ button.stories_list_button:hover {
     font-size: 1.2rem;
     font-weight: bold;
     color: var(--plat);
-    margin: 0.6rem 1.2rem;
+    margin: var(--border_radius_main) 1.2rem;
 }
 
 #navbar_back {
-    margin: 0.6rem 1.2rem;
+    margin: var(--border_radius_main) 1.2rem;
 }
 
 #navbar_name:before {
