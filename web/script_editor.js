@@ -2,6 +2,7 @@ import {KEY_FILENAME} from './consts.js'
 
 const CHARACTER_DETAILS_ID_PREFIX = "character_details_"
 const CHARACTER_FACE_SELECT_ID_PREFIX = "character_select_photo_"
+const CHARACTER_GENDER_SELECT_ID_PREFIX = "character_select_gender_"
 const CHARACTER_SKIN_SELECT_ID_PREFIX = "character_select_skin_"
 const SCENARIO_RAW_ID = "scenario_raw"
 
@@ -38,6 +39,11 @@ let updateCharacters = () => {
               <div class="character_details" id="${CHARACTER_DETAILS_ID_PREFIX}${name}">
                 <span class="character_name">${name}</span>
                 <div class="character_details_edit">
+                    gender:
+                    <select class="character_img_select" id="${CHARACTER_GENDER_SELECT_ID_PREFIX}${name}">
+                      <option value="MALE" ${character_data.gender === "MALE"? 'selected="selected"' : ""}>M</option>
+                      <option value="FEMALE" ${character_data.gender === "FEMALE"? 'selected="selected"' : ""}>F</option>
+                    </select>
                     photo:
                     <select class="character_img_select" id="${CHARACTER_FACE_SELECT_ID_PREFIX}${name}">
                       <option value="${character_data.face_image}">${character_data.face_image}</option>
@@ -144,11 +150,13 @@ let getCharactersEditToCharactersOverridePayload = () => {
     getCharactersNamesInCharactersDetailsList().forEach(character_name => {
         let character_face_image = document.getElementById(CHARACTER_FACE_SELECT_ID_PREFIX + character_name).value
         let character_skin_image = document.getElementById(CHARACTER_SKIN_SELECT_ID_PREFIX + character_name).value
+        let character_gender = document.getElementById(CHARACTER_GENDER_SELECT_ID_PREFIX + character_name).value
 
         characters_override_payload.push({
             name: character_name,
             face_image: character_face_image,
-            skin_image: character_skin_image
+            skin_image: character_skin_image,
+            gender: character_gender
         })
     })
 
