@@ -14,7 +14,7 @@ class HistoryjkaManager:
         self._historyjka_name = historyjka_name
 
         self._raw_story = ""
-        self._characters = {}
+        self._characters: dict[str, Character] = {}
         self._story = Story(scenario=[], actors=[])
 
         historyjka_data = ResourceManager().load_historyjka_data(
@@ -49,8 +49,18 @@ class HistoryjkaManager:
     def _apply_characters_overrides(self, characters_overrides: dict) -> None:
         for character_override in characters_overrides:
             ch_id = character_override["name"]
-            self._characters[ch_id].face_image = character_override["face_image"]
-            self._characters[ch_id].skin_image = character_override["skin_image"]
+            character = self._characters[ch_id]
+
+            character.face_image = character_override["face_image"]
+            character.skin_image = character_override["skin_image"]
+
+            if character.gender != character_override["gender"]:
+                self._characters[ch_id] = self._character_factory.create_character(
+                    name=character.name,
+                    gender=character_override['gender'],
+                    image=character.face_image,
+                    roblox_image=character.skin_image
+                )
 
     def get_historyjka_data(self):
         return {

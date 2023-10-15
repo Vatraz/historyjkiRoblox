@@ -10,6 +10,7 @@
 
     --border_radius_main: 0.6rem;
     --max_width_edit: 80rem;
+    --min_edit_width: 22rem;
 }
 
 
@@ -70,6 +71,7 @@ div.main_edit_container > *:last-child {
     flex: 1;
     padding: 1rem;
     margin: 0.2rem;
+    min-width: var(--min_edit_width);
     background-color: var(--white);
     border-radius: var(--border_radius_main) 0 0 var(--border_radius_main);
     border-style: solid;
@@ -93,7 +95,6 @@ textarea#scenario_raw {
 
 #controls_container {
     width: 45%;
-    min-width: 20rem;
     margin: auto;
     font-size: 1.2rem;
     padding: 1rem;
@@ -120,11 +121,11 @@ li:hover {
 
 .scenario_details {
     flex: 1;
-    min-width: 20rem;
+    min-width: var(--min_edit_width);
     text-align: center;
     margin: 0.2rem;
     font-size: 1.2rem;
-    padding: 1.2rem;
+    padding: 1rem 0.2rem 0.2rem;
     background-color: var(--white);
     border-radius: var(--border_radius_main);
     border-style: solid;
@@ -138,7 +139,7 @@ li:hover {
 #character_details_list > div {
     text-align: left;
     margin-left: var(--border_radius_main);
-    margin-right: 2rem;
+    margin-right: var(--border_radius_main);
     padding-top: 0.2rem;
     padding-bottom: var(--border_radius_main);
     font-size: 1rem;
@@ -154,7 +155,7 @@ li:hover {
 }
 
 .character_details {
-    margin: 0;
+    margin: 0rem;
     border-bottom-style: dotted;
     border-color: var(--plat);
 }
@@ -164,8 +165,8 @@ li:hover {
 }
 
 .character_details_edit > * {
-    margin-left: 1rem;
-    margin-right: 1rem;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
 }
 
 .character_details_edit > *:last-child {
