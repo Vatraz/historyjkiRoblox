@@ -22,10 +22,7 @@ for name, image, roblox_image in characters_data:
 story_text = "".join(open("data/stories/test_data/3.txt", encoding="utf-8").readlines())
 story = story_parser.parse_raw_story(story_text)
 
-video_builder = VideoBuilder(
-    story=story, characters=characters, is_video_horizontal=False
-)
-video_builder.assign_story_elements()
-video_builder.add_background_video()
-video_builder.add_actors_content()
+video_builder = VideoBuilder()
+
+video_builder.build_video(story=story, characters=characters, is_video_horizontal=False)
 video_path = video_builder.save()
