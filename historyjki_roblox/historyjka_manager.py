@@ -57,9 +57,9 @@ class HistoryjkaManager:
             if character.gender != character_override["gender"]:
                 self._characters[ch_id] = self._character_factory.create_character(
                     name=character.name,
-                    gender=character_override['gender'],
+                    gender=character_override["gender"],
                     image=character.face_image,
-                    roblox_image=character.skin_image
+                    roblox_image=character.skin_image,
                 )
 
     def get_historyjka_data(self):
