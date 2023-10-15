@@ -55,12 +55,17 @@ class VideoBuilder:
         self._add_background_video()
         self._add_actors_content()
 
-    def build_video_from_json(self, historyjka_filename: str):
+    def build_video_from_json(
+        self, historyjka_filename: str, is_video_horizontal: bool = True
+    ):
         self._init_state()
 
-        historyjka_manager = HistoryjkaManager(historyjka_filename)
-        self.actors = self._create_actors(historyjka_manager.get_characters())
+        historyjka_manager = HistoryjkaManager(
+            historyjka_filename, raise_on_missing=True
+        )
         self.story = historyjka_manager.get_story()
+        self.actors = self._create_actors(historyjka_manager.get_characters_list())
+        self.is_video_horizontal = is_video_horizontal
 
         self._assign_story_elements()
         self._add_background_video()
@@ -416,7 +421,7 @@ class VideoBuilder:
         self.clip_size = concatenated.size
         self.clips += [concatenated]
 
-    def save(self) -> str:
+    def save(self, video_name: str | None = None) -> str:
         video = mvp.CompositeVideoClip(
             self.clips + self.images + self.text
         ).set_duration(self.time)
@@ -424,6 +429,6 @@ class VideoBuilder:
         concated_audio = mvp.concatenate_audioclips(self.audio)
         video = video.set_audio(concated_audio)
 
-        video_path = self.resource_manager.get_video_save_path()
+        video_path = self.resource_manager.get_video_save_path(video_name)
         video.write_videofile(video_path, fps=30, threads=os.cpu_count())
         return video_path

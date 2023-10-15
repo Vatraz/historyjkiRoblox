@@ -12,6 +12,10 @@ class EmojiCategory(Enum):
     WOW = "w"
 
 
+class ResourceReadFailed(Exception):
+    pass
+
+
 class ResourceManager:
     def __init__(self):
         self.root_path = os.path.dirname(os.path.dirname(__file__))
@@ -98,12 +102,17 @@ class ResourceManager:
     def get_saved_historyjkas(self):
         return self._listdir(f"{self.root_path}/stories")
 
-    def load_historyjka_data(self, filename: str) -> dict | None:
+    def load_historyjka_data(
+        self, filename: str, raise_on_missing: bool = False
+    ) -> dict | None:
         try:
             with open(f"{self.root_path}/stories/{filename}") as fp:
                 return json.load(fp)
-        except:
-            return None
+        except Exception as exe:
+            if raise_on_missing:
+                raise ResourceReadFailed(exe)
+            else:
+                return None
 
     def save_historyjka_data(self, filename: str, data: dict):
         with open(f"{self.root_path}/stories/{filename}", "w") as fp:
@@ -147,10 +156,15 @@ class ResourceManager:
         filepath = filepath + "/" + filename
         return filepath
 
-    def get_video_save_path(self) -> str:
+    def get_video_save_path(self, video_name: str | None = None) -> str:
         if os.path.exists(f"{self.root_path}/output/video") is False:
             os.mkdir(f"{self.root_path}/output/video")
-        video_name = self.get_random_string() + ".mp4"
+        if video_name:
+            video_name = (
+                video_name if video_name.endswith(".mp4") else video_name + ".mp4"
+            )
+        else:
+            video_name = self.get_random_string() + ".mp4"
         return f"{self.root_path}/output/video/{video_name}"
 
     def get_discord_join_path(self) -> str:

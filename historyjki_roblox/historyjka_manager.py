@@ -7,7 +7,7 @@ from historyjki_roblox.story.story_parser import GptStoryParser
 
 
 class HistoryjkaManager:
-    def __init__(self, historyjka_name: str):
+    def __init__(self, historyjka_name: str, raise_on_missing: bool = False):
         self._story_parser = GptStoryParser()
         self._character_factory = CharacterFactory()
 
@@ -17,7 +17,9 @@ class HistoryjkaManager:
         self._characters = {}
         self._story = Story(scenario=[], actors=[])
 
-        historyjka_data = ResourceManager().load_historyjka_data(historyjka_name)
+        historyjka_data = ResourceManager().load_historyjka_data(
+            historyjka_name, raise_on_missing
+        )
         if historyjka_data:
             self._init_historyjka_from_saved_data(historyjka_data)
 
@@ -62,8 +64,11 @@ class HistoryjkaManager:
             self._historyjka_name, self.get_historyjka_data()
         )
 
-    def get_story(self):
+    def get_story(self) -> Story:
         return self._story
 
-    def get_characters(self):
+    def get_characters(self) -> dict[str, Character]:
         return self._characters
+
+    def get_characters_list(self) -> list[Character]:
+        return list(self._characters.values())
