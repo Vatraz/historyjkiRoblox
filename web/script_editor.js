@@ -84,9 +84,9 @@ let updateParsedStory = () => {
         if (scenario_elem.actor && scenario_elem.content) {
             return `<div><span style=${characterNameToStyle(scenario_elem.actor)}>${scenario_elem.actor}:</span> ${scenario_elem.content}</div>`;
         } else if (scenario_elem.actor && scenario_elem.action) {
-            return `<div>=> <span style=${characterNameToStyle(scenario_elem.actor)}>${scenario_elem.actor}</span> action: ${scenario_elem.action}</div>`;
+            return `<div>[<span style=${characterNameToStyle(scenario_elem.actor)}>${scenario_elem.actor}</span> action: ${scenario_elem.action}]</div>`;
         } else {
-            return `<div>=> ${scenario_elem.content}</div>`;
+            return `<div>${scenario_elem.content}</div>`;
         }
     }).join('');
 }
