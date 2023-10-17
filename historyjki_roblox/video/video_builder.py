@@ -3,10 +3,14 @@ import random
 from typing import Dict, List, Optional, Tuple
 
 import moviepy.editor as mvp
-from tqdm import tqdm
 
 from historyjki_roblox.character_factory import Character
 from historyjki_roblox.historyjka_manager import HistoryjkaManager
+from historyjki_roblox.logging.log_interceptor import LogInterceptorBase
+from historyjki_roblox.logging.roblox_tqdm import (
+    RobloxTqdmProgressBarLogger,
+    roblox_tqdm,
+)
 from historyjki_roblox.resource_manager import ResourceManager
 from historyjki_roblox.story.actions import Action
 from historyjki_roblox.story.story import Dialogue, Didascalia, Event, Story
@@ -15,12 +19,12 @@ from historyjki_roblox.voice_generator import VoiceGenerator
 
 
 class VideoBuilder:
-    def __init__(
-        self,
-    ):
+    def __init__(self, log_interceptor: LogInterceptorBase | None = None):
         self.actor_factory = ActorVideoIntervalSetFactory()
         self.resource_manager = ResourceManager()
         self.voice_generator = VoiceGenerator()
+
+        self.tqdm_logger = roblox_tqdm(log_interceptor=log_interceptor)
 
         self._init_state()
 
@@ -186,7 +190,7 @@ class VideoBuilder:
             )
         )
         self._join_all()
-        for scenario_element in tqdm(
+        for scenario_element in self.tqdm_logger(
             self.story.scenario, desc="Parsing scenario elements"
         ):
             if isinstance(scenario_element, Dialogue):
@@ -322,7 +326,7 @@ class VideoBuilder:
 
     def _add_actors_content(self):
         font_size, stroke_width = self._get_font_size_and_stroke_width()
-        with tqdm(
+        with self.tqdm_logger(
             total=sum([len(a.intervals) for a in self.actors.values()]),
             desc="Parsing intervals",
         ) as progress_bar:
@@ -430,5 +434,10 @@ class VideoBuilder:
         video = video.set_audio(concated_audio)
 
         video_path = self.resource_manager.get_video_save_path(video_name)
-        video.write_videofile(video_path, fps=30, threads=os.cpu_count())
+        video.write_videofile(
+            video_path,
+            fps=30,
+            threads=os.cpu_count(),
+            logger=RobloxTqdmProgressBarLogger(tqdm=self.tqdm_logger),
+        )
         return video_path

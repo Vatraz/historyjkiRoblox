@@ -205,7 +205,7 @@ button#new_story_button:hover {
 
 button.stories_list_button {
     margin-left: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
     border-radius: var(--border_radius_main);
     background-color: var(--white);
 }

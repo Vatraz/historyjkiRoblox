@@ -26,15 +26,15 @@ let loadStoriesToUi = (stories_filenames) => {
         let buttons_div = document.createElement("div");
         buttons_div.className = "stories_list_buttons"
         let edit_button = document.createElement("button");
-        edit_button.innerText = "🖉"
+        edit_button.innerText = "Edit"
         edit_button.className = "stories_list_button"
         edit_button.onclick = () => redirectToStoryEditor(filename)
         let copy_button = document.createElement("button");
-        copy_button.innerText = "🖶"
+        copy_button.innerText = "Branch out"
         copy_button.className = "stories_list_button"
         copy_button.onclick = () => createStoryCopy(filename)
         let delete_button = document.createElement("button");
-        delete_button.innerText = "☠"
+        delete_button.innerText = "Delete"
         delete_button.className = "stories_list_button"
         delete_button.onclick = () => deleteStory(filename)
 
