@@ -81,4 +81,8 @@ class HistoryjkaManager:
         return self._characters
 
     def get_characters_list(self) -> list[Character]:
-        return list(self._characters.values())
+        return [
+            character
+            for character in self._characters.values()
+            if character.name in self._story.actors
+        ]
