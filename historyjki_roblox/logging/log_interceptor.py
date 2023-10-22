@@ -1,5 +1,5 @@
 class LogInterceptorBase:
-    def intercept(self, log: str):
+    def intercept(self, log: str, log_time: float):
         raise NotImplementedError
 
 
