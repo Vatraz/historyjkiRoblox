@@ -198,7 +198,7 @@ class VideoBuilder:
             elif type(scenario_element) == Event:
                 self._handle_event(scenario_element)
             elif type(scenario_element) == Didascalia:
-                ...
+                pass
         self._leave_all()
 
     def _set_name_position_based_on_image(
