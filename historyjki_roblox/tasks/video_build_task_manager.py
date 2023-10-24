@@ -58,3 +58,15 @@ class RobloxVideoBuilderManager:
                 self._tasks_statuses_dict[historyjka_filename]
             ).is_task_in_not_terminal_state()
         )
+
+    def get_task_logs(self, historyjka_filename: str) -> list[str]:
+        logs = self._tasks_logs_dict.get(historyjka_filename)
+        if not logs:
+            return []
+
+        sorted_logs = sorted(logs.items(), key=lambda item: float(item[0]))
+        ordered_log_list = [log[1] for log in sorted_logs]
+        return ordered_log_list
+
+    def is_task_alive(self, historyjka_filename: str) -> bool:
+        return self._is_task_for_historyjka_in_progress(historyjka_filename)
