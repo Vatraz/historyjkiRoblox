@@ -176,7 +176,7 @@ let getCharactersNamesInCharactersDetailsList = () => {
     return characters_names
 }
 
-// ============ CONTROLS
+// ============ NAVBAR CONTROLS
 let redirectToStoryList = () => {
     window.location = 'index.html'
 }

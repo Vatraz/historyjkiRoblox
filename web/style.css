@@ -7,8 +7,11 @@
     --indygo: #284B63;
     --indygo_v2: #2f556f;
     --black: #1f1d1d;
+    --black_unclickable: #323030;
+
 
     --border_radius_main: 0.6rem;
+    --border_radius_input: 0.3rem;
     --max_width_edit: 80rem;
     --min_edit_width: 22rem;
 }
@@ -125,11 +128,40 @@ li:hover {
     text-align: center;
     margin: 0.2rem;
     font-size: 1.2rem;
-    padding: 1rem 0.2rem 0.2rem;
+    padding: 1rem 0.2rem;
     background-color: var(--white);
     border-radius: var(--border_radius_main);
     border-style: solid;
+}
 
+#video_log {
+    font-size: 0.8rem;
+    color: var(--black_unclickable);
+    font-family: monospace;
+}
+
+#video_build {
+    flex-grow: 0.3;
+}
+
+.video_build_form_group {
+    margin: 0.5rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.video_build_form_group > input {
+    border-radius: var(--border_radius_input);
+    height: 1.2rem;
+    width: 10rem;
+    font-size: 1rem;
+}
+
+.video_build_form_group > input.form_checkbox {
+    height: 1.2rem;
+    width: 1.2rem;
 }
 
 .scenario_details > img {
@@ -183,18 +215,22 @@ span.character_name:after {
 
 select.character_img_select {
     background-color: var(--white);
-    border-radius: 0.3rem;
+    border-radius: var(--border_radius_input);
 }
 
-button#new_story_button {
+button.special_button#new_story_button {
     margin-top: 1rem;
-    font-size: 1.2rem;
     border-radius: var(--border_radius_main);
     padding: var(--border_radius_main);
-    background-color: var(--white);
 }
 
-button#new_story_button:hover {
+button.special_button {
+    font-size: 1.2rem;
+    background-color: var(--white);
+    border-radius: var(--border_radius_input);
+}
+
+button.special_button:hover {
     background-color: var(--plat);
     cursor: pointer;
 }
@@ -237,6 +273,7 @@ button.stories_list_button:hover {
 }
 
 #navbar_back {
+    font-size: 1.2rem;
     margin: var(--border_radius_main) 1.2rem;
 }
 
