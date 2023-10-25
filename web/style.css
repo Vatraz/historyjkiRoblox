@@ -136,8 +136,16 @@ li:hover {
 
 #video_log {
     font-size: 0.8rem;
-    color: var(--black_unclickable);
+    color: var(--gray);
+    background-color: var(--black_unclickable);
     font-family: monospace;
+    border-radius: var(--border_radius_main);
+    padding: 1rem 0;
+}
+
+#video_log:before {
+  content: attr(data-title);
+  position: relative;
 }
 
 #video_build {

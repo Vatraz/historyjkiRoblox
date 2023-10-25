@@ -48,18 +48,22 @@ window.addEventListener("load", (event) => {
 
 // Fetch logs
 let updateLogWindow = (logs) => {
-    document.getElementById("video_log").innerText = logs
+    if (logs.length === 0) return
+    let log_window = document.getElementById("video_log")
+    log_window.innerHTML = logs.map(log => `<div>${log}</div>`).join('')
 }
+
 let fetchAndUpdateTaskLog = () => {
+    if (!app_state.task_in_progress) return
+
     eel.get_video_task_logs(
         getHistoryjkaFilename()
     )(updateLogWindow)
 }
 
 setInterval(function () {
-    if (!app_state.task_in_progress) {
-        return
-    }
+    if (!app_state.task_in_progress) return
+
     fetchAndUpdateTaskLog()
 }, 500);
 
@@ -74,9 +78,7 @@ let checkTaskStatus = () => {
 }
 
 setInterval(function () {
-    if (!app_state.task_in_progress) {
-        return
-    }
+    if (!app_state.task_in_progress) return
     checkTaskStatus()
 
 }, 600);

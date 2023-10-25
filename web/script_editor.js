@@ -41,8 +41,8 @@ let updateCharacters = () => {
                 <div class="character_details_edit">
                     gender:
                     <select class="character_img_select" id="${CHARACTER_GENDER_SELECT_ID_PREFIX}${name}">
-                      <option value="MALE" ${character_data.gender === "MALE"? 'selected="selected"' : ""}>M</option>
-                      <option value="FEMALE" ${character_data.gender === "FEMALE"? 'selected="selected"' : ""}>F</option>
+                      <option value="MALE" ${character_data.gender === "MALE" ? 'selected="selected"' : ""}>M</option>
+                      <option value="FEMALE" ${character_data.gender === "FEMALE" ? 'selected="selected"' : ""}>F</option>
                     </select>
                     photo:
                     <select class="character_img_select" id="${CHARACTER_FACE_SELECT_ID_PREFIX}${name}">
