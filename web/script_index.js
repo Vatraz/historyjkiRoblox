@@ -29,6 +29,10 @@ let loadStoriesToUi = (stories_filenames) => {
         edit_button.innerText = "Edit"
         edit_button.className = "stories_list_button"
         edit_button.onclick = () => redirectToStoryEditor(filename)
+        let video_button = document.createElement("button");
+        video_button.innerText = "Video"
+        video_button.className = "stories_list_button"
+        video_button.onclick = () => redirectToVideoEditor(filename)
         let copy_button = document.createElement("button");
         copy_button.innerText = "Branch out"
         copy_button.className = "stories_list_button"
@@ -39,6 +43,7 @@ let loadStoriesToUi = (stories_filenames) => {
         delete_button.onclick = () => deleteStory(filename)
 
         buttons_div.appendChild(edit_button)
+        buttons_div.appendChild(video_button)
         buttons_div.appendChild(copy_button)
         buttons_div.appendChild(delete_button)
 
@@ -72,6 +77,11 @@ let createStoryCopy = (story_filename) => {
 let redirectToStoryEditor = (story_filename) => {
     localStorage.setItem(KEY_FILENAME, story_filename)
     window.location = 'editor.html'
+}
+
+let redirectToVideoEditor = (story_filename) => {
+    localStorage.setItem(KEY_FILENAME, story_filename)
+    window.location = 'video.html'
 }
 
 let deleteStory = (filename) => {

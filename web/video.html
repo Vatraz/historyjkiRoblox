@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Historyjka Editor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Historyjki Roblox </h1>
+
+<div class="main_edit_container">
+    <div class="navbar">
+        <div id="navbar_name"></div>
+        <div id="navbar_controls">
+            <button class="stories_list_button" id="navbar_back">Go back</button>
+        </div>
+    </div>
+    <div class="main_edit">
+        <div class="scenario_details" id="video_build">
+<!--            <div id="parsed_story"></div>-->
+
+            <div class="video_build_form_group">
+                <label for="params_name">Name: </label>
+                <input type="text" id="params_name" />
+            </div>
+            <div class="video_build_form_group">
+                <label for="params_is_vertical">Vertical:</label>
+                <input class="form_checkbox" type="checkbox" id="params_is_vertical" />
+            </div>
+            <div class="video_build_form_group">
+                <div></div>
+                <div>
+                    <button class="special_button" id="render_button">Render</button>
+                </div>
+                <div></div>
+            </div>
+        </div>
+        <div class="scenario_details">
+            <div id="video_log" data-title="output:">
+<div>..................................</div>
+<div>.......................:::........</div>
+<div>...............=:::..+++=:........</div>
+<div>..............:=---..:+++-........</div>
+<div>......=+:.....:###*+=***++::-.....</div>
+<div>......:++:....=#******#*+*-.......</div>
+<div>.......:++::####******:...........</div>
+<div>............*#********:...........</div>
+<div>............*#####****:...........</div>
+<div>............:-=+******-...........</div>
+<div>..........+=-:.:=+::::............</div>
+<div>.........---+*==-=::::............</div>
+<div>.........+*+=-==.++**+............</div>
+<div>.........=***+-..+++++............</div>
+<div>...........:=-..:+++++............</div>
+<div>................-=++=:............</div>
+<div>..................................</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="random_number"></div>
+<script type="text/javascript" src="../eel.js"></script>
+<script type="module" src="script_video.js"></script>
+</body>
+</html>

@@ -8,7 +8,11 @@ from historyjki_roblox.video.video_builder import VideoBuilder
 
 
 def video_builder_task(
-    historyjka_filename: str, task_status_dict: DictProxy, log_dict: DictProxy
+    historyjka_filename: str,
+    video_name: str | None,
+    is_vertical: bool,
+    task_status_dict: DictProxy,
+    log_dict: DictProxy,
 ):
     log_interceptor = MultiprocessingLogInterceptor(log_dict, historyjka_filename)
     status = TaskStatus.from_dict(task_status_dict[historyjka_filename])
@@ -21,8 +25,10 @@ def video_builder_task(
 
     try:
         video_builder = VideoBuilder(log_interceptor=log_interceptor)
-        video_builder.build_video_from_json(historyjka_filename)
-        video_builder.save()
+        video_builder.build_video_from_json(
+            historyjka_filename, is_video_horizontal=not is_vertical
+        )
+        video_builder.save(video_name=video_name)
     except Exception as exe:
         status.update_status(TaskState.FAILED)
         status.update_error_info(str(exe))
