@@ -10,7 +10,7 @@ class _RobloxTqdm(tqdm):
     log_interceptor: LogInterceptorBase | None = None
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs, bar_format='{desc}: {percentage:3.0f}% {r_bar}')
 
     def update(self, n: float | None = ...) -> bool | None:
         update = super().update(n)
