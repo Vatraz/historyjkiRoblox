@@ -1,5 +1,5 @@
 from historyjki_roblox.character_factory import CharacterFactory
-from historyjki_roblox.story.story_parser import GptStoryParser
+from historyjki_roblox.story.story_parser_gpt import GptStoryParser
 from historyjki_roblox.video.video_builder import VideoBuilder
 
 character_factory = CharacterFactory()
