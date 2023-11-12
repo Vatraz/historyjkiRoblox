@@ -1,9 +1,10 @@
 import re
 
 from historyjki_roblox.story.story import Dialogue, Didascalia, Event, Scenario, Story
+from historyjki_roblox.story.story_parser_base import StoryParserBase
 
 
-class GptStoryParser:
+class GptStoryParser(StoryParserBase):
     def parse_raw_story(self, raw_story: str) -> Story:
         story_lines = self._extract_stroy_lines(raw_story)
 
