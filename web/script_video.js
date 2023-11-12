@@ -22,7 +22,7 @@ let renderVideo = () => {
     let historyjka_filename = getHistoryjkaFilename()
     let video_params = {
         video_name: document.getElementById("params_name").value,
-        is_vertical: document.getElementById("params_is_vertical").value
+        is_vertical: document.getElementById("params_is_vertical").checked
     }
 
     eel.render_video(historyjka_filename, video_params)(function (response) {

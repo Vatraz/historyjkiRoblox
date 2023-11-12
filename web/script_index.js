@@ -34,7 +34,7 @@ let loadStoriesToUi = (stories_filenames) => {
         video_button.className = "stories_list_button"
         video_button.onclick = () => redirectToVideoEditor(filename)
         let copy_button = document.createElement("button");
-        copy_button.innerText = "Branch out"
+        copy_button.innerText = "Copy"
         copy_button.className = "stories_list_button"
         copy_button.onclick = () => createStoryCopy(filename)
         let delete_button = document.createElement("button");
