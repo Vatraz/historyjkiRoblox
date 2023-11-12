@@ -2,9 +2,9 @@ import json
 import random
 from typing import Optional
 
-from historyki_roblox.gpt_relayer import GtpRelayer
-from historyki_roblox.story.story import Story
-from historyki_roblox.story.story_parser import GptStoryParser
+from historyjki_roblox.gpt_relayer import GtpRelayer
+from historyjki_roblox.story.story import Story
+from historyjki_roblox.story.story_parser_gpt import GptStoryParser
 
 
 class StoryGenerator:
