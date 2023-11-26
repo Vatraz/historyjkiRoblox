@@ -30,7 +30,7 @@ class VideoBuilder:
 
         self.is_video_horizontal = True
         self.pause_duration = 0.5
-        self.font = "data/fonts/phrase.otf"
+        self.font = self.resource_manager.get_font('phrase.otf')
 
     def _init_state(self):
         self.audio = []
@@ -174,8 +174,9 @@ class VideoBuilder:
 
     def _get_font_size_and_stroke_width(self) -> Tuple[int, int]:
         font_size = self.clip_size[0] // 30
-        font_size = 50
-        stroke_width = font_size // 30 + 1
+        font_size = 60
+        # stroke_width = font_size // 30 + 1
+        stroke_width = 3
         return font_size, stroke_width
 
     def _get_dialogue_max_width(self):

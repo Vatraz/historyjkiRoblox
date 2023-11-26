@@ -85,18 +85,16 @@ class ResourceManager:
             data = json.load(fp)
         return data
 
-    def get_thumbnail_background(self):
-        return Image.open(
-            f"{self.root_path}/data/thumbnail/background/{random.choice(self.get_list_of_backgrounds())}"
-        )
+    def get_thumbnail_background(self, background_name: str) -> str:
+        return f"{self.root_path}/data/thumbnail/background/{background_name}"
 
-    # possible categories: WOW, LAUGH, SAD etc...
-    def get_thumbnail_emoji(self, category: EmojiCategory):
+    # possible categories: WOW, LAUGH,get_th SAD etc...
+    def get_random_thumbnail_emoji(self, category: EmojiCategory = None) -> str:
         chosen_category = category.value
         chosen_emoji = random.choice(
             [char for char in self.get_list_of_emoji() if chosen_category in char]
         )
-        return Image.open(f"{self.root_path}/data/thumbnail/emoji/{chosen_emoji}")
+        return f"{self.root_path}/data/thumbnail/emoji/{chosen_emoji}"
 
     # HISTORYJKAS
     def get_saved_historyjkas(self):
@@ -128,13 +126,13 @@ class ResourceManager:
         )
 
     # OTHER
+    def get_font(self, font_name: str) -> str:
+        return f"{self.root_path}/data/fonts/{font_name}"
+
     def get_prompts_data(self):
         with open(f"{self.root_path}/data/stories/prompts.json") as fp:
             prompts = json.load(fp)
         return prompts
-
-    def get_phrase_font(self):
-        return ImageFont.truetype(f"{self.root_path}/data/fonts/phrase.otf", size=65)
 
     def get_voices(self) -> list:
         with open(f"{self.root_path}/data/voices/voices.json", "r") as f:

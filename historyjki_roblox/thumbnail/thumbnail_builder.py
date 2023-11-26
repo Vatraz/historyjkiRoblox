@@ -8,9 +8,8 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
 
 from historyjki_roblox.character_factory import Character
 from historyjki_roblox.image_utils import PIL_to_cv2, cv2_to_PIL
+from historyjki_roblox.resource_manager import ResourceManager
 
-THUMBNAIL_DATA_DIR_PATH = "./data/thumbnail"
-ROBLOX_IMG_DIR_PATH = "./data/characters"
 THUMBNAIL_SHAPE = (720, 1280)
 ROBLOX_SHAPE = (370, 370)
 EMOJI_SHAPE = (350, 350)
@@ -18,25 +17,21 @@ EMOJI_SHAPE = (350, 350)
 
 class ThumbnailBuilder:
     def __init__(self):
+        self.resource_manager = ResourceManager()
+
         self._phrase_font = self._load_phrase_font()
         self._name_font = self._load_name_font()
-        self._thumbnail_data = self._load_thumbnail_data()
-
+        self._thumbnail_data = self.resource_manager.get_thumbnail_data()
         self._thumbnail_img = self._create_thumbnail_base()
-
-    def _load_thumbnail_data(self):
-        with open(f"{THUMBNAIL_DATA_DIR_PATH}/thumbnail_data.json") as fp:
-            data = json.load(fp)
-        return data
 
     def _load_phrase_font(self):
         return ImageFont.truetype(
-            f"{THUMBNAIL_DATA_DIR_PATH}/fonts/phrase.otf", size=65
+            self.resource_manager.get_font('phrase.otf'), size=65
         )
 
     def _load_name_font(self):
         return ImageFont.truetype(
-            f"{THUMBNAIL_DATA_DIR_PATH}/fonts/phrase.otf", size=50
+            self.resource_manager.get_font('phrase.otf'), size=65
         )
 
     def _create_thumbnail_base(self) -> np.ndarray:
@@ -48,7 +43,8 @@ class ThumbnailBuilder:
 
     def add_background(self):
         img_pil = cv2_to_PIL(self._thumbnail_img)
-        background_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/background/1.png")
+        background_image_path = self.resource_manager.get_thumbnail_background("1.png")
+        background_img = Image.open(background_image_path)
         background_img = background_img.resize(THUMBNAIL_SHAPE[::-1])
         background_img = background_img.filter(ImageFilter.BLUR)
         img_pil.paste(background_img, (0, 0), background_img.convert("RGBA"))
@@ -64,7 +60,8 @@ class ThumbnailBuilder:
         text_offset_x = 10
         for idx, character in enumerate(characters):
             # characters
-            char_img = Image.open(f"{ROBLOX_IMG_DIR_PATH}/{character.roblox_character}")
+            character_path = self.resource_manager.get_roblox_character_path(character.roblox_character)
+            char_img = Image.open(character_path)
             char_img = char_img.resize(ROBLOX_SHAPE)
             px, py = idx * step_x, ROBLOX_SHAPE[1] // 2 - idx * step_y
             img_pil.paste(char_img, (px, py), char_img.convert("RGBA"))
@@ -90,8 +87,8 @@ class ThumbnailBuilder:
 
     def add_emoji(self):
         img_pil = cv2_to_PIL(self._thumbnail_img)
-        emoji_file_name = random.choice(os.listdir(f"{THUMBNAIL_DATA_DIR_PATH}/emoji"))
-        emoji_img = Image.open(f"{THUMBNAIL_DATA_DIR_PATH}/emoji/{emoji_file_name}")
+        emoji_path = self.resource_manager.get_random_thumbnail_emoji()
+        emoji_img = Image.open(emoji_path)
         emoji_img = ImageOps.expand(emoji_img, emoji_img.size[0] // 20, fill=0)
         emoji_img = emoji_img.resize(EMOJI_SHAPE)
 
