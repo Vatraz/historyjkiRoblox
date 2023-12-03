@@ -31,10 +31,6 @@ class DramaStoryParser(StoryParserBase):
     def _is_line_actor(self, line: str) -> bool:
         return line.isupper()
 
-    def _is_line_dialogue(self, line: str) -> bool:
-        dialogue_line = line.strip()
-        return dialogue_line[0].isupper()
-
     def _is_line_event(self, line: str) -> bool:
         return line.startswith("/")
 
