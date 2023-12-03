@@ -47,6 +47,6 @@ class DramaStoryParser(StoryParserBase):
 
 
 if __name__ == "__main__":
-    input = "".join(open("data/stories/test_data/dziady.txt", encoding="utf8").readlines())
+    input = "".join(open("data/stories/test_data/antygona.txt", encoding="utf8").readlines())
     parsed_story = DramaStoryParser().parse_raw_story(input)
     print("done")
