@@ -1,7 +1,6 @@
 import random
 from typing import Optional
 
-from historyjki_roblox.oskarek_generator import OskarekGenerator
 from historyjki_roblox.resource_manager import ResourceManager
 from historyjki_roblox.voice_generator import Voice
 
@@ -39,8 +38,7 @@ class Character:
 
 
 class CharacterFactory:
-    def __init__(self, oskarek_generator: Optional[OskarekGenerator] = None):
-        self.oskarek_generator = oskarek_generator or OskarekGenerator()
+    def __init__(self):
         self.resource_manager = ResourceManager()
         self.voices_data = self.resource_manager.get_voices()
 

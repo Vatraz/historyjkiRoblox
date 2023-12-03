@@ -4,11 +4,12 @@ from historyjki_roblox.character_factory import Character, CharacterFactory
 from historyjki_roblox.resource_manager import ResourceManager
 from historyjki_roblox.story.story import Story
 from historyjki_roblox.story.story_parser_gpt import GptStoryParser
+from historyjki_roblox.story.drama_story import DramaStoryParser
 
 
 class HistoryjkaManager:
     def __init__(self, historyjka_name: str, raise_on_missing: bool = False):
-        self._story_parser = GptStoryParser()
+        self._story_parser = DramaStoryParser()
         self._character_factory = CharacterFactory()
 
         self._historyjka_name = historyjka_name
