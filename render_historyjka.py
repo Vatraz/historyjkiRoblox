@@ -19,7 +19,6 @@ parser.add_argument(
 
 if __name__ == "__main__":
     args = parser.parse_args()
-
     video_builder = VideoBuilder()
     try:
         video_builder.build_video_from_json(
@@ -28,3 +27,5 @@ if __name__ == "__main__":
         path = video_builder.save(args.output)
     except ResourceReadFailed as exe:
         print(f"Failed to read a resource: {exe}")
+    except Exception as exe:
+        print(f"Video builder failed: {exe}")
