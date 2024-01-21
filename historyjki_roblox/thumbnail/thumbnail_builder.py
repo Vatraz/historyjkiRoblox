@@ -121,6 +121,11 @@ class ThumbnailBuilder:
 
         return self
 
+    def add_thumbnail_phrase(self, phrase: str):
+        self._add_thumbnail_phrase(phrase)
+
+        return self
+
     def _get_random_thumbnail_phrase(self) -> str:
         return random.choice(self._thumbnail_data["phrases"]).upper()
 

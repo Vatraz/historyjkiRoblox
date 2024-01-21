@@ -16,8 +16,10 @@ class DramaStoryParser(StoryParserBase):
                 if line not in actors:
                     actors.append(line)
                 current_actor = line
-            elif self._is_line_event(line):
+            elif self._should_skip_line(line):
                 pass
+            elif self._is_line_event(line):
+                scenario.append(self._parse_line_to_event(line))
             else:
                 scenario.append(self._parse_line_to_dialogue(line, current_actor))
 
@@ -31,8 +33,11 @@ class DramaStoryParser(StoryParserBase):
     def _is_line_actor(self, line: str) -> bool:
         return line.isupper()
 
-    def _is_line_event(self, line: str) -> bool:
+    def _should_skip_line(self, line: str) -> bool:
         return line.startswith("/")
+
+    def _is_line_event(self, line: str) -> bool:
+        return "=>" in line
 
     def _parse_line_to_dialogue(self, line: str, actor: str) -> Dialogue:
         content = line.strip()
@@ -40,6 +45,10 @@ class DramaStoryParser(StoryParserBase):
         emotion = None
 
         return Dialogue(content=content, actor=name, emotion=emotion)
+
+    def _parse_line_to_event(self, line: str) -> Event:
+        name, action = line.split("=>")
+        return Event(actor=name.strip(), action=action.strip())
 
 
 if __name__ == "__main__":

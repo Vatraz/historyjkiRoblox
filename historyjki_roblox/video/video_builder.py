@@ -29,7 +29,8 @@ class VideoBuilder:
         self._init_state()
 
         self.is_video_horizontal = True
-        self.pause_duration = 0.5
+        self.pause_duration = 0.1
+        self.pause_duration_long = 0.2
         self.font = "data/fonts/phrase.otf"
 
     def _init_state(self):
@@ -42,6 +43,7 @@ class VideoBuilder:
 
         self.story = None
         self.actors = {}
+        self._current_actor_name = None
 
     def build_video(
         self,
@@ -121,11 +123,11 @@ class VideoBuilder:
         elif event.action == Action.CHANGE_SKIN.value:
             actor.change_skin(self.time)
 
-    def _add_silent_pause(self, duration: Optional[int] = None):
+    def _add_silent_pause(self, duration: Optional[float] = None):
         pause_duration = duration if duration is not None else self.pause_duration
         silence = mvp.AudioClip(make_frame=lambda t: [0], duration=pause_duration)
         self.audio.append(silence)
-        self.time += self.pause_duration
+        self.time += pause_duration
 
     def _add_sound(self, sound_file_path: str):
         audio_clip = mvp.AudioFileClip(sound_file_path)
@@ -141,7 +143,11 @@ class VideoBuilder:
         actor.add_dialogue(self.time, dialogue.content, audio_clip.duration)
         self.audio.append(audio_clip)
         self.time += audio_clip.duration
-        self._add_silent_pause()
+        if dialogue.actor != self._current_actor_name:
+            self._current_actor_name = dialogue.actor
+            self._add_silent_pause(duration=self.pause_duration_long)
+        else:
+            self._add_silent_pause(duration=self.pause_duration)
 
     def _get_actor_image_size(self, current_size: Tuple[int, int]) -> Tuple[int, int]:
         new_image_height = current_size[1]
