@@ -31,10 +31,11 @@ class VideoBuilder:
         self.is_video_horizontal = True
         self.pause_duration = 0.1
         self.pause_duration_long = 0.2
-        self.font = "data/fonts/phrase.otf"
+        self.font = "data/fonts/SuperDisco.ttf"
 
     def _init_state(self):
-        self.audio = []
+        self.audio = []  # actor's lines
+        self.background_audio = None
         self.images = []
         self.text = []
         self.clips = []
@@ -59,6 +60,7 @@ class VideoBuilder:
 
         self._assign_story_elements()
         self._add_background_video()
+        self._add_background_sound()
         self._add_actors_content()
 
     def build_video_from_json(
@@ -75,6 +77,7 @@ class VideoBuilder:
 
         self._assign_story_elements()
         self._add_background_video()
+        self._add_background_sound()
         self._add_actors_content()
 
     def _create_actors(self, characters: Optional[List[Character]]) -> Dict[str, Actor]:
@@ -89,7 +92,7 @@ class VideoBuilder:
             for index, name in enumerate(self.story.actors):
                 actors[name] = self.actor_factory.create_actor(name, index)
 
-        actors["lector"] = self.actor_factory.create_actor("lector", -1, is_lector=True)
+        actors["Lektor"] = self.actor_factory.create_actor("Lektor", -1, is_lector=True)
         return actors
 
     def _join_all(self, is_sound: bool = False):
@@ -179,22 +182,16 @@ class VideoBuilder:
         return side
 
     def _get_font_size_and_stroke_width(self) -> Tuple[int, int]:
-        font_size = self.clip_size[0] // 30
-        font_size = 50
-        stroke_width = font_size // 30 + 1
+        # font_size = self.clip_size[0] // 30
+        font_size = 65
+        # stroke_width = font_size // 30 + 1
+        stroke_width = 3
         return font_size, stroke_width
 
     def _get_dialogue_max_width(self):
-        return self.clip_size[0] * 0.5
+        return self.clip_size[0] * 0.7
 
     def _assign_story_elements(self):
-        self._handle_dialogue(
-            Dialogue(
-                actor="lector",
-                content="Zmasakrujcie przycisk subskrypcji.",
-                emotion="spokój",
-            )
-        )
         self._join_all()
         for scenario_element in self.tqdm_logger(
             self.story.scenario, desc="Parsing scenario elements"
@@ -397,6 +394,24 @@ class VideoBuilder:
                         self.text.append(dialogue_text_clip)
                     progress_bar.update(1)
 
+    def _add_background_sound(self):
+        sounds = self.resource_manager.get_background_sounds()
+        if len(sounds) == 0:
+            return
+
+        random.shuffle(sounds)
+        background_clips, total_duration = [], 0
+        while self.time > total_duration:
+            for sound_file_path in sounds:
+                audio_clip = mvp.AudioFileClip(sound_file_path).volumex(0.05)
+                background_clips.append(audio_clip)
+                total_duration += audio_clip.duration
+                if total_duration > self.time:
+                    break
+
+        background_audio = mvp.concatenate_audioclips(background_clips)
+        self.background_audio = audio_clip.subclip(0, self.time)
+
     def _add_background_video(self):
         # concat random downloaded
         videos = self.resource_manager.get_background_videos(
@@ -412,18 +427,20 @@ class VideoBuilder:
             self.clip_size = (x, y)
             return
 
+        speed = 3
+
         random.shuffle(videos)
         is_first, background_clips, total_duration = True, [], 0
         while self.time > total_duration:
             for video_path in videos:
-                video_clip = mvp.VideoFileClip(video_path)
+                video_clip = mvp.VideoFileClip(video_path).speedx(speed)
                 video_clip = video_clip.resize((x, y))
                 if is_first is True:
                     random_start_time = random.randint(0, int(video_clip.duration))
                     video_clip = video_clip.subclip(random_start_time)
                     is_first = False
                 background_clips.append(video_clip)
-                total_duration += video_clip.duration
+                total_duration += video_clip.duration / speed
                 if total_duration > self.time:
                     break
 
@@ -437,6 +454,101 @@ class VideoBuilder:
         ).set_duration(self.time)
 
         concated_audio = mvp.concatenate_audioclips(self.audio)
+        if self.background_audio is not None:
+            concated_audio = mvp.CompositeAudioClip(
+                [concated_audio, self.background_audio]
+            )
+
+        video = video.set_audio(concated_audio)
+
+        video_path = self.resource_manager.get_video_save_path(video_name)
+        video.write_videofile(
+            video_path,
+            fps=30,
+            threads=os.cpu_count(),
+            logger=RobloxTqdmProgressBarLogger(tqdm=self.tqdm_logger),
+        )
+        return video_path
+
+
+class HeadlessVideoBuilder(VideoBuilder):
+    def _init_state(self):
+        self.audio = []  # actor's lines
+        self.background_audio = None
+        self.text = []
+        self.clips = []
+        self.clip_size = None
+        self.time = 0
+
+        self.story = None
+        self.actors = {}
+        self._current_actor_name = None
+
+        self.font_size = 120
+        self.font_stroke_width = 8
+
+    def _add_actors_content(self):
+        with self.tqdm_logger(
+            total=sum([len(a.intervals) for a in self.actors.values()]),
+            desc="Parsing intervals",
+        ) as progress_bar:
+            for name, actor in self.actors.items():
+                for interval in actor.intervals:
+                    for start, content, duration in interval.dialogues:
+                        sign_duration = duration / len(content)
+
+                        word_start = start
+                        for word in content.split(" "):
+                            word_text_clip = mvp.TextClip(
+                                word,
+                                fontsize=self.font_size,
+                                color=actor.color,
+                                stroke_color="black",
+                                stroke_width=self.font_stroke_width,
+                                font=self.font,
+                                method="caption",
+                                align="center",
+                                size=(self.clip_size[0] * 0.9, None),
+                            )
+
+                            text_width, text_height = word_text_clip.size
+                            x = self.clip_size[0] * 0.5 - text_width * 0.5
+
+                            start_position = self.clip_size[1]
+                            max_height = start_position * 0.5 - text_height * 0.5
+
+                            word_duration = len(word) * sign_duration
+
+                            g = 9.81
+                            tw = word_duration / 2
+                            v0 = g * tw * 3
+
+                            def move_text(current_time):
+                                y = (v0 * current_time) - (
+                                    (g * (current_time**2)) / 2
+                                )
+                                y = self.clip_size[1] / 2 - y * 100
+                                return (x, y)
+
+                            word_text_clip = word_text_clip.set_position(move_text)
+                            word_text_clip = word_text_clip.set_start(
+                                word_start
+                            ).set_duration(word_duration)
+                            word_start += word_duration
+
+                            self.text.append(word_text_clip)
+
+                    progress_bar.update(1)
+
+    def save(self, video_name: str | None = None) -> str:
+        video = mvp.CompositeVideoClip(self.clips + self.text).set_duration(self.time)
+
+        concated_audio = mvp.concatenate_audioclips(self.audio)
+        if self.background_audio is not None:
+            concated_audio = mvp.CompositeAudioClip(
+                [concated_audio, self.background_audio]
+            )
+
         video = video.set_audio(concated_audio)
 
         video_path = self.resource_manager.get_video_save_path(video_name)

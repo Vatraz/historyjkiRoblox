@@ -79,46 +79,6 @@
             "name": "pl-PL-Wavenet-D",
             "ssmlGender": "FEMALE",
             "naturalSampleRateHertz": 24000
-        },
-        {
-            "languageCodes": [
-                "pl-PL"
-            ],
-            "name": "pl-PL-Standard-A",
-            "ssmlGender": "FEMALE",
-            "naturalSampleRateHertz": 24000
-        },
-        {
-            "languageCodes": [
-                "pl-PL"
-            ],
-            "name": "pl-PL-Standard-B",
-            "ssmlGender": "MALE",
-            "naturalSampleRateHertz": 24000
-        },
-        {
-            "languageCodes": [
-                "pl-PL"
-            ],
-            "name": "pl-PL-Standard-C",
-            "ssmlGender": "MALE",
-            "naturalSampleRateHertz": 24000
-        },
-        {
-            "languageCodes": [
-                "pl-PL"
-            ],
-            "name": "pl-PL-Standard-D",
-            "ssmlGender": "FEMALE",
-            "naturalSampleRateHertz": 24000
-        },
-        {
-            "languageCodes": [
-                "pl-PL"
-            ],
-            "name": "pl-PL-Standard-E",
-            "ssmlGender": "FEMALE",
-            "naturalSampleRateHertz": 24000
         }
     ]
 }

@@ -1,5 +1,6 @@
 import base64
 import os
+import json
 from typing import NamedTuple, Optional
 
 import requests
@@ -58,6 +59,9 @@ class VoiceGenerator:
             raise VoiceGeneratorException(
                 f"response status code: {response.status_code}\n{response.text}"
             )
+
+        with open("ggts.json", "w") as f:
+            json.dump(response.json(), f)
 
         binary_data = base64.b64decode(response.json()["audioContent"].encode())
         with open(filepath, "wb") as f:
