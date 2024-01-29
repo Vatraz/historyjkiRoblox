@@ -41,15 +41,24 @@ class CharacterFactory:
     def __init__(self):
         self.resource_manager = ResourceManager()
         self.voices_data = self.resource_manager.get_voices()
+        self.used_voices = []
 
     def choose_voice(self, gender: str) -> Voice:
         # pitch = random.randint(-200, 200) * .1
-        pitch = 0
+        pitch = random.choice([i for i in range(-12, 12)])
         # speaking_rate = random.randint(250, 400) * .01
         speaking_rate = 1
         voice_name = random.choice(
-            tuple(filter(lambda x: x["ssmlGender"] == gender, self.voices_data))
+            tuple(
+                filter(
+                    lambda x: x["ssmlGender"] == gender
+                    and x["name"] not in self.used_voices,
+                    self.voices_data,
+                )
+            )
         )["name"]
+
+        self.used_voices.append(voice_name)
         return Voice(name=voice_name, pitch=pitch, speaking_rate=speaking_rate)
 
     def create_character(

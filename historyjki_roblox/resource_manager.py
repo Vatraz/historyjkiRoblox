@@ -178,6 +178,10 @@ class ResourceManager:
         videos_dir = f"{self.root_path}/data/videos/{last_dir}"
         return [f"{videos_dir}/{i}" for i in self._listdir(videos_dir)]
 
+    def get_background_sounds(self) -> list[str]:
+        sounds_dir = f"{self.root_path}/data/sounds/background"
+        return [f"{sounds_dir}/{i}" for i in self._listdir(sounds_dir)]
+
     @staticmethod
     def _listdir(path: str, ignore_hidden: bool = True):
         return [
