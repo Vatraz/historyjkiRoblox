@@ -51,8 +51,8 @@ class CharacterFactory:
         voice_name = random.choice(
             tuple(
                 filter(
-                    lambda x: x["ssmlGender"] == gender
-                    and x["name"] not in self.used_voices,
+                    lambda x: x["ssmlGender"] == gender,
+                    # and x["name"] not in self.used_voices,
                     self.voices_data,
                 )
             )

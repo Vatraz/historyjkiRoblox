@@ -110,7 +110,6 @@ class ActorVideoIntervalSetFactory:
     def get_color(self) -> str:
         n = random.randint(0, len(self.colors) - 1)
         color = self.colors[n]
-        self.colors.pop(n)
         return color
 
     def create_actor(

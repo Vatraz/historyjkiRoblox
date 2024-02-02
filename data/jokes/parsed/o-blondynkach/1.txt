@@ -1,0 +1,8 @@
+Lektor: Jedna z_blondynek kupuje nowe mieszkanie i_zaprasza do_niego swoją koleżankę, też blondynkę i_mówi:
+PierwszaBlondynka: Mam tu_taki fajny przycisk. Jak pstrykam to_raz jest światło, a_raz go nie ma.
+Lektor: Obie blondynki przyglądają się z_zaciekawieniem nowemu zjawisku.
+Lektor: Nagle jedna zadaje pytanie:
+DrugaBlondynka: A_gdzie to_światło jest, jak_go nie_ma?
+PierwszaBlondynka: Choć, to_ci pokażę.
+Lektor: Udaje się do_kuchni, otwiera drzwi lodówki i_mówi:
+PierwszaBlondynka: Tu_się chowa.

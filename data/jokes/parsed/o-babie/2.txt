@@ -1,0 +1,5 @@
+Lektor: Przychodzi baba do_lekarza:
+Lekarz: co_pani dolega?
+Baba: wydaje mi_się, że_jestem ćmą
+Lekarz: to_proszę do_psychiatry
+Baba: ale tylko u_pana było zapalone światło

@@ -1,0 +1,8 @@
+Lektor: Przychodzi baba do_lekarza.
+Lektor: Lekarz jej każe oddać mocz do_analizy:
+Baba: Gdzie mam go_oddać?
+Lekarz: Do słoika, stoi na_szafie.
+Lektor: Lekarz wychodzi z_pokoju.
+Lektor: Wraca za_pięć minut i_widzi cały pokój zasikany.
+Lekarz: Co pani narobiła?
+Baba: A_myśli pan, że_to tak łatwo nasikać do_słoika stojącego na_szafie?

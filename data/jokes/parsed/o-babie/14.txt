@@ -1,0 +1,5 @@
+Lektor: Babka idzie do_lekarza odebrać wyniki USG.
+Lektor: Lekarz patrzy i_mówi:
+Lekarz: Nie podoba mi_się, nie podoba mi_się pani...
+Lektor: A_na to_babka mówi:
+Baba: Pan też nie jest za_przystojny.

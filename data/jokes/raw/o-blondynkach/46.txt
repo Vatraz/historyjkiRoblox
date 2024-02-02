@@ -1,0 +1,4 @@
+Blondynka wypełnia formularz:
+IMIĘ: Anna
+NAZWISKO: Kowalska
+URODZONA: Tak

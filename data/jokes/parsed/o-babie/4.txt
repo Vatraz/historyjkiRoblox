@@ -1,0 +1,7 @@
+Lektor: Przychodzi starsze małżeństwo do_lekarza.
+Lektor: Mąż wchodzi do_gabinetu.
+Marek: Panie doktorze, w_nocy jak wstałem do_łazienki to_jak wchodziłem światło samo się zapaliło, a_jak wychodziłem samo zgasło.
+Lekarz: Niestety, ale_nic z_tym nie mogę zrobić.
+Lektor: Po_czym wychodzi lekarz na_poczekalnię do_żony:
+Lekarz: Pani mąż mówi, że_w_nocy w_łazience samo światło mu_się zapaliło i_samo zgasło.
+Basia: No_niech pan nie mówi, że_znowu mi_do lodówki nasikał.

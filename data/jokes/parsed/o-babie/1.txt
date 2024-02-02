@@ -1,0 +1,4 @@
+Lektor: Przychodzi baba do_warzywniaka i_mówi:
+Baba: Poproszę kilo ziemniaków.
+Sklepikarz: Przykro mi ziemniaki się skończyły.
+Baba: To poproszę kilo kartofli.

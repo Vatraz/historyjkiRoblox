@@ -1,0 +1,75 @@
+{
+    "jokes": [
+        {
+            "number": 0,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip o babie i ginekologu",
+            "videoFileName": null,
+            "videoId": "ys3_wdO-v2I"
+        },
+        {
+            "number": 1,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip o babie i ziemniakach",
+            "scenarioFilePath": "data/jokes/parsed/o-babie/1.txt",
+            "videoFileName": null,
+            "videoId": "JHe2_bndOz0"
+        },
+        {
+            "number": 9,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip o babie i badaniu moczu",
+            "videoFileName": "xvWpDmoLV5.mp4",
+            "videoId": "9-PXrdeWjpc"
+        },
+        {
+            "number": 14,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip o babie i badaniu USG",
+            "videoFileName": "G6ReZAvKye.mp4",
+            "videoId": "ocK3h0SQWDU"
+        },
+        {
+            "number": 0,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynce i wrednym m\u0119\u017cu",
+            "videoFileName": "dP9u3gLebP.mp4",
+            "videoId": "JB-xGbjWPOk"
+        },
+        {
+            "number": 1,
+            "jokeCategory": "o-blondynkach",
+            "title": "Blondynka odkrywa Ameryk\u0119! Dowcip.",
+            "videoFileName": "nc1unAem9o.mp4",
+            "videoId": "BM66Uiyaikg"
+        },
+        {
+            "number": 3,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynce i grze w chowanego",
+            "videoFileName": "NabxkqrLer.mp4",
+            "videoId": null
+        },
+        {
+            "number": 4,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o smutnej blondynce",
+            "videoFileName": "mD2wKr2aYD.mp4",
+            "videoId": null
+        },
+        {
+            "number": 6,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynce i zatrza\u015bni\u0119tych kluczach",
+            "videoFileName": "DZJXxDPEOc.mp4",
+            "videoId": null
+        },
+        {
+            "number": 7,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynce i ziemniakach",
+            "videoFileName": "VmLCq9rg4I.mp4",
+            "videoId": null
+        }
+    ]
+}

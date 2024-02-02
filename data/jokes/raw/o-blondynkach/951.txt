@@ -1,0 +1,2 @@
+- Jaki jest najkrótszy argument, podważający wiarygodność testów IQ?
+- Doda.

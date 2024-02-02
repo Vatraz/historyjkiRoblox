@@ -1,0 +1,4 @@
+pytanie:
+Czemu blondynka nie wiedziała jak napisać jedenaście?
+odpowiedź:
+Bo nie wiedziała, którą jedynkę napisać pierwszą.

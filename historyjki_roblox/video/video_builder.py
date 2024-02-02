@@ -49,7 +49,7 @@ class VideoBuilder:
     def build_video(
         self,
         story: Story,
-        characters: list[Character],
+        characters: list[Character] | None = None,
         is_video_horizontal: bool = True,
     ):
         self._init_state()
@@ -472,6 +472,7 @@ class VideoBuilder:
 
 
 class HeadlessVideoBuilder(VideoBuilder):
+
     def _init_state(self):
         self.audio = []  # actor's lines
         self.background_audio = None
@@ -500,7 +501,7 @@ class HeadlessVideoBuilder(VideoBuilder):
                         word_start = start
                         for word in content.split(" "):
                             word_text_clip = mvp.TextClip(
-                                word,
+                                word.replace("_", " "),
                                 fontsize=self.font_size,
                                 color=actor.color,
                                 stroke_color="black",
@@ -524,9 +525,7 @@ class HeadlessVideoBuilder(VideoBuilder):
                             v0 = g * tw * 3
 
                             def move_text(current_time):
-                                y = (v0 * current_time) - (
-                                    (g * (current_time**2)) / 2
-                                )
+                                y = (v0 * current_time) - ((g * (current_time**2)) / 2)
                                 y = self.clip_size[1] / 2 - y * 100
                                 return (x, y)
 

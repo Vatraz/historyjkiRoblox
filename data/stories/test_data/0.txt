@@ -1,5 +1,2 @@
-Lektor: Przychodzi baba do lekarza.
-Lekarz: No i co, czy pomogły pani te lekarstwa co przypisałem na hemoroidy?
-Baba: Tak, pół na pół.
-Lekarz: Jak to?
-Baba: Te długie śliskie tabletki to jakoś połknęłam, ale ten krem, co mi pan przepisał, to nawet z chlebem zjeść nie mogłam.
+Lektor: Przychodzi garbata baba do_lekarza a_lekarz się_jej pyta:
+Lekarz: co_się pani tak_skrada?

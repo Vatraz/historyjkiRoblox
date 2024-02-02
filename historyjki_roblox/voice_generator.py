@@ -48,7 +48,7 @@ class VoiceGenerator:
                 "pitch": voice.pitch,
                 "speakingRate": voice.speaking_rate,
             },
-            "input": {"text": text},
+            "input": {"text": text.replace("_", " ")},
             "voice": {"languageCode": "pl-PL", "name": voice.name},
         }
         params = {"key": self.api_key}
@@ -59,9 +59,6 @@ class VoiceGenerator:
             raise VoiceGeneratorException(
                 f"response status code: {response.status_code}\n{response.text}"
             )
-
-        with open("ggts.json", "w") as f:
-            json.dump(response.json(), f)
 
         binary_data = base64.b64decode(response.json()["audioContent"].encode())
         with open(filepath, "wb") as f:

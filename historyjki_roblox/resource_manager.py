@@ -144,6 +144,9 @@ class ResourceManager:
     def get_gtts_api_key(self) -> str:
         return os.environ.get("GTTS_API_KEY")
 
+    def get_youtube_api_key(self) -> str:
+        return os.environ.get("YOUTUBE_API_KEY")
+
     def get_random_string(self, length: int = 10) -> str:
         characters = string.ascii_letters + string.digits
         return "".join([random.choice(characters) for _ in range(length)])
@@ -181,6 +184,84 @@ class ResourceManager:
     def get_background_sounds(self) -> list[str]:
         sounds_dir = f"{self.root_path}/data/sounds/background"
         return [f"{sounds_dir}/{i}" for i in self._listdir(sounds_dir)]
+
+    # JOKES
+    def read_joke_raw(self, category: str, number: int) -> str:
+        return "".join(
+            open(
+                f"{self.root_path}/data/jokes/raw/{category}/{number}.txt", "r"
+            ).readlines()
+        )
+
+    def read_joke_parsed(self, category: str, number: int) -> str:
+        return "".join(
+            open(
+                f"{self.root_path}/data/jokes/parsed/{category}/{number}.txt", "r"
+            ).readlines()
+        )
+
+    def get_jokes_data(self) -> dict:
+        return self._load_json(f"{self.root_path}/data/jokes/data.json")
+
+    def update_jokes_data(self, data: dict):
+        with open(f"{self.root_path}/data/jokes/data.json", "w") as f:
+            json.dump(data, f)
+
+    def get_jokes(self) -> set:
+        jokes = set()
+
+        jokes_root = f"{self.root_path}/data/jokes/raw"
+        for category in self._listdir(jokes_root):
+            category_path = f"{jokes_root}/{category}"
+            for filename in self._listdir(category_path):
+                lines = []
+                with open(f"{category_path}/{filename}", "r") as f:
+                    for line in f.readlines():
+                        lines.append(line.strip())
+                jokes.add(tuple(lines))
+
+        print(f"Obecna liczba żartów: {len(jokes)}.")
+        return jokes
+
+    def save_joke(self, joke_lines: list[str], category: str):
+        save_dir = f"{self.root_path}/data/jokes/raw/{category}"
+        if os.path.exists(save_dir) is False:
+            os.mkdir(save_dir)
+        n = len(self._listdir(save_dir))
+        with open(f"{save_dir}/{n}.txt", "w") as f:
+            for line in joke_lines:
+                f.write(f"{line}\n")
+
+    # YOUTUBE
+    def get_youtube_data(self):
+        return self._load_json(f"{self.root_path}/data/youtube/data.json")
+
+    def update_videos_data(self, videos: list[dict]):
+        dir_path = f"{self.root_path}/data/youtube"
+        self._mkdir(dir_path)
+
+        youtube_data_path = f"{dir_path}/data.json"
+        youtube_data = self._load_json(f"{self.root_path}/data/youtube/data.json")
+        if youtube_data is None:
+            youtube_data = {}
+
+        youtube_data["videos"] = videos
+
+        with open(youtube_data_path, "w") as f:
+            json.dump(youtube_data, f)
+
+    @staticmethod
+    def _load_json(path: str) -> dict:
+        data = None
+        if os.path.exists(path):
+            with open(path, "r") as f:
+                data = json.load(f)
+        return data
+
+    @staticmethod
+    def _mkdir(path: str):
+        if os.path.exists(path) is False:
+            os.mkdir(path)
 
     @staticmethod
     def _listdir(path: str, ignore_hidden: bool = True):

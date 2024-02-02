@@ -2,6 +2,9 @@ output/
 stories/*
 ehh*
 *.mp3
+*.mp4
+token.pickle
+client_secret.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

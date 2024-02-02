@@ -1,0 +1,4 @@
+Przychodzi baba do urzędu i wypisuje kartę, oddaje urzędnikowi. A urzędnik:
+- Musi pani postawić kropkę.
+- Niech pan postawi.
+- Nie, nie bo ta kropka musi być napisana pani charakterem pisma.
