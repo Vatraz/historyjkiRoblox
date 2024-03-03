@@ -32,7 +32,6 @@ let renderVideo = () => {
             updateLogWindow([response.msg])
         }
     })
-
 }
 document.getElementById("render_button").onclick = renderVideo
 

@@ -1,0 +1,3 @@
+Lektor: Przychodzi baba do_lekarza:
+Baba: Mam wypieki!
+Lekarz: Smacznego.

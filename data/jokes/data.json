@@ -1,4 +1,8 @@
 {
+    "o-babie__0": {
+        "title": "Dowcip o babie i ginekologu",
+        "videoId": null
+    },
     "jokes": [
         {
             "number": 0,
@@ -11,7 +15,6 @@
             "number": 1,
             "jokeCategory": "o-babie",
             "title": "Dowcip o babie i ziemniakach",
-            "scenarioFilePath": "data/jokes/parsed/o-babie/1.txt",
             "videoFileName": null,
             "videoId": "JHe2_bndOz0"
         },
@@ -48,14 +51,14 @@
             "jokeCategory": "o-blondynkach",
             "title": "Dowcip o blondynce i grze w chowanego",
             "videoFileName": "NabxkqrLer.mp4",
-            "videoId": null
+            "videoId": "ieOcKmV4rB8"
         },
         {
             "number": 4,
             "jokeCategory": "o-blondynkach",
             "title": "Dowcip o smutnej blondynce",
             "videoFileName": "mD2wKr2aYD.mp4",
-            "videoId": null
+            "videoId": "vQeIOwMX3zM"
         },
         {
             "number": 6,
@@ -69,6 +72,97 @@
             "jokeCategory": "o-blondynkach",
             "title": "Dowcip o blondynce i ziemniakach",
             "videoFileName": "VmLCq9rg4I.mp4",
+            "videoId": "mhuUgtlgd1Q"
+        },
+        {
+            "number": 9,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynce w s\u0105dzie",
+            "videoFileName": "n1No1z01sf.mp4",
+            "videoId": "Iy1TcazEkfY"
+        },
+        {
+            "number": 10,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynce w poci\u0105gu",
+            "videoFileName": "bzrsV26YhI.mp4",
+            "videoId": "UQCGogQrADw"
+        },
+        {
+            "number": 13,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip zjaranej krowie",
+            "videoFileName": "vVnZeplkvn.mp4",
+            "videoId": "HOVS7uQ-oyk"
+        },
+        {
+            "number": 12,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynkach i bananie",
+            "videoFileName": "lURL6CoEsK.mp4",
+            "videoId": "obp-mShGXoM"
+        },
+        {
+            "number": 14,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynkach na pustyni",
+            "videoFileName": "IbhfpYV1ky.mp4",
+            "videoId": "kA9BcrqiYLs"
+        },
+        {
+            "number": 19,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip o babie z l\u0119kiem wysoko\u015bci",
+            "videoFileName": "XPfeyrelbu.mp4",
+            "videoId": "KNSr_deh02E"
+        },
+        {
+            "number": 15,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynce w czapce zamiast kasku",
+            "videoFileName": "JJxM3P8Wbl.mp4",
+            "videoId": "3NAqZSXyOew"
+        },
+        {
+            "number": 23,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip o zchorowanej babie",
+            "videoFileName": "FBwWbHqDNj.mp4",
+            "videoId": null
+        },
+        {
+            "number": 16,
+            "jokeCategory": "o-blondynkach",
+            "title": "Jak zapewni\u0107 blondynce rozrywk\u0119 na_wiele godzin? Dowcip",
+            "videoFileName": "OcTT0p8zsf.mp4",
+            "videoId": null
+        },
+        {
+            "number": 19,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynach jedz\u0105cych kanapki w barze",
+            "videoFileName": "vtGgLYUtrf.mp4",
+            "videoId": null
+        },
+        {
+            "number": 22,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip o babie z bol\u0105cym brzuchem",
+            "videoFileName": "EqCFi3R7R6.mp4",
+            "videoId": null
+        },
+        {
+            "number": 29,
+            "jokeCategory": "o-babie",
+            "title": "Dowcip o babie z zanikiem pami\u0119ci",
+            "videoFileName": "eHxQejaFrj.mp4",
+            "videoId": null
+        },
+        {
+            "number": 30,
+            "jokeCategory": "o-blondynkach",
+            "title": "Dowcip o blondynce i granacie",
+            "videoFileName": "DkBAayU8Fd.mp4",
             "videoId": null
         }
     ]

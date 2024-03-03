@@ -1,128 +1,131 @@
-import argparse
-import datetime
-import re
+import os
 
-from typing import Optional
+from typing import List, Optional
 
 from historyjki_roblox.resource_manager import ResourceManager
 from historyjki_roblox.story.story_parser_gpt import GptStoryParser
 from historyjki_roblox.youtube.youtube_manager import YoutubeManager
-from historyjki_roblox.video.video_builder import HeadlessVideoBuilder
 
 
 class JokesManager:
 
     def __init__(self):
-        self.headless_video_builder = HeadlessVideoBuilder()
-        self.story_parser = GptStoryParser()
-        self.resource_manager = ResourceManager()
         self.youtube_manager = YoutubeManager()
+        self.resource_manager = ResourceManager()
+        self.data = self._load_jokes_data()
 
-    def merge_jokes_with_youtube(self):
-        self.youtube_manager.download_videos_data()
-        youtube_data = self.resource_manager.get_youtube_data()
-        shorts_videos = [
+    def _load_jokes_data(self) -> dict:
+        return self.resource_manager.load_jokes_data()
+
+    def _get_joke_id(self, category: str, filename: str) -> str:
+        return category + "__" + os.path.splitext(filename)[0]
+
+    def _get_category_filename_from_id(self, joke_id: str):
+        category, filename = joke_id.split("__")
+        return category, f"{filename}.txt"
+
+    def _get_data(self):
+        self.data = self._load_jokes_data()
+        return self.data
+
+    def _get_joke_data(self, joke_id: str):
+        video_id = self.data[joke_id]["videoId"]
+        return {
+            "title": self.data[joke_id]["title"],
+            "videoId": video_id,
+            "raw": self._get_joke_raw(joke_id),
+            "parsed": self._get_joke_parsed(joke_id),
+            "isVideoRendered": (
+                True if os.path.exists(self._get_vidoe_path(joke_id)) else False
+            ),
+            "youtube": self.youtube_manager._get_video_data(video_id)
+        }
+
+    def _get_joke_raw(self, joke_id: str):
+        category, filename = self._get_category_filename_from_id(joke_id)
+        return self.resource_manager.get_joke_raw(category, filename)
+
+    def _get_joke_parsed(self, joke_id: str):
+        category, filename = self._get_category_filename_from_id(joke_id)
+        return self.resource_manager.get_joke_parsed(category, filename)
+
+    def _save_joke_parsed(): ...
+
+    def _add_joke(self, category: str, filename: str, title: str, parsed: str):
+        joke_id = self._get_joke_id(category, filename)
+        self.resource_manager.save_joke_parsed(category, filename, parsed)
+        self.data[joke_id] = {"title": title, "videoId": None}
+        self._save()
+
+    def _delete_joke(self, joke_id):
+        self.data.pop(joke_id)
+        parsed_path = self._get_parsed_path(joke_id)
+        if os.path.exists(parsed_path):
+            os.remove(parsed_path)
+        video_path = self._get_vidoe_path(joke_id)
+        if os.path.exists(video_path):
+            os.remove(video_path)
+        self._save()
+
+    def _delete_joke_video(self, joke_id):
+        os.remove(self._get_vidoe_path(joke_id))
+
+    def _get_categories(self):
+        return self.resource_manager.get_jokes_categories()
+
+    def _get_available_jokes_for_category(self, category):
+        existing_jokes = [
+            f"{i.split('__')[1]}.txt"
+            for i in self.data.keys()
+            if i.startswith(category)
+        ]
+        available_jokes = [
             i
-            for i in youtube_data["videos"]
-            if re.match(r"^PT\d{1,2}S$", i["duration"])
+            for i in self.resource_manager.get_category_jokes(category)
+            if i not in existing_jokes
         ]
-        shorts_title_map = {i["title"]: i for i in shorts_videos}
-        shorts_id_map = {i["id"]: i for i in shorts_videos}
+        return sorted(available_jokes, key=lambda i: int(os.path.splitext(i)[0]))
 
-        jokes_data = self.resource_manager.get_jokes_data()
+    def _parse_joke(self, category: str, filename: str):
+        # TODO: add parsing witch chatgpt
+        joke_raw = self.resource_manager.get_joke_raw(category, filename)
+        self.resource_manager.save_joke_parsed(category, filename, joke_raw)
+        return joke_raw
 
-        for joke in jokes_data["jokes"]:
-            title, video_id = joke["title"], joke["videoId"]
-            if title in shorts_title_map:
-                joke["videoId"] = shorts_title_map[title]["id"]
+    def _get_story(self, joke_id):
+        category, filename = self._get_category_filename_from_id(joke_id)
+        parsed_joke = self.resource_manager.get_joke_parsed(category, filename)
+        return GptStoryParser().parse_raw_story(parsed_joke)
 
-            if video_id in shorts_id_map:
-                joke["title"] = shorts_id_map[video_id]["title"]
-
-        self.resource_manager.update_jokes_data(jokes_data)
-        print("Merge done.")
-
-    def parse_scenarios(self): ...
-
-    def render_videos(self):
-        jokes_data = self.resource_manager.get_jokes_data()
-        for joke in jokes_data["jokes"]:
-            if joke["videoFileName"] is not None:
-                continue
-            if joke["videoId"] is not None:
-                continue
-
-            joke_raw = self.resource_manager.read_joke_parsed(
-                joke["jokeCategory"], joke["number"]
-            )
-            story = self.story_parser.parse_raw_story(joke_raw)
-            self.headless_video_builder.build_video(
-                story=story, is_video_horizontal=False
-            )
-            video_path = self.headless_video_builder.save()
-            joke["videoFileName"] = video_path.split("/")[-1]
-
-        self.resource_manager.update_jokes_data(jokes_data)
-
-    def upload_jokes(
-        self, status: str = "private", number_of_days_ahead: int = 0, hour: int = 0
-    ):
-        print(f"Upload, status: {status}, day: +{number_of_days_ahead}, hour: {hour}")
-        youtube_titles = [
-            i["title"] for i in self.resource_manager.get_youtube_data()["videos"]
-        ]
-        jokes_data = self.resource_manager.get_jokes_data()
-        for joke in jokes_data["jokes"]:
-            if joke["videoFileName"] is None:
-                continue
-            if joke["videoId"] is not None:
-                continue
-            if joke["title"] in youtube_titles:
-                continue
-
-            joke_raw = self.resource_manager.read_joke_raw(
-                joke["jokeCategory"], joke["number"]
-            )
-            description = "Coś z humorkiem :)\n\n" + joke_raw
-
-            video_file_path = self.resource_manager.get_video_save_path(
-                video_name=joke["videoFileName"]
-            )
-
-            publish_at = None
-            if number_of_days_ahead is not None and hour is not None:
-                publish_at = (
-                    datetime.datetime.now()
-                    + datetime.timedelta(days=number_of_days_ahead)
-                ).replace(hour=hour, minute=0, second=0).isoformat()
-            print(publish_at)
-
-            self.youtube_manager.upload_video(
-                video_file_path, joke["title"], description, status, publish_at
-            )
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Jokes manager.")
-    parser.add_argument(
-        "operation",
-        choices=["yt-merge", "render", "upload"],
-        help="Operation to perform",
-    )
-    parser.add_argument(
-        "-S", "--status", type=str, default="private", help="Video publication status"
-    )
-    parser.add_argument("-D", "--days", type=int, help="Number of days ahead")
-    parser.add_argument("-H", "--hour", type=int, help="Hour")
-    args = parser.parse_args()
-
-    jokes_manager = JokesManager()
-    if args.operation == "yt-merge":
-        jokes_manager.merge_jokes_with_youtube()
-    elif args.operation == "render":
-        jokes_manager.render_videos()
-    elif args.operation == "upload":
-        print(args.status)
-        jokes_manager.upload_jokes(
-            status=args.status, number_of_days_ahead=args.days, hour=args.hour
+    def _get_parsed_path(self, joke_id):
+        category, filename = self._get_category_filename_from_id(joke_id)
+        return (
+            self.resource_manager.root_path
+            + "/data/jokes/parsed/"
+            + category
+            + "/"
+            + filename
         )
+
+    def _get_vidoe_path(self, joke_id: str):
+        return self.resource_manager.root_path + "/output/video/" + joke_id + ".mp4"
+
+    def _save(self):
+        self.resource_manager.save_jokes_data(self.data)
+
+    def _upload_joke(self, joke_id: str, status: str, publish_at: str | None):
+        joke = self.data[joke_id]
+        joke_raw = self._get_joke_raw(joke_id)
+        description = "Coś z humorkiem :)\n\n" + joke_raw
+        tags = [tag.replace("-", " ") for tag in joke_id.split("__")]
+
+        video_path = self._get_vidoe_path(joke_id)
+        if os.path.exists(video_path) is False:
+            return None
+
+        video_id, video_data = self.youtube_manager._upload_video(
+            video_path, joke["title"], description, tags, status, publish_at
+        )
+        self.data[joke_id]["videoId"] = video_id
+        self._save()
+        return video_id, video_data

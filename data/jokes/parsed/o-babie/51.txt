@@ -1,0 +1,6 @@
+Lektor: Przychodzi baba do_lekarza:
+Baba: Panie doktorze źle się czuję.
+Lektor: Lekarz zbadał babę:
+Lekarz: Niech pani codziennie rano na_czczo wypija jedno jajko.
+Baba: Panie doktorze, ale ja_nie znoszę jajek.
+Lekarz: A_kto je_pani każe znosić?

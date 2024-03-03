@@ -1,0 +1,3 @@
+Lektor: Rozmawiają blondynki:
+0Blodnynka: Dowiedziałam się, że_mąż mnie zdradza. Jak myślisz powiedzieć mu_o_tym?
+1Blondynka: A_myślisz, że_on_o tym nie wie?

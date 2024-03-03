@@ -1,0 +1,5 @@
+Lektor: Laska jedzie na_motorze przez miasto i_nagle nadchodzi Policjant i_zasłania jej drogę.
+Lektor: Policjant mówi:
+Policjant: Czemu założyłaś czapkę zamiast kasku?
+Blondynka: Bo zrobiłam sobie test. 
+Blondynka: Zrzuciłam z_dwudziestego piętra kask i_się rozwalił, a potem czapkę ale jej nic się nie stało.

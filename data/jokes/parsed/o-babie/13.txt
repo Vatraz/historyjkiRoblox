@@ -1,0 +1,5 @@
+Lektor: Przychodzi krowa do_lekarza tak ucieszona, ciągle się śmieje.
+Lektor: Lekarz pyta:
+Lekarz: Co_pani dolega?
+Lektor: A_krowa na_to:
+Krowa: Nie wiem, panie doktorze, to_chyba po_tej trawie.

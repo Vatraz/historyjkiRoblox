@@ -1,3 +1,3 @@
-Lektor: Przychodzi trup baby do_lekarza i_kładzie się na_kozetce:
-Lekarz: Co_się pani tak_rozkłada?
-Baba: A_co, mam_gnić w_poczekalni?
+Przychodzi trup baby do lekarza i kładzie się na kozetce:
+- Co się pani tak rozkłada?
+- A co, mam gnić w poczekalni?

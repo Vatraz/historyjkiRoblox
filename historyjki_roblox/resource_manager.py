@@ -186,27 +186,40 @@ class ResourceManager:
         return [f"{sounds_dir}/{i}" for i in self._listdir(sounds_dir)]
 
     # JOKES
-    def read_joke_raw(self, category: str, number: int) -> str:
-        return "".join(
-            open(
-                f"{self.root_path}/data/jokes/raw/{category}/{number}.txt", "r"
-            ).readlines()
-        )
+    def get_jokes_categories(self) -> list[str]:
+        return self._listdir(f"{self.root_path}/data/jokes/raw")
 
-    def read_joke_parsed(self, category: str, number: int) -> str:
-        return "".join(
-            open(
-                f"{self.root_path}/data/jokes/parsed/{category}/{number}.txt", "r"
-            ).readlines()
-        )
+    def get_category_jokes(self, category: str):
+        return self._listdir(f"{self.root_path}/data/jokes/raw/{category}")
 
-    def get_jokes_data(self) -> dict:
-        return self._load_json(f"{self.root_path}/data/jokes/data.json")
+    def load_jokes_data(self) -> dict:
+        return self._load_json(f"{self.root_path}/data/jokes/data_new.json")
 
-    def update_jokes_data(self, data: dict):
-        with open(f"{self.root_path}/data/jokes/data.json", "w") as f:
+    def save_jokes_data(self, data):
+        with open(f"{self.root_path}/data/jokes/data_new.json", "w") as f:
             json.dump(data, f)
 
+    def get_joke_raw(self, category: str, filename: str):
+        return "".join(
+            open(
+                f"{self.root_path}/data/jokes/raw/{category}/{filename}",
+                "r",
+            ).readlines()
+        )
+
+    def get_joke_parsed(self, category: str, filename: str):
+        filepath = f"{self.root_path}/data/jokes/parsed/{category}/{filename}"
+        if os.path.exists(filepath) is True:
+            return "".join(open(filepath, "r").readlines())
+        return None
+
+    def save_joke_parsed(self, category: str, filename: str, text: str):
+        with open(
+            f"{self.root_path}/data/jokes/parsed/{category}/{filename}", "w"
+        ) as f:
+            f.write(text)
+
+    # OLD
     def get_jokes(self) -> set:
         jokes = set()
 
@@ -233,22 +246,18 @@ class ResourceManager:
                 f.write(f"{line}\n")
 
     # YOUTUBE
-    def get_youtube_data(self):
+    def read_youtube_data(self):
         return self._load_json(f"{self.root_path}/data/youtube/data.json")
 
-    def update_videos_data(self, videos: list[dict]):
+    def update_videos_data(self, videos_data):
         dir_path = f"{self.root_path}/data/youtube"
         self._mkdir(dir_path)
 
-        youtube_data_path = f"{dir_path}/data.json"
-        youtube_data = self._load_json(f"{self.root_path}/data/youtube/data.json")
-        if youtube_data is None:
-            youtube_data = {}
+        with open(f"{dir_path}/data.json", "w") as f:
+            json.dump(videos_data, f)
 
-        youtube_data["videos"] = videos
-
-        with open(youtube_data_path, "w") as f:
-            json.dump(youtube_data, f)
+    def _get_absolute_path(self, relative_path: str) -> str:
+        return os.path.join(self.root_path, relative_path)
 
     @staticmethod
     def _load_json(path: str) -> dict:

@@ -1,11 +1,9 @@
-Lektor: Niewidomy mężczyzna wchodzi przez pomyłkę do baru dla lesbijek.
-Lektor: Odnajduje drogę do bufetu i_zamawia drinka.
-Lektor: Po chwili zagaduje barmankę:
-Facet: Hej, opowiedzieć Ci kawał o_blondynce?
-Lektor: W barze zapada cisza.
-Lektor: Kobieta siedząca obok niego mówi:
-Blondynka: Zanim opowiesz ten kawał, powinieneś coś wiedzieć.
-Barmanka jest blondynką, ochroniarz jest blondynką i_ja też jestem blondynką z czarnym pasem karate. 
-Poza tym kobieta, która siedzi obok mnie, jest kulturystką, a_dziewczyna po Twojej prawej stronie zapaśniczką. Nadal chcesz opowiedzieć ten dowcip?
-Lektor: Niewidomy zastanawia się chwilę i_odpowiada:
-Facet: Nieee, skoro musiałbym go powtarzać aż pięć razy...
+Niewidomy mężczyzna wchodzi przez pomyłkę do baru dla lesbijek.
+Odnajduje drogę do bufetu i zamawia drinka.
+Po chwili zagaduje barmankę:
+- Hej, opowiedzieć Ci kawał o blondynce?
+W barze zapada cisza.
+Kobieta siedząca obok niego mówi:
+- Zanim opowiesz ten kawał, powinieneś coś wiedzieć. Barmanka jest blondynką, ochroniarz jest blondynką i ja też jestem blondynką z czarnym pasem karate. Poza tym kobieta, która siedzi obok mnie, jest kulturystką, a dziewczyna po Twojej prawej stronie zapaśniczką. Nadal chcesz opowiedzieć ten dowcip?
+Niewidomy zastanawia się chwilę i odpowiada:
+- Nieee, skoro musiałbym go powtarzać aż pięć razy...

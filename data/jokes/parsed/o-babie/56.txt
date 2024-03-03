@@ -1,0 +1,6 @@
+Lektor: Przychodzi baba do_lekarza.
+Baba: Panie doktorze, mojego męża ugryzła pszczoła.
+Lekarz: Gdzie?
+Baba: W_tego... no_wie pan...
+Lekarz: Rozumiem. A_czego pani ode mnie oczekuje?
+Baba: Niech pan da_mężowi coś, żeby ból minął, a_opuchlizna została.

@@ -1,0 +1,6 @@
+Lektor: Przychodzi baba do_lekarza i_mówi:
+Baba: panie doktorze, ostatnio boli mnie brzuch
+Lekarz: może pani coś zjadła?
+Baba: tylko śledzia w_puszce
+Lekarz: może ryba była przeterminowana
+Baba: nie wiem, nie otworzyłam jeszcze.

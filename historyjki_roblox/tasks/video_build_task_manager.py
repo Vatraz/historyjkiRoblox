@@ -1,7 +1,10 @@
 from multiprocessing import Manager, Process
 
 from historyjki_roblox.resource_manager import ResourceManager
-from historyjki_roblox.tasks.task_build_video import video_builder_task
+from historyjki_roblox.tasks.task_build_video import (
+    joke_video_builder_task,
+    video_builder_task,
+)
 from historyjki_roblox.tasks.task_status import TaskState, TaskStatus, TaskStatusWithLog
 
 
@@ -36,6 +39,28 @@ class RobloxVideoBuilderManager:
                 historyjka_filename,
                 video_name,
                 is_vertical,
+                self._tasks_statuses_dict,
+                self._tasks_logs_dict,
+            ),
+        )
+        # TODO: Handle processes cleanup
+        p.start()
+
+    def spawn_joke_video_build_task(self, joke_id):
+        print(0)
+        if self._is_task_for_historyjka_in_progress(joke_id):
+            raise RobloxVideoBuilderManagerAlreadyInProgressException(
+                "Historyjka video building task is in progress"
+            )
+
+        # init DictProxy for historyjka
+        self._tasks_statuses_dict[joke_id] = TaskStatus().to_dict()
+        self._tasks_logs_dict[joke_id] = {}
+
+        p = Process(
+            target=joke_video_builder_task,
+            args=(
+                joke_id,
                 self._tasks_statuses_dict,
                 self._tasks_logs_dict,
             ),

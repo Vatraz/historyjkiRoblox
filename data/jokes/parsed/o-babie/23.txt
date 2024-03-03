@@ -1,0 +1,4 @@
+Lektor: Przychodzi baba do_lekarza i_mówi:
+Baba: Panie doktorze mam cukrzycę, niedowład prawej ręki, grzybicę, miażdżycę, reumatyzm, skoliozę...
+Lekarz: Mój Boże a_czego pani nie ma?
+Baba: Zębów panie doktorze.

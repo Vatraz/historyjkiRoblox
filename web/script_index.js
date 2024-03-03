@@ -77,6 +77,7 @@ let createStoryCopy = (story_filename) => {
 let redirectToStoryEditor = (story_filename) => {
     localStorage.setItem(KEY_FILENAME, story_filename)
     window.location = 'editor.html'
+    console.log(window.location)
 }
 
 let redirectToVideoEditor = (story_filename) => {

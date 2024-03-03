@@ -1,0 +1,4 @@
+Lektor: Wchodzi baba do_lekarza i_się czołga.
+Lektor: Lekarz pyta:
+Lekarz: Co_się stało?
+Baba: Mam lęk wysokości.

@@ -1,6 +1,9 @@
 import os
+import shutil
 
 from PIL import Image
+
+from historyjki_roblox.resource_manager import ResourceManager
 
 
 def remove_white_margins(input_path, output_path):
@@ -51,3 +54,27 @@ def remove_background():
 
 def random_string(n: int = 8) -> str:
     return ""
+
+
+def sync_static_videos():
+    return
+    root_path = ResourceManager().root_path
+    source_dir = f"{root_path}/output/video"
+    target_dir = f"{root_path}/web/static/video"
+
+    source_files = set(
+        [
+            i
+            for i in os.listdir(source_dir)
+            if i.startswith("rendering-process_") is False
+        ]
+    )
+    target_files = set(os.listdir(target_dir))
+
+    if len(source_files) != len(target_files):
+        for file in target_files:
+            if file not in source_files:
+                os.remove(os.path.join(target_dir, file))
+
+    if len(source_files) != len(target_files):
+        shutil.copytree(source_dir, target_dir, dirs_exist_ok=True)

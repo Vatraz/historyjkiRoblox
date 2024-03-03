@@ -1,10 +1,12 @@
 import os
 import random
+import shutil
 from typing import Dict, List, Optional, Tuple
 
 import moviepy.editor as mvp
 
 from historyjki_roblox.character_factory import Character
+from historyjki_roblox.jokes.jokes_manager import JokesManager
 from historyjki_roblox.historyjka_manager import HistoryjkaManager
 from historyjki_roblox.logging.log_interceptor import LogInterceptorBase
 from historyjki_roblox.logging.roblox_tqdm import (
@@ -80,7 +82,22 @@ class VideoBuilder:
         self._add_background_sound()
         self._add_actors_content()
 
-    def _create_actors(self, characters: Optional[List[Character]]) -> Dict[str, Actor]:
+    def build_joke_video(self, joke_id: str):
+        print(2)
+        self._init_state()
+
+        self.story = JokesManager()._get_story(joke_id)
+        self.actors = self._create_actors()
+        self.is_video_horizontal = False
+
+        self._assign_story_elements()
+        self._add_background_video()
+        self._add_background_sound()
+        self._add_actors_content()
+
+    def _create_actors(
+        self, characters: Optional[List[Character]] = None
+    ) -> Dict[str, Actor]:
         actors = {}
 
         if characters is not None:
@@ -550,11 +567,14 @@ class HeadlessVideoBuilder(VideoBuilder):
 
         video = video.set_audio(concated_audio)
 
-        video_path = self.resource_manager.get_video_save_path(video_name)
+        video_path = self.resource_manager.get_video_save_path(
+            f"rendering-process_{video_name}"
+        )
         video.write_videofile(
             video_path,
             fps=30,
             threads=os.cpu_count(),
             logger=RobloxTqdmProgressBarLogger(tqdm=self.tqdm_logger),
         )
+        shutil.move(video_path, video_path.replace("rendering-process_", ""))
         return video_path
