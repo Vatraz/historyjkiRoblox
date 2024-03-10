@@ -1,0 +1,51 @@
+Pani pyta się Jasia:
+- Ile masz lat?
+Na to Jasiu:
+- Nie wiem.
+Pani:
+- Ile jest gwiazd na niebie?
+Jasiu:
+- Nie wiem.
+Pani:
+- Czym Twój dziadek walczył na wojnie?
+Jasiu:
+- Nie wiem.
+Pani:
+- Czym twoja babcia robi zupe?
+Jasiu:
+- Nie wiem.
+Pani:
+- To masz to wszystko wiedzieć na jutro.
+Jasiu pyta się mamy:
+- Mmamo ile mam lat?
+Mama:
+- 10.
+Pyta się taty:
+- Tato ile jest gwiazd na niebie?
+Tata:
+- Tego nikt nie wie.
+Pyta się babci:
+- Babciu czym robisz zupe?
+- Babcia:
+- Łyżką i przyprawami.
+Pyta się dziadka:
+- Dziadku czym walczyłeś na wojnie?
+Dziadek:
+- Krwią i blizną.
+Na drugi dzień:
+Pani pyta:
+- Jasiu ile masz lat?
+Jasiu:
+- Tego nikt nie wie.
+Pani:
+- Ile jest gwiazd na niebie?
+Jasiu:
+- 10.
+Pani:
+- Czym twoja babcia robi zupe?
+Jasiu:
+- Krwią i blizną.
+Pani:
+- Czym twuj dziadek walczył na wojnie?
+Jasiu:
+- Łyżką i przyprawami.

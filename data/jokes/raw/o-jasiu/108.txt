@@ -1,0 +1,6 @@
+Nauczyciel wchodzi do klasy i mówi:
+Kto głupi wstać.
+Jasiu wstaje.
+Nauczyciel pyta:
+-Czemu wstałeś?
+-Bo nie chciałem, żeby pan tak sam stał.

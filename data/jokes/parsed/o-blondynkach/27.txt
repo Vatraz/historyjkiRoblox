@@ -1,0 +1,13 @@
+Lektor: Idzie blondynka do_sklepu RTV_i_AGD.
+Lektor: Sprzedawca mówi:
+Marcin: Blondynkom nie sprzedajemy.
+Lektor: Wychodzi wkurzona.
+Lektor: Na drugi dzień przychodzi w_peruce:
+Blondynka: Poproszę ten telewizor.
+Marcin: Blondynkom nie sprzedajemy.
+Lektor: Wychodzi jeszcze bardziej wkurzona.
+Lektor: Na_trzeci dzień przychodzi w_peruce i_w_kapturze:
+Blondynka: Poproszę ten telewizor.
+Marcin: Blondynkom nie sprzedajemy.
+Blondynka: Skąd pan_wie, że_jestem blondynką?
+Marcin: Bo_to mikrofalówka.

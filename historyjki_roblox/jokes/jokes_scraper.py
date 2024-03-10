@@ -56,5 +56,5 @@ class KawalyTjaPlScraper:
 
 
 if __name__ == "__main__":
-    scraper = KawalyTjaPlScraper("o-blondynkach")
+    scraper = KawalyTjaPlScraper("o-jasiu")
     scraper.download_all_pages()

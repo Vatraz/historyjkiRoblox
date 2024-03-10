@@ -1,0 +1,8 @@
+Przechodzi Jasiu obok stawu i widzi wędkarza łowiącego ryby.
+Myśli sobie Jasiu tak, zapytam go czy biorą?
+Jeżeli powie, że biorą, to mu odpowiem, że "takiemu debilowi zawsze biorą".
+Jeżeli powie, że "nie biorą", to mu odpowiem , że "takiemu debilowi nigdy nie biorą".
+Podchodzi Jasiu do wędkarza i pyta:
+- I jak , biorą?
+A wędkarz na to:
+- Spadaj debilu!

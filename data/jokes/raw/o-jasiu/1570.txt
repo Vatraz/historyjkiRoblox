@@ -1,0 +1,9 @@
+Siedzą trzy dzieciaki i odpowiadają po kolei:
+- Czy wszyscy dorośli pracują?
+- Tak.
+- Tak.
+- Tak.
+- A czy są tacy, co nie pracują?
+- Tak.
+- Tak.
+- Tak.

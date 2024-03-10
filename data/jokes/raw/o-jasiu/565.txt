@@ -1,0 +1,4 @@
+- Jasiu, podejdź do mapy i pokaż na niej Amerykę - zwraca się nauczycielka do ucznia.
+Chłopiec posłusznie wykonuje polecenie.
+- Bardzo dobrze, możesz usiąść, a wy dzieci, powiedzcie mi kto odkrył Amerykę?
+- Jasiu! - odpowiada klasa.

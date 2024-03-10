@@ -1,0 +1,5 @@
+Jest wycieczka do Egiptu.
+Jasiu pyta przewodnika:
+- Panie przewodniku ile ta piramida ma lat?
+- 4351
+- Jak jeszcze nie było 2012

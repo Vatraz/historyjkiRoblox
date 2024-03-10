@@ -1,0 +1,14 @@
+Jasiu organizuje imprezę urodzinową. I zaprasza rodzinę.
+Idzie wujek i ciocia.
+Jasio mówi do mamy:
+Mamo! Wujek i Ciocia idą!
+Mama do Jasia:
+Jasiu nie Wujek i Ciocia tylko wujostwo.
+Idzie kuzyn i kuzynka.
+Jaś do Mamy:
+Mamo! Kuzyn i kuzynka idą!
+Mama do Jasia:
+Jasiu nie kuzyn i kuzynka tylko kuzynostwo.
+Idzie babcia i dziadek.
+Jaś do mamy:
+Mamo! Dziadostwo idzie!

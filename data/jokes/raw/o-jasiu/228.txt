@@ -1,0 +1,8 @@
+Jasio idzie ulicą z pingwinem.
+Spotyka kolegę a kolega do niego:
+- Gdzie idziesz z tym pingwinem?
+- Nie wiem przybłąkał się
+- To idź z nim do zoo.
+Jasio wraca z pingwinem i znowu spotyka tego samego kolegę:
+- Znowu z pingwinem?
+- Byliśmy w zoo a teraz idziemy do kina.

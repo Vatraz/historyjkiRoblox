@@ -1,0 +1,5 @@
+Pani pyta Jasia:
+- Podaj długość linii kolejowych w Polsce.
+- A w którym roku? - pyta Jaś.
+- Obojętnie.
+- Ok, więc rok 1183, długość 0 km.

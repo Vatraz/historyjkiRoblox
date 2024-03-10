@@ -1,0 +1,5 @@
+Jakie jest najszybsze zwierzę, pyta pani?
+- Jaś odpowiada gepard.
+Pani zadaje kolejne pytanie:
+- A jaki jest najszybszy ptak Jasiu?
+- Jaś na to ptak geparda.
